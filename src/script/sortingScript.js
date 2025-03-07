@@ -59,8 +59,8 @@ function displayFilters(file) {
   table.search("").columns().search("").draw();
 
   //filtr typ1
+  const elementType1 = document.querySelector("#type1");
   if (arrays[file.replace(".json", "") + "_type1"]) {
-    const elementType1 = document.querySelector("#type1");
     elementType1Container.classList.remove("hidden");
     document.querySelector("#type1-name").innerHTML = arrays[file.replace(".json", "") + "_type1_name"];
 
@@ -80,8 +80,8 @@ function displayFilters(file) {
   }
 
   //filtr typ2
+  const elementType2 = document.querySelector("#type2");
   if (arrays[file.replace(".json", "") + "_type2"]) {
-    const elementType2 = document.querySelector("#type2");
     elementType2Container.classList.remove("hidden");
     document.querySelector("#type2-name").innerHTML = arrays[file.replace(".json", "") + "_type2_name"];
 
@@ -101,8 +101,8 @@ function displayFilters(file) {
   }
 
   //filtr typ3
+  const elementType3 = document.querySelector("#type3");
   if (arrays[file.replace(".json", "") + "_type3"]) {
-    const elementType3 = document.querySelector("#type3");
     elementType3Container.classList.remove("hidden");
     document.querySelector("#type3-name").innerHTML = arrays[file.replace(".json", "") + "_type3_name"];
 
@@ -122,8 +122,8 @@ function displayFilters(file) {
   }
 
   //filtr rok
+  const elementYearFilter = document.querySelector("#yearFilter");
   if (arrays[file.replace(".json", "") + "_year"]) {
-    const elementYearFilter = document.querySelector("#yearFilter");
     let years = "";
     for (const year of arrays[file.replace(".json", "") + "_year"]) {
       years += `<option value="${year}">${year}</option>`;
@@ -157,6 +157,10 @@ function displayFilters(file) {
       if (sortingIndex !== -1) {
         displayFilesValues(file, -1, "Brak wyników dla podanych ustawień", sortingIndex, false);
         table.order([sortingIndex, sortingIndex === 0 ? "asc" : "desc"]).draw();
+        table.columns(1).search(elementYearFilter.value).draw();
+        if(elementType1.value !== "-") table.columns(8).search(elementType1.value).draw();
+        if(elementType2.value !== "-") table.columns(9).search(elementType2.value).draw();
+        if(elementType3.value !== "-") table.columns(10).search(elementType3.value).draw();
       }
 
       document.querySelector("#settings").scrollIntoView({

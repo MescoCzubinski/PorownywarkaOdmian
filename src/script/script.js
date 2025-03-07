@@ -5,7 +5,6 @@ function displayFilesValues(file, indexOf, noDataInfo, sortingDataIndex = -1, is
     $("#table").empty();
   }
   let name = file.replace(".json", "");
-  console.log(arrays[name + "_col_names"]);
   table = new DataTable("#table", {
     ajax: "data/" + file,
     columns: arrays[name + "_col_names"].map((colName, index) => ({
