@@ -38,6 +38,7 @@ class Compare {
     this.num += file === "lubin_bialy.json" ? -10 : 0;
     this.num += file === "lubin_zolty.json" ? -10 : 0;
     this.num += file === "lubin_waskolistny.json" ? -10 : 0;
+    this.num += file === "soja.json" ? -10 : 0;
     const index = this.colNames.indexOf("Rok wyników:");
     if (index !== -1) this.colNames.splice(index, 1);
 

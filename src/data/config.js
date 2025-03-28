@@ -9,8 +9,8 @@ let zboza_jare = ["Pszenica jara", "Jęczmień jary", "Pszenżyto jare", "Owies 
 let ziemniak = ["Ziemniak", "Burak wkrótce"];
 let ziemniak_files = ["ziemniak.json"];
 
-let bobowate = ["Groch", "Bobik", "Łubin biały", "Łubin wąskolistny", "Łubin żółty"];
-let bobowate_files = ["groch.json", "bobik.json", "lubin_bialy.json", "lubin_waskolistny.json", "lubin_zolty.json"];
+let bobowate = ["Groch", "Bobik", "Łubin biały", "Łubin wąskolistny", "Łubin żółty", "Soja"];
+let bobowate_files = ["groch.json", "bobik.json", "lubin_bialy.json", "lubin_waskolistny.json", "lubin_zolty.json", "soja.json"];
 
 let kukurydza = ["kukurydza na ziarno", "kukurydza na kiszonkę"];
 let kukurydza_files = ["kukurydza_ziarno.json", "kukurydza_kiszonka.json"];
@@ -20,7 +20,44 @@ let filesArr = [zboza_jare_files, ziemniak_files, bobowate_files, kukurydza_file
 
 const names_section = ["zboza_jare", "okopowe", "bobowate", "kukurydza", "pozostale_wkrotce"];
 
-let lubin_zolty_col_names = ["Odmiana:", "Rok wyników:", "Plon ziarna:", "Plon białka ogól.:", "Zaw. białka ogól.:", "Masa 1000 nasion:", "Wysokość:", "Wyleganie:", "Typ:", "Rok rejestru:", "Barwa kwiatów:", "Siew - dojrz. tech.:", "Zaw. tłuszczu sur.:", "Zaw. włókna sur.:", "Długość kwitnienia:", "Zaw. alkaloidów:", "Rośln. zielone zbior.:", "Wyleganie po kwitn.:", "Pękanie strąków:", "Antraknoza 2. term.:", "Antraknoza 1. term.:", "Choroby fuzaryjne:", "Równom. dojrz.:", "dolnośląskie:", "kujawsko-pomorskie:", "lubelskie:", "lubuskie:", "łódzkie:", "małopolskie:", "mazowieckie:", "opolskie:", "podkarpackie:", "podlaskie:", "pomorskie:", "śląskie:", "świętokrzyskie:", "warmińsko-mazurskie:", "wielkopolskie:", "zachodniopomorskie:", "Porównaj"];
+let soja_col_names = [
+  "Odmiana:", "Rok wyników:", "Plon nasion:", "Masa 1000 nasion:", "Wczesność:", "Siew do żniw:", 
+  "Zaw. białka ogól.:", "Zaw. tłusz. sur.:", "Typ wczesności:", "Rok rejestracji:", "Zaw. włókna sur.:", 
+  "Septorioza liści:", "Purpur. cerkospor.:", "Mączniak rzekomy:", "Wysokość roślin:", "Wys. osadz. najn. strąków:", 
+  "Wyleganie:", "Wyleg. po kwitn.:", "Równomier. dojrzew.:", "Barwa znaczka:", "Od siewu do kwitn.:", 
+  "Od siewu do dojrz. tech.:", "Długość kwitnienia:", "Pękanie strąków:", "Liście zielone przed zbiorem:", 
+  "dolnośląskie:", "kujawsko-pomorskie:", "lubelskie:", "lubuskie:", "łódzkie:", "małopolskie:", "mazowieckie:", 
+  "opolskie:", "podkarpackie:", "podlaskie:", "pomorskie:", "śląskie:", "świętokrzyskie:", "warmińsko-mazurskie:", 
+  "wielkopolskie:", "zachodniopomorskie:", "Porównaj"
+];
+let soja_cols = [
+  { data: "Odmiana" }, { data: "Rok wynikow" }, { data: "Plon nasion" }, { data: "Masa 1000 nasion" }, 
+  { data: "Wczesnosc" }, { data: "Siew do zniw" }, { data: "Zawar bialka ogol" }, 
+  { data: "Zaw tlusz sur" }, { data: "Typ wczesnosci" }, { data: "Rok wpisu do KR" }, 
+  { data: "Zaw wlokna sur" }, { data: "Septorioza lisci" }, { data: "Purpur cerkospor" }, 
+  { data: "Maczniak rzekomy" }, { data: "Wysokosc roslin" }, { data: "Wys osadz najn strakow" }, 
+  { data: "Wyleganie" }, { data: "Wyleg po kwitn" }, { data: "Rownomier dojrzew" }, 
+  { data: "Barwa znaczka" }, { data: "Od siewu do kwitn" }, { data: "Od siewu do dojrz tech" }, 
+  { data: "Dlugosc fazy kwitnienia" }, { data: "Pekanie strakow" }, { data: "liscie zielone przed zbiorem" }, 
+  { data: "Dolnoslaskie" }, { data: "Kujawsko-Pomorskie" }, { data: "Lubelskie" }, { data: "Lubuskie" }, 
+  { data: "Lodzkie" }, { data: "Malopolskie" }, { data: "Mazowieckie" }, { data: "Opolskie" }, 
+  { data: "Podkarpackie" }, { data: "Podlaskie" }, { data: "Pomorskie" }, { data: "Slaskie" }, 
+  { data: "Swietokrzyskie" }, { data: "Warminsko-Mazurskie" }, { data: "Wielkopolskie" }, 
+  { data: "Zachodniopomorskie" }, { data: null }
+];
+let soja_units = [
+  "", " r.", " dt/ha", " g", "  st. (1-9)", "", "% s.m.", "% s.m.", "", " r.", "% s.m.", "  st. (1-9)", 
+  "  st. (1-9)", "  st. (1-9)", " cm", " cm", "  st. (1-9)", "", "  st. (1-9)", "", " dni", " dni", " dni", "  st. (1-9)", 
+  "%", " r.", " r.", " r.", " r.", " r.", " r.", " r.", " r.", " r.", " r.", " r.", " r.", " r.", 
+  " r.", " r.", ""
+];
+let soja_year = ["2025", "2024", "2023", "2022"];
+let soja_type1_name = "Typ wczesności:";
+let soja_type1 = ["bardzo wczesne i wczesne", "średnio wczesne i średnio późne", "późne", "późne i bardzo późne", "bardzo późne"];
+
+
+
+let lubin_zolty_col_names = ["Odmiana:", "Rok wyników:", "Plon ziarna:", "Plon białka ogól.:", "Zaw. białka ogól.:", "Masa 1000 nasion:", "Wysokość:", "Wyleganie:", "Typ:", "Rok rejestracji:", "Barwa kwiatów:", "Siew - dojrz. tech.:", "Zaw. tłuszczu sur.:", "Zaw. włókna sur.:", "Długość kwitnienia:", "Zaw. alkaloidów:", "Rośln. zielone zbior.:", "Wyleganie po kwitn.:", "Pękanie strąków:", "Antraknoza 2. term.:", "Antraknoza 1. term.:", "Choroby fuzaryjne:", "Równom. dojrz.:", "dolnośląskie:", "kujawsko-pomorskie:", "lubelskie:", "lubuskie:", "łódzkie:", "małopolskie:", "mazowieckie:", "opolskie:", "podkarpackie:", "podlaskie:", "pomorskie:", "śląskie:", "świętokrzyskie:", "warmińsko-mazurskie:", "wielkopolskie:", "zachodniopomorskie:", "Porównaj"];
 let lubin_zolty_cols = [{ data: "Odmiany" }, { data: "Rok wynikow" }, { data: "Plon ziarna" }, { data: "Plon bialka ogolnego" }, { data: "Zawartosc bialka ogolnego" }, { data: "Masa 1000 nasion" }, { data: "Wysokosc roslin" }, { data: "Wyleganie" }, { data: "Typ" }, { data: "Rok wpisu do KR" }, { data: "Barwa kwiatow" }, { data: "Okres od siewu do dojrzalosci technicznej" }, { data: "Zawartosc tluszczu surowego" }, { data: "Zawartosc wlokna surowego" }, { data: "Dlugosc fazy kwitnienia" }, { data: "Zawartosc alkaloidów" }, { data: "Udział roślin zielonych przed zbiorem" }, { data: "Odporność na wyleganie po zakończeniu kwitnienia" }, { data: "Pekanie straków" }, { data: "Antrakoza 2 termin" }, { data: "Antrakoza 1 termin" }, { data: "Choroby fuzaryjne" }, { data: "Rownomiernosc dojrzewania" }, { data: "Dolnoslaskie" }, { data: "Kujawsko-pomorskie" }, { data: "Lubelskie" }, { data: "Lubuskie" }, { data: "Lodzkie" }, { data: "Malopolskie" }, { data: "Mazowieckie" }, { data: "Opolskie" }, { data: "Podkarpackie" }, { data: "Podlaskie" }, { data: "Pomorskie" }, { data: "Slaskie" }, { data: "Swietokrzyskie" }, { data: "Warminsko-Mazurskie" }, { data: "Wielkopolskie" }, { data: "Zachodniopomorskie" }, { data: null }];
 let lubin_zolty_units = ["", "", " dt/ha", " kg/ha", "%", " g", " cm", " dt/ha", "", " r.", "", " dni", "%", "%", " dni", "%", " st. (1-9)", " st. (1-9)", "st. (1-9)", " st. (1-9)", " st. (1-9)", " st. (1-9)", " st. (1-9)", " r.", " r.", " r.", " r.", " r.", " r.", " r.", " r.", " r.", " r.", " r.", " r.", " r.", " r.", " r.", ""];
 let lubin_zolty_year = ["2025", "2024", "2022"];
@@ -196,4 +233,11 @@ let arrays = {
   owies_jary_year,
   owies_jary_type1,
   owies_jary_type1_name,
+
+  soja_col_names,
+  soja_cols,
+  soja_units,
+  soja_year,
+  soja_type1,
+  soja_type1_name,
 };
