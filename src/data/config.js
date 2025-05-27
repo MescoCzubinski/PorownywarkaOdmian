@@ -27,7 +27,7 @@ const names_section = ["zboza_jare", "okopowe", "bobowate", "kukurydza", "zboza_
 let jeczmien_ozimy_col_names = [
     "Odmiana:", "Rok wyników:", "Plon ziarna a₁:", "Plon ziarna a₂:", "Masa 1000 ziaren:", "Zawartość białka:", 
     "Gęstość ziarna (zsyp.):", "Wysokość roślin:", "Typ:", "Rok rejestracji:", "Zimotrwałość:", "Wyleganie:", 
-    "Reakcja na Al³⁺:","Tolerancja na niskie pH:", "Wartość browarna:", "Wyrównanie ziarna:", 
+    "Reakcja na Al³⁺:","Tolerancja na niskie pH:", "Synt. wartość browarna:", "Wyrównanie ziarna:", 
     "Kłoszenie:", "Dojrzałość pełna:", "Mączniak prawdziwy:", "Plam. siatkowa:", "Rdza jęczmienia:", 
     "Rynchosporioza:", "Czarnobrunatna plam.:", "Pleśń śniegowa:", "Wirus BYDV:",
     "Plon w rejonie I a₁:", "Plon w rejonie II a₁:", "Plon w rejonie III a₁:", "Plon w rejonie IV a₁:", 
