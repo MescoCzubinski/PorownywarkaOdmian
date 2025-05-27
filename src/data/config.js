@@ -15,10 +15,62 @@ let bobowate_files = ["groch.json", "bobik.json", "lubin_bialy.json", "lubin_was
 let kukurydza = ["kukurydza na ziarno", "kukurydza na kiszonkę"];
 let kukurydza_files = ["kukurydza_ziarno.json", "kukurydza_kiszonka.json"];
 
-let sectionsArr = [zboza_jare, ziemniak, bobowate, kukurydza];
-let filesArr = [zboza_jare_files, ziemniak_files, bobowate_files, kukurydza_files];
+let zboza_ozime = ["Jęczmień ozimy"]
+let zboza_ozime_files  = ["jeczmien_ozimy.json"]
 
-const names_section = ["zboza_jare", "okopowe", "bobowate", "kukurydza", "pozostale_wkrotce"];
+let sectionsArr = [zboza_jare, ziemniak, bobowate, kukurydza, zboza_ozime];
+let filesArr = [zboza_jare_files, ziemniak_files, bobowate_files, kukurydza_files, zboza_ozime_files];
+
+const names_section = ["zboza_jare", "okopowe", "bobowate", "kukurydza", "zboza_ozime","pozostale_wkrotce"];
+
+
+let jeczmien_ozimy_col_names = [
+    "Odmiana:", "Rok wyników:", "Plon ziarna a₁:", "Plon ziarna a₂:", "Masa 1000 ziaren:", "Zawartość białka:", 
+    "Gęstość ziarna (zsyp.):", "Wysokość roślin:", "Typ:", "Rok rejestracji:", "Zimotrwałość:", "Wyleganie:", 
+    "Reakcja na Al+++:","Tolerancja na niskie pH:", "Wartość browarna:", "Wyrównanie ziarna:", 
+    "Kłoszenie:", "Dojrzałość pełna:", "Mączniak prawdziwy:", "Plam. siatkowa:", "Rdza jęczmienia:", 
+    "Rynchosporioza:", "Czarnobrunatna plam.:", "Pleśń śniegowa:", "Wirus BYDV:",
+    "Plon w rejonie I a₁:", "Plon w rejonie II a₁:", "Plon w rejonie III a₁:", "Plon w rejonie IV a₁:", 
+    "Plon w rejonie V a₁:", "Plon w rejonie VI a₁:",
+    "Plon w rejonie I a₂:", "Plon w rejonie II a₂:", "Plon w rejonie III a₂:", "Plon w rejonie IV a₂:", 
+    "Plon w rejonie V a₂:", "Plon w rejonie VI a₂:",
+    "dolnośląskie:", "kujawsko-pomorskie:", "lubelskie:", "lubuskie:", "łódzkie:", "małopolskie:", 
+    "mazowieckie:", "opolskie:", "podkarpackie:", "podlaskie:", "pomorskie:", "śląskie:", 
+    "świętokrzyskie:", "warmińsko-mazurskie:", "wielkopolskie:", "zachodniopomorskie:", "Porównaj"
+];
+
+let jeczmien_ozimy_cols = [
+    { data: "Odmiany" }, { data: "Rok wynikow" }, { data: "Plon ziarna a1" }, { data: "Plon ziarna a2" },
+    { data: "Masa 1000 ziaren" }, { data: "Zawartosc bialka" }, { data: "Gęstość ziarna w stanie zsypanym" },
+    { data: "Wysokosc roslin" }, { data: "Typ" }, { data: "Rok rejestracji" }, { data: "Zimotrwalosc" }, 
+    { data: "Wyleganie" }, { data: "Reakcja na Al+++" }, { data: "Tolerancja na niskie pH" },
+    { data: "Wartosc browarna" }, { data: "Wyrownanie ziarna" }, { data: "Kloszenie" }, 
+    { data: "Dojrzalosc pelna" }, { data: "Maczniak prawdziwy" }, { data: "Plamistosc siatkowa" }, 
+    { data: "Rdza jeczmienia" }, { data: "Rynchosporioza" }, { data: "Czarnobrunatna plamistosc" }, 
+    { data: "Plesn sniegowa" }, { data: "Wirus BYDV" },
+    { data: "Plon w rejonie I a1" }, { data: "Plon w rejonie II a1" }, { data: "Plon w rejonie III a1" },
+    { data: "Plon w rejonie IV a1" }, { data: "Plon w rejonie V a1" }, { data: "Plon w rejonie VI a1" },
+    { data: "Plon w rejonie I a2" }, { data: "Plon w rejonie II a2" }, { data: "Plon w rejonie III a2" },
+    { data: "Plon w rejonie IV a2" }, { data: "Plon w rejonie V a2" }, { data: "Plon w rejonie VI a2" },
+    { data: "Dolnoslaskie" }, { data: "Kujawsko-Pomorskie" }, { data: "Lubelskie" }, { data: "Lubuskie" },
+    { data: "Lodzkie" }, { data: "Malopolskie" }, { data: "Mazowieckie" }, { data: "Opolskie" }, 
+    { data: "Podkarpackie" }, { data: "Podlaskie" }, { data: "Pomorskie" }, { data: "Slaskie" }, 
+    { data: "Swietokrzyskie" }, { data: "Warminsko-Mazurskie" }, { data: "Wielkopolskie" }, 
+    { data: "Zachodniopomorskie" }, { data: null }
+];
+
+let jeczmien_ozimy_units = [
+    "", "", " dt/ha", " dt/ha", " g", " st. (1-9)", " st. (1-9)", " cm", "", " r.", " st. (1-9)", 
+    " st. (1-9)", " st. (1-9)", " st. (1-9)", " st. (1-9)", "%", " st. (1-9)", " dni", " st. (1-9)", 
+    " st. (1-9)", " st. (1-9)", " st. (1-9)", " st. (1-9)", " st. (1-9)", " st. (1-9)",
+    " dt/ha", " dt/ha", " dt/ha", " dt/ha", " dt/ha", " dt/ha", 
+    " dt/ha", " dt/ha", " dt/ha", " dt/ha", " dt/ha", " dt/ha",
+    " r.", " r.", " r.", " r.", " r.", " r.", " r.", " r.", " r.", " r.", " r.", " r.", 
+    " r.", " r.", " r.", " r.", ""
+];
+let jeczmien_ozimy_year = ["2025", "2024", "2023", "2022", "2021", "2020"];
+let jeczmien_ozimy_type1_name = "Typ użytkowy:";
+let jeczmien_ozimy_type1 = ["dwurzęd. pastewne", "wielorzęd. pastewne", "dwurzęd. browarne"];
 
 let soja_col_names = [
   "Odmiana:", "Rok wyników:", "Plon nasion:", "Masa 1000 nasion:", "Wczesność:", "Siew do żniw:", 
@@ -201,6 +253,13 @@ let arrays = {
   jeczmien_jary_year,
   jeczmien_jary_type1,
   jeczmien_jary_type1_name,
+
+  jeczmien_ozimy_col_names,
+  jeczmien_ozimy_cols,
+  jeczmien_ozimy_units,
+  jeczmien_ozimy_year,
+  jeczmien_ozimy_type1,
+  jeczmien_ozimy_type1_name,
 
   pszenica_jara_col_names,
   pszenica_jara_cols,

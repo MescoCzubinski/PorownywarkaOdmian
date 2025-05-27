@@ -186,6 +186,7 @@ function displaySpeciesGroup(element) {
   names_section.forEach((section, index) => {
     if (section === "pozostale_wkrotce") section = "pozostałe wkrótce";
     if (section === "zboza_jare") section = "zboża jare";
+    if (section === "zboza_ozime") section = "zboża ozime";
     listOfSections += `
       <input 
         class="text-2xl text-top-agrar-green/90 border-2 border-solid border-top-agrar-green/90 rounded-2xl p-2 m-2 hover:bg-top-agrar-green/20" 
