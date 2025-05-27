@@ -59,7 +59,7 @@ function displayFilesValues(file, indexOf, noDataInfo, sortingDataIndex = -1, is
           if (columnIndex === 9 && data === "0") {
             return "#";
           }
-          if (data !== "#" && data !== "-") {
+          if (data !== "#" && data !== "-" && data !== "CCA") {
             const unit = arrays[name + "_units"]?.[columnIndex] || "";
             return data + unit;
           } else {
