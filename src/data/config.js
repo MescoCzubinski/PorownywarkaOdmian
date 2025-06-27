@@ -9,19 +9,22 @@ let zboza_jare = ["Pszenica jara", "Jęczmień jary", "Pszenżyto jare", "Owies 
 let okopowe = ["Ziemniak"];
 let okopowe_files = ["ziemniak.json"];
 
+let oleiste_files = ["rzepak_ozimy.json"];
+let oleiste = ["Rzepak"];
+
 let bobowate = ["Groch", "Bobik", "Łubin biały", "Łubin wąskolistny", "Łubin żółty", "Soja"];
 let bobowate_files = ["groch.json", "bobik.json", "lubin_bialy.json", "lubin_waskolistny.json", "lubin_zolty.json", "soja.json"];
 
 let kukurydza = ["kukurydza na ziarno", "kukurydza na kiszonkę"];
 let kukurydza_files = ["kukurydza_ziarno.json", "kukurydza_kiszonka.json"];
 
-let zboza_ozime = ["Jęczmień ozimy", "Rzepak ozimy"]
-let zboza_ozime_files  = ["jeczmien_ozimy.json", "rzepak_ozimy.json"]
+let zboza_ozime = ["Jęczmień ozimy"]
+let zboza_ozime_files  = ["jeczmien_ozimy.json"]
 
-let sectionsArr = [zboza_ozime, zboza_jare, kukurydza, okopowe, bobowate];
-let filesArr = [zboza_ozime_files, zboza_jare_files, kukurydza_files, okopowe_files, bobowate_files];
+let sectionsArr = [zboza_ozime, zboza_jare, kukurydza, oleiste, okopowe, bobowate];
+let filesArr = [zboza_ozime_files, zboza_jare_files, kukurydza_files, oleiste_files, okopowe_files, bobowate_files];
 
-const names_section = ["zboza_ozime", "zboza_jare", "kukurydza","okopowe", "bobowate"];
+const names_section = ["zboza_ozime", "zboza_jare", "kukurydza", "oleiste", "okopowe", "bobowate"];
 
 
 let jeczmien_ozimy_col_names = [
@@ -74,7 +77,7 @@ let jeczmien_ozimy_type1 = ["dwurzęd. pastewne", "wielorzęd. pastewne", "dwurz
 
 let rzepak_ozimy_col_names = [
     "Odmiana:", "Rok badań:", "Plon nasion:", "Zaw. tłuszczu:", "Stan po zimie:", "Rok rejestracji:", 
-    "Wysokość roślin:", "Wyleganie:", "Typ odmiany:", "Typ badań:", "Rodzaj odmiany:", "Pochylenie łanu:", 
+    "Wysokość roślin:", "Wyleganie:", "Typ odmiany:", "Typ badań:", "Pochylenie łanu:", 
     "Pocz. kwitnienia:", "Termin dojrzałości:", "Rozwój przed zimą:", "Martwe rośliny:", 
     "Zaw. glukozy:", "Zgn. twardzikowa:", "Sucha zgnilizna:", "Choroby pods. łodygi:", 
     "Czerń krzyż.:", "Werticilioza:", 
@@ -88,7 +91,7 @@ let rzepak_ozimy_col_names = [
 let rzepak_ozimy_cols = [
     { data: "Odmiana" }, { data: "Rok badan" }, { data: "Plon nasion" }, { data: "Zawartosc tluszczu" },
     { data: "Stan po zimie" }, { data: "Rok rejestracji" }, { data: "Wysokosc roslin" },
-    { data: "Wyleganie" }, { data: "Typ odmiany" }, { data: "Typ badan" }, { data: "Rodzaj odmiany" },
+    { data: "Wyleganie" }, { data: "Typ odmiany" }, { data: "Typ badan" },
     { data: "Pochylenie lanu" }, { data: "Termin poczatku kwitnienia (data)" },
     { data: "Termin dojrzalosci (data)" }, { data: "Rozwoj roslin przed zima" },
     { data: "Martwe rosliny po zimie" }, { data: "Zawartosc glukozy" }, { data: "Zgnilizna twardzikowa" },
@@ -114,11 +117,11 @@ let rzepak_ozimy_units = [
 
 let rzepak_ozimy_year = ["2025", "2024", "2023", "2022", "2021"];
 let rzepak_ozimy_type1_name = "Typ odmiany";
-let rzepak_ozimy_type1 = ["mieszańcowa", "populacyjne"];
-let rzepak_ozimy_type2_name = "Typ badan";
+let rzepak_ozimy_type1 = ["mieszańcowa", "populacyjna"];
+// fixit:
+let rzepak_ozimy_type2_name = "Typ badań";
 let rzepak_ozimy_type2 = ["porejestrowe", "rejestrowe"];
-let rzepak_ozimy_type3_name = "Rodzaj odmiany";
-let rzepak_ozimy_type3 = ["F1", "F", "#"];
+
 
 let soja_col_names = ["Odmiana:", "Rok wyników:", "Plon nasion:", "Masa 1000 nasion:", "Wczesność:", "Siew do żniw:", "Zaw. białka ogól.:", "Zaw. tłusz. sur.:", "Typ wczesności:", "Rok rejestracji:", "Zaw. włókna sur.:", "Septorioza liści:", "Purpur. cerkospor.:", "Mączniak rzekomy:", "Wysokość roślin:", "Wys. osadz. najn. strąków:", "Wyleganie:", "Wyleg. po kwitn.:", "Równomier. dojrzew.:", "Barwa znaczka:", "Od siewu do kwitn.:", "Od siewu do dojrz. tech.:", "Długość kwitnienia:", "Pękanie strąków:", "Liście zielone przed zbiorem:", "dolnośląskie:", "kujawsko-pomorskie:", "lubelskie:", "lubuskie:", "łódzkie:", "małopolskie:", "mazowieckie:", "opolskie:", "podkarpackie:", "podlaskie:", "pomorskie:", "śląskie:", "świętokrzyskie:", "warmińsko-mazurskie:", "wielkopolskie:", "zachodniopomorskie:", "Porównaj"];
 let soja_cols = [{ data: "Odmiana" }, { data: "Rok wynikow" }, { data: "Plon nasion" }, { data: "Masa 1000 nasion" }, { data: "Wczesnosc" }, { data: "Siew do zniw" }, { data: "Zawar bialka ogol" }, { data: "Zaw tlusz sur" }, { data: "Typ wczesnosci" }, { data: "Rok wpisu do KR" }, { data: "Zaw wlokna sur" }, { data: "Septorioza lisci" }, { data: "Purpur cerkospor" }, { data: "Maczniak rzekomy" }, { data: "Wysokosc roslin" }, { data: "Wys osadz najn strakow" }, { data: "Wyleganie" }, { data: "Wyleg po kwitn" }, { data: "Rownomier dojrzew" }, { data: "Barwa znaczka" }, { data: "Od siewu do kwitn" }, { data: "Od siewu do dojrz tech" }, { data: "Dlugosc fazy kwitnienia" }, { data: "Pekanie strakow" }, { data: "liscie zielone przed zbiorem" }, { data: "Dolnoslaskie" }, { data: "Kujawsko-Pomorskie" }, { data: "Lubelskie" }, { data: "Lubuskie" }, { data: "Lodzkie" }, { data: "Malopolskie" }, { data: "Mazowieckie" }, { data: "Opolskie" }, { data: "Podkarpackie" }, { data: "Podlaskie" }, { data: "Pomorskie" }, { data: "Slaskie" }, { data: "Swietokrzyskie" }, { data: "Warminsko-Mazurskie" }, { data: "Wielkopolskie" }, { data: "Zachodniopomorskie" }, { data: null }];
@@ -287,8 +290,6 @@ let arrays = {
   rzepak_ozimy_type1_name,
   rzepak_ozimy_type2,
   rzepak_ozimy_type2_name,
-  rzepak_ozimy_type3,
-  rzepak_ozimy_type3_name,
 
   pszenica_jara_col_names,
   pszenica_jara_cols,
