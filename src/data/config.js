@@ -6,8 +6,8 @@
 let zboza_jare_files = ["pszenica_jara.json", "jeczmien_jary.json", "pszenzyto_jare.json", "owies_jary.json"];
 let zboza_jare = ["Pszenica jara", "Jęczmień jary", "Pszenżyto jare", "Owies jary"];
 
-let ziemniak = ["Ziemniak", "Burak wkrótce"];
-let ziemniak_files = ["ziemniak.json"];
+let okopowe = ["Ziemniak"];
+let okopowe_files = ["ziemniak.json"];
 
 let bobowate = ["Groch", "Bobik", "Łubin biały", "Łubin wąskolistny", "Łubin żółty", "Soja"];
 let bobowate_files = ["groch.json", "bobik.json", "lubin_bialy.json", "lubin_waskolistny.json", "lubin_zolty.json", "soja.json"];
@@ -15,13 +15,13 @@ let bobowate_files = ["groch.json", "bobik.json", "lubin_bialy.json", "lubin_was
 let kukurydza = ["kukurydza na ziarno", "kukurydza na kiszonkę"];
 let kukurydza_files = ["kukurydza_ziarno.json", "kukurydza_kiszonka.json"];
 
-let zboza_ozime = ["Jęczmień ozimy"]
-let zboza_ozime_files  = ["jeczmien_ozimy.json"]
+let zboza_ozime = ["Jęczmień ozimy", "Rzepak ozimy"]
+let zboza_ozime_files  = ["jeczmien_ozimy.json", "rzepak_ozimy.json"]
 
-let sectionsArr = [zboza_jare, ziemniak, bobowate, kukurydza, zboza_ozime];
-let filesArr = [zboza_jare_files, ziemniak_files, bobowate_files, kukurydza_files, zboza_ozime_files];
+let sectionsArr = [zboza_ozime, zboza_jare, kukurydza, okopowe, bobowate];
+let filesArr = [zboza_ozime_files, zboza_jare_files, kukurydza_files, okopowe_files, bobowate_files];
 
-const names_section = ["zboza_jare", "okopowe", "bobowate", "kukurydza", "zboza_ozime","pozostale_wkrotce"];
+const names_section = ["zboza_ozime", "zboza_jare", "kukurydza","okopowe", "bobowate"];
 
 
 let jeczmien_ozimy_col_names = [
@@ -72,6 +72,54 @@ let jeczmien_ozimy_year = ["2025", "2024", "2023", "2022", "2021", "2020"];
 let jeczmien_ozimy_type1_name = "Typ użytkowy:";
 let jeczmien_ozimy_type1 = ["dwurzęd. pastewne", "wielorzęd. pastewne", "dwurzęd. browarne"];
 
+let rzepak_ozimy_col_names = [
+    "Odmiana:", "Rok badań:", "Plon nasion:", "Zaw. tłuszczu:", "Stan po zimie:", "Rok rejestracji:", 
+    "Wysokość roślin:", "Wyleganie:", "Typ odmiany:", "Typ badań:", "Rodzaj odmiany:", "Pochylenie łanu:", 
+    "Pocz. kwitnienia:", "Termin dojrzałości:", "Rozwój przed zimą:", "Martwe rośliny:", 
+    "Zaw. glukozy:", "Zgn. twardzikowa:", "Sucha zgnilizna:", "Choroby pods. łodygi:", 
+    "Czerń krzyż.:", "Werticilioza:", 
+    "Plon w rejonie I:", "Plon w rejonie II:", "Plon w rejonie III:", "Plon w rejonie IV:", 
+    "Plon w rejonie V:", "Plon w rejonie VI:",
+    "dolnośląskie:", "kujawsko-pomorskie:", "lubelskie:", "lubuskie:", "łódzkie:", "małopolskie:", 
+    "mazowieckie:", "opolskie:", "podkarpackie:", "podlaskie:", "pomorskie:", "śląskie:", 
+    "świętokrzyskie:", "warmińsko-mazurskie:", "wielkopolskie:", "zachodniopomorskie:", "Porównaj"
+];
+
+let rzepak_ozimy_cols = [
+    { data: "Odmiana" }, { data: "Rok badan" }, { data: "Plon nasion" }, { data: "Zawartosc tluszczu" },
+    { data: "Stan po zimie" }, { data: "Rok rejestracji" }, { data: "Wysokosc roslin" },
+    { data: "Wyleganie" }, { data: "Typ odmiany" }, { data: "Typ badan" }, { data: "Rodzaj odmiany" },
+    { data: "Pochylenie lanu" }, { data: "Termin poczatku kwitnienia (data)" },
+    { data: "Termin dojrzalosci (data)" }, { data: "Rozwoj roslin przed zima" },
+    { data: "Martwe rosliny po zimie" }, { data: "Zawartosc glukozy" }, { data: "Zgnilizna twardzikowa" },
+    { data: "Sucha zgnilizna" }, { data: "Choroby podstawy lodygi" }, { data: "Czern krzyzowych" },
+    { data: "Werticilioza" },
+    { data: "Plon w rejonie I" }, { data: "Plon w rejonie II" }, { data: "Plon w rejonie III" },
+    { data: "Plon w rejonie IV" }, { data: "Plon w rejonie V" }, { data: "Plon w rejonie VI" },
+    { data: "Dolnoslaskie" }, { data: "Kujawsko-Pomorskie" }, { data: "Lubelskie" }, { data: "Lubuskie" },
+    { data: "Lodzkie" }, { data: "Malopolskie" }, { data: "Mazowieckie" }, { data: "Opolskie" },
+    { data: "Podkarpackie" }, { data: "Podlaskie" }, { data: "Pomorskie" }, { data: "Slaskie" },
+    { data: "Swietokrzyskie" }, { data: "Warminsko-Mazurskie" }, { data: "Wielkopolskie" },
+    { data: "Zachodniopomorskie" }, { data: null }
+];
+
+let rzepak_ozimy_units = [
+    "", " r.", " dt/ha", " %", " st. (1-9)", " r.", " cm", " st. (1-9)", "", "", "", " %", " st. (1-9)", " st. (1-9)", 
+    " st. (1-9)", " %", " mM/g nasion", " %", " %", " %", " st. (1-9)", " %", 
+    " dt/ha", " dt/ha", " dt/ha", " dt/ha", " dt/ha", " dt/ha",
+    " dt/ha", " dt/ha", " dt/ha", " dt/ha", " dt/ha", " dt/ha",
+    " dt/ha", " dt/ha", " dt/ha", " dt/ha", " dt/ha", " dt/ha", 
+    " dt/ha", " dt/ha", " dt/ha", " dt/ha", ""
+];
+
+let rzepak_ozimy_year = ["2025", "2024", "2023", "2022", "2021"];
+let rzepak_ozimy_type1_name = "Typ odmiany";
+let rzepak_ozimy_type1 = ["mieszańcowa", "populacyjne"];
+let rzepak_ozimy_type2_name = "Typ badan";
+let rzepak_ozimy_type2 = ["porejestrowe", "rejestrowe"];
+let rzepak_ozimy_type3_name = "Rodzaj odmiany";
+let rzepak_ozimy_type3 = ["F1", "F", "#"];
+
 let soja_col_names = ["Odmiana:", "Rok wyników:", "Plon nasion:", "Masa 1000 nasion:", "Wczesność:", "Siew do żniw:", "Zaw. białka ogól.:", "Zaw. tłusz. sur.:", "Typ wczesności:", "Rok rejestracji:", "Zaw. włókna sur.:", "Septorioza liści:", "Purpur. cerkospor.:", "Mączniak rzekomy:", "Wysokość roślin:", "Wys. osadz. najn. strąków:", "Wyleganie:", "Wyleg. po kwitn.:", "Równomier. dojrzew.:", "Barwa znaczka:", "Od siewu do kwitn.:", "Od siewu do dojrz. tech.:", "Długość kwitnienia:", "Pękanie strąków:", "Liście zielone przed zbiorem:", "dolnośląskie:", "kujawsko-pomorskie:", "lubelskie:", "lubuskie:", "łódzkie:", "małopolskie:", "mazowieckie:", "opolskie:", "podkarpackie:", "podlaskie:", "pomorskie:", "śląskie:", "świętokrzyskie:", "warmińsko-mazurskie:", "wielkopolskie:", "zachodniopomorskie:", "Porównaj"];
 let soja_cols = [{ data: "Odmiana" }, { data: "Rok wynikow" }, { data: "Plon nasion" }, { data: "Masa 1000 nasion" }, { data: "Wczesnosc" }, { data: "Siew do zniw" }, { data: "Zawar bialka ogol" }, { data: "Zaw tlusz sur" }, { data: "Typ wczesnosci" }, { data: "Rok wpisu do KR" }, { data: "Zaw wlokna sur" }, { data: "Septorioza lisci" }, { data: "Purpur cerkospor" }, { data: "Maczniak rzekomy" }, { data: "Wysokosc roslin" }, { data: "Wys osadz najn strakow" }, { data: "Wyleganie" }, { data: "Wyleg po kwitn" }, { data: "Rownomier dojrzew" }, { data: "Barwa znaczka" }, { data: "Od siewu do kwitn" }, { data: "Od siewu do dojrz tech" }, { data: "Dlugosc fazy kwitnienia" }, { data: "Pekanie strakow" }, { data: "liscie zielone przed zbiorem" }, { data: "Dolnoslaskie" }, { data: "Kujawsko-Pomorskie" }, { data: "Lubelskie" }, { data: "Lubuskie" }, { data: "Lodzkie" }, { data: "Malopolskie" }, { data: "Mazowieckie" }, { data: "Opolskie" }, { data: "Podkarpackie" }, { data: "Podlaskie" }, { data: "Pomorskie" }, { data: "Slaskie" }, { data: "Swietokrzyskie" }, { data: "Warminsko-Mazurskie" }, { data: "Wielkopolskie" }, { data: "Zachodniopomorskie" }, { data: null }];
 let soja_units = ["", " r.", " dt/ha", " g", "  st. (1-9)", " dni", "% s.m.", "% s.m.", "", " r.", "% s.m.", "  st. (1-9)", "  st. (1-9)", "  st. (1-9)", " cm", " cm", "  st. (1-9)", "  st. (1-9)", "  st. (1-9)", "", " dni", " dni", " dni", "  st. (1-9)", "%", " r.", " r.", " r.", " r.", " r.", " r.", " r.", " r.", " r.", " r.", " r.", " r.", " r.", " r.", " r.", ""];
@@ -86,7 +134,7 @@ let lubin_zolty_year = ["2025", "2024", "2022"];
 
 let lubin_waskolistny_col_names = ["Odmiana:", "Rok wyników:", "Plon nasion:", "Plon białka ogól.:", "Zaw. białka ogól.:", "Masa 1000 nasion:", "Wysokość:", "Wyleganie:", "Typ:", "Rok rejestracji:", "Barwa kwiatów:", "Zaw. tłuszczu sur.:", "Zaw. włókna sur.:", "Zaw. alkaloidów:", "Siew - dojrz. tech.:", "Równom. dojrz.:", "Pękanie strąków:", "Antraknoza 1. term.:", "Fuzaryjne więdnięcie:", "dolnośląskie:", "kujawsko-pomorskie:", "lubelskie:", "lubuskie:", "łódzkie:", "małopolskie:", "mazowieckie:", "opolskie:", "podkarpackie:", "podlaskie:", "pomorskie:", "śląskie:", "świętokrzyskie:", "warmińsko-mazurskie:", "wielkopolskie:", "zachodniopomorskie:", "Porównaj"];
 let lubin_waskolistny_cols = [{ data: "Odmiany" }, { data: "Rok wynikow" }, { data: "Plon nasion" }, { data: "Plon bialka ogolnego" }, { data: "Zawartosc bialka ogolnego" }, { data: "Masa 1000 nasion" }, { data: "Wysokosc roslin" }, { data: "Wyleganie" }, { data: "Typ" }, { data: "Rok wpisu do KR" }, { data: "Barwa kwiatow" }, { data: "Zawartosc tluszczu surowego" }, { data: "Zawartosc wlokna surowego" }, { data: "Zawartosc alkaloidow" }, { data: "Okres od siewu do dojrzalosci technicznej" }, { data: "Rownomiernosc dojrzewania" }, { data: "Pekanie strakow" }, { data: "Odpornosc na antraknoze termin I" }, { data: "Fuzaryjne wiedniecie" }, { data: "Dolnośląskie" }, { data: "Kujawsko-pomorskie" }, { data: "Lubelskie" }, { data: "Lubuskie" }, { data: "Łódzkie" }, { data: "Małopolskie" }, { data: "Mazowieckie" }, { data: "Opolskie" }, { data: "Podkarpackie" }, { data: "Podlaskie" }, { data: "Pomorskie" }, { data: "Śląskie" }, { data: "Świętokrzyskie" }, { data: "Warmińsko-Mazurskie" }, { data: "Wielkopolskie" }, { data: "Zachodniopomorskie" }, { data: null }];
-let lubin_waskolistny_units = ["", "", " dt/ha", " kg/ha", "%", " g", "cm", " st. (1-9) dt/ha", "", " r.", "", "%", "%", "%", " dni", " st. (1-9)", "", " st. (1-9)", " st. (1-9)", " r.", " r.", " r.", " r.", " r.", " r.", " r.", " r.", " r.", " r.", " r.", " r.", " r.", " r.", " r.", ""];
+let lubin_waskolistny_units = ["", "", " dt/ha", " kg/ha", "%", " g", "cm", " st. (1-9)", "", " r.", "", "%", "%", "%", " dni", " st. (1-9)", "", " st. (1-9)", " st. (1-9)", " r.", " r.", " r.", " r.", " r.", " r.", " r.", " r.", " r.", " r.", " r.", " r.", " r.", " r.", " r.", ""];
 let lubin_waskolistny_year = ["2025", "2024", "2022"];
 let lubin_waskolistny_type1_name = "Typ:";
 let lubin_waskolistny_type1 = ["samokończące niskoalkaloidowe", "niesamokończące niskoalkaloidowe"];
@@ -230,6 +278,17 @@ let arrays = {
   jeczmien_ozimy_year,
   jeczmien_ozimy_type1,
   jeczmien_ozimy_type1_name,
+
+  rzepak_ozimy_col_names,
+  rzepak_ozimy_cols,
+  rzepak_ozimy_units,
+  rzepak_ozimy_year,
+  rzepak_ozimy_type1,
+  rzepak_ozimy_type1_name,
+  rzepak_ozimy_type2,
+  rzepak_ozimy_type2_name,
+  rzepak_ozimy_type3,
+  rzepak_ozimy_type3_name,
 
   pszenica_jara_col_names,
   pszenica_jara_cols,
