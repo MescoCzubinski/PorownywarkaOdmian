@@ -1,5 +1,13 @@
-console.log("Cześć! Jestem Mieszko, żyję sobie w konsoli. Fajnie, że do mnie zajrzałeś. Smacznej kawusi życzę");
-function displayFilesValues(file, indexOf, noDataInfo, sortingDataIndex = -1, isLOZ) {
+console.log(
+  "Cześć! Jestem Mieszko, żyję sobie w konsoli. Fajnie, że do mnie zajrzałeś. Smacznej kawusi życzę"
+);
+function displayFilesValues(
+  file,
+  indexOf,
+  noDataInfo,
+  sortingDataIndex = -1,
+  isLOZ
+) {
   if ($.fn.DataTable.isDataTable("#table")) {
     $("#table").DataTable().destroy();
     $("#table").empty();
@@ -24,7 +32,8 @@ function displayFilesValues(file, indexOf, noDataInfo, sortingDataIndex = -1, is
     responsive: true,
     language: {
       search: `<span id="searching">Wyszukaj odmianę:</span>`,
-      lengthMenu: '<div class="text-left p-2 flex items-center"><p class="">Liczba odmian na stronie:</p> _MENU_',
+      lengthMenu:
+        '<div class="text-left p-2 flex items-center pr-2"><p class="">Liczba odmian na stronie:</p> _MENU_',
       info: "_START_-_END_ z _TOTAL_ wyników",
       infoFiltered: "",
       emptyTable: "Ładowanie...",
@@ -35,7 +44,8 @@ function displayFilesValues(file, indexOf, noDataInfo, sortingDataIndex = -1, is
       {
         targets: -1,
         render: function (data, type, row, meta) {
-          let buttonId = file.replace(".json", "").replace(/_/g, "-") + "-" + meta.row;
+          let buttonId =
+            file.replace(".json", "").replace(/_/g, "-") + "-" + meta.row;
           return `<button id="${buttonId}-button" type="button" class="h-7 compare flex justify-center w-full hover:text-top-agrar-green">
                     <div class="pr-1 compare" id="${buttonId}-border">
                       <i class="icon-balance-scale compare" id="${buttonId}-span"></i>
@@ -96,14 +106,33 @@ function displayFilesValues(file, indexOf, noDataInfo, sortingDataIndex = -1, is
     headerCallback: (thead) => {
       let colsCount = thead.querySelectorAll("th").length;
       thead.querySelectorAll("th").forEach((th, index) => {
-        let colTitle = "Kliknięcie nazwy kolumny sortuje narastająco, ponownie kliknięcie malejąco";
-        if ((index === 1 && file === "jeczmien_jary.json") || file === "pszenzyto_jare.json" || file === "pszenica_jara.json" || file === "owies_jary.json") colTitle = "Na przeciętnym poziomie agrotechniki";
-        if ((index === 2 && file === "jeczmien_jary.json") || file === "pszenzyto_jare.json" || file === "pszenica_jara.json" || file === "owies_jary.json") colTitle = "Na wyższym poziomie agrotechniki";
-        if (isLOZ && index === colsCount - 2) colTitle = "Rok wpisu na listę dla danego województwa";
-        if (index === colsCount - 1) colTitle = "Kliknij wagę - porównanie odmian u dołu strony";
-        if (file === "ziemniak.json" && index === 1) colTitle = "Plon bulwy o średnicy powyżej 30 mm";
-        if (file === "ziemniak.json" && index === 2) colTitle = "Plon bulwy o średnicy powyżej 35 mm";
-        if (file === "ziemniak.json" && index === 4) colTitle = "AB - sałatkowy, B - ogólnoużytkowy, BC - lekko mączysty, C - mączysty, CD - mączysty do bardzo mączystego";
+        let colTitle =
+          "Kliknięcie nazwy kolumny sortuje narastająco, ponownie kliknięcie malejąco";
+        if (
+          (index === 1 && file === "jeczmien_jary.json") ||
+          file === "pszenzyto_jare.json" ||
+          file === "pszenica_jara.json" ||
+          file === "owies_jary.json"
+        )
+          colTitle = "Na przeciętnym poziomie agrotechniki";
+        if (
+          (index === 2 && file === "jeczmien_jary.json") ||
+          file === "pszenzyto_jare.json" ||
+          file === "pszenica_jara.json" ||
+          file === "owies_jary.json"
+        )
+          colTitle = "Na wyższym poziomie agrotechniki";
+        if (isLOZ && index === colsCount - 2)
+          colTitle = "Rok wpisu na listę dla danego województwa";
+        if (index === colsCount - 1)
+          colTitle = "Kliknij wagę - porównanie odmian u dołu strony";
+        if (file === "ziemniak.json" && index === 1)
+          colTitle = "Plon bulwy o średnicy powyżej 30 mm";
+        if (file === "ziemniak.json" && index === 2)
+          colTitle = "Plon bulwy o średnicy powyżej 35 mm";
+        if (file === "ziemniak.json" && index === 4)
+          colTitle =
+            "AB - sałatkowy, B - ogólnoużytkowy, BC - lekko mączysty, C - mączysty, CD - mączysty do bardzo mączystego";
         th.title = colTitle;
       });
     },
@@ -118,39 +147,50 @@ function functioningSpecies(groupOfSpecies, files, region = -1) {
   let IDifIsLOZ = isLOZ ? "is-LOZ" : "is-not-LOZ";
   //files, names <- tablice z config.js
   files.forEach((file, index) => {
-    document.getElementById(file + "-" + IDifIsLOZ).addEventListener("click", function () {
-      let indexOf = -1;
-      let textWhenNoData = "Brak wyników dla podanych ustawień";
-      if (region !== -1) {
-        indexOf = arrays[file.replace(".json", "") + "_cols"].findIndex((item) => item.data === region);
-        textWhenNoData = "brak odmiany na LOZ dla tego województwa";
-      }
+    document
+      .getElementById(file + "-" + IDifIsLOZ)
+      .addEventListener("click", function () {
+        let indexOf = -1;
+        let textWhenNoData = "Brak wyników dla podanych ustawień";
+        if (region !== -1) {
+          indexOf = arrays[file.replace(".json", "") + "_cols"].findIndex(
+            (item) => item.data === region
+          );
+          textWhenNoData = "brak odmiany na LOZ dla tego województwa";
+        }
 
-      //wyświetlanie danych
-      displayFilesValues(file, indexOf, textWhenNoData, -1, isLOZ);
+        //wyświetlanie danych
+        displayFilesValues(file, indexOf, textWhenNoData, -1, isLOZ);
 
-      //mechanika filtrów
-      displayFilters(file);
+        //mechanika filtrów
+        displayFilters(file);
 
-      if (region !== -1) {
-        table.columns(indexOf).search("^(?![-#]).*$", true, false).draw();
-      }
+        if (region !== -1) {
+          table.columns(indexOf).search("^(?![-#]).*$", true, false).draw();
+        }
 
-      //wyświetlanie tytułu
-      displayNameText(region, index, groupOfSpecies);
+        //wyświetlanie tytułu
+        displayNameText(region, index, groupOfSpecies);
 
-      //przesunięcie przy wyświetlaniu danych
-      document.querySelector("#settings").scrollIntoView({
-        behavior: "smooth",
-        block: "start",
+        //przesunięcie przy wyświetlaniu danych
+        document.querySelector("#settings").scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+
+        //tworzenie porównania
+        window.compareObj = new Compare(
+          "compare",
+          arrays[file.replace(".json", "") + "_col_names"],
+          file,
+          groupOfSpecies,
+          files,
+          isLOZ
+        );
+        compareObj.displayCompare();
+
+        globalCompareScalar = 1;
       });
-
-      //tworzenie porównania
-      window.compareObj = new Compare("compare", arrays[file.replace(".json", "") + "_col_names"], file, groupOfSpecies, files, isLOZ);
-      compareObj.displayCompare();
-
-      globalCompareScalar = 1;
-    });
   });
 }
 
@@ -163,20 +203,29 @@ function displayLOZText(text) {
   } else if (text === "Zachodniopomorskie") {
     text = "Zach.-Pom.";
   }
-  document.querySelector("#LOZ-text").innerHTML = "LOZ woj. " + text.toLowerCase();
+  document.querySelector("#LOZ-text").innerHTML =
+    "LOZ woj. " + text.toLowerCase();
 }
 
 //tekst z nazwą odmiany i województwem w tytule
 function displayNameText(text, index, groupOfSpecies) {
   if (text === -1) {
-    document.querySelector("#sorting-text").innerHTML = `<span> Lista odmian wg PDO <b> ${groupOfSpecies[index].toLowerCase()}</b></span>`;
+    document.querySelector(
+      "#sorting-text"
+    ).innerHTML = `<span> Lista odmian wg PDO <b> ${groupOfSpecies[
+      index
+    ].toLowerCase()}</b></span>`;
   } else {
     if (text === "Lodzkie") {
       text = "Łódzkie";
     } else if (text === "Slaskie") {
       text = "Śląskie";
     }
-    document.querySelector("#sorting-text").innerHTML = `<span "class=text-wrap">Lista odmian zalecanych <b> woj. ${text.toLowerCase() + " " + groupOfSpecies[index].toLowerCase()}</b> (lista pozostałych odmian dostępna wyżej w porównywarce)</span>`;
+    document.querySelector(
+      "#sorting-text"
+    ).innerHTML = `<span "class=text-wrap">Lista odmian zalecanych <b> woj. ${
+      text.toLowerCase() + " " + groupOfSpecies[index].toLowerCase()
+    }</b> (lista pozostałych odmian dostępna wyżej w porównywarce)</span>`;
   }
 }
 
@@ -204,7 +253,9 @@ function displaySpecies(element, isLOZ, groupOfSpecies, files) {
   // let IDifIsLOZ = "";
   let IDifIsLOZ = isLOZ ? "is-LOZ" : "is-not-LOZ";
   for (let i = 0; i < groupOfSpecies.length; i++) {
-    result += `<input class="text-2xl text-top-agrar-green/90 flex border-2 border-solid border-top-agrar-green/90 rounded-2xl p-2 m-2   hover:bg-top-agrar-green/20" type="button" id="${files[i] + "-" + IDifIsLOZ}" value="${groupOfSpecies[i]}">`;
+    result += `<input class="text-2xl text-top-agrar-green/90 flex border-2 border-solid border-top-agrar-green/90 rounded-2xl p-2 m-2   hover:bg-top-agrar-green/20" type="button" id="${
+      files[i] + "-" + IDifIsLOZ
+    }" value="${groupOfSpecies[i]}">`;
   }
 
   if (isLOZ) {

@@ -8,13 +8,17 @@ document.addEventListener("click", function (event) {
       element.classList.remove("to-compare");
       elementBorder.classList.remove("compare-border");
 
-      row = Array.from(event.target.closest("tr").querySelectorAll("td")).map((cell) => cell.textContent.trim());
+      row = Array.from(event.target.closest("tr").querySelectorAll("td")).map(
+        (cell) => cell.textContent.trim()
+      );
       compareObj.removeRow(row);
     } else {
       element.classList.add("to-compare");
       elementBorder.classList.add("compare-border");
 
-      row = Array.from(event.target.closest("tr").querySelectorAll("td")).map((cell) => cell.textContent.trim());
+      row = Array.from(event.target.closest("tr").querySelectorAll("td")).map(
+        (cell) => cell.textContent.trim()
+      );
       compareObj.addRow(row);
     }
   }
@@ -60,7 +64,9 @@ class Compare {
         }
       }
 
-      document.querySelector("#compare-text").innerHTML = `<span class="text-wrap">Porównywanie odmian: ${name} (by porównać więcej odmian przewiń wyżej i<p class="text-nowrap"> kliknij:<i class="icon-balance-scale"></i>)</p> <span>`;
+      document.querySelector(
+        "#compare-text"
+      ).innerHTML = `<span class="text-wrap">Porównywanie odmian: ${name} (by porównać więcej odmian przewiń wyżej i<p class="text-nowrap"> kliknij:<i class="icon-balance-scale"></i>)</p> <span>`;
 
       if (!this.firstTimeRender) {
         this.firstTimeRender = true;
@@ -70,7 +76,11 @@ class Compare {
         });
       }
       let table = '<div class="compare-table">';
-      for (let i = 0; i < this.rowsToCompare[0].length - globalCompareScalar; i++) {
+      for (
+        let i = 0;
+        i < this.rowsToCompare[0].length - globalCompareScalar;
+        i++
+      ) {
         table += '<div class="compare-row">';
         table += `<div class="compare-name">${this.colNames[i]}</div><div class="compare-scrolling">`;
         for (let j = 0; j < this.rowsToCompare.length; j++) {
@@ -88,7 +98,9 @@ class Compare {
       //   cell.style.width = (screenWidth - 224) / this.rowsToCompare.length + "px";
       // });
 
-      const scrollingElement = document.querySelector(".compare-row:first-child .compare-scrolling");
+      const scrollingElement = document.querySelector(
+        ".compare-row:first-child .compare-scrolling"
+      );
       if (scrollingElement.scrollWidth > scrollingElement.clientWidth) {
         scrollingElement.style.overflowX = "auto";
       } else {
@@ -126,7 +138,9 @@ class Compare {
   removeRow(row) {
     const fragmentRow = row.slice(0, -11 - this.num);
 
-    const index = this.rowsToCompare.findIndex((r) => JSON.stringify(r) === JSON.stringify(fragmentRow));
+    const index = this.rowsToCompare.findIndex(
+      (r) => JSON.stringify(r) === JSON.stringify(fragmentRow)
+    );
     if (index !== -1) {
       this.rowsToCompare.splice(index, 1);
     }

@@ -1,5 +1,7 @@
 const elementDisplayFilesName = document.querySelector("#displayFilesName");
-const elementDisplaySectionsName = document.querySelector("#displaySectionsName");
+const elementDisplaySectionsName = document.querySelector(
+  "#displaySectionsName"
+);
 const elementDisplaySettings = document.querySelector("#settings");
 elementDisplayFilesName.classList.add("hidden");
 elementDisplaySettings.classList.add("hidden");
@@ -22,16 +24,18 @@ displaySpeciesGroup(elementDisplaySectionsName);
 
 sectionsArr.forEach((section, index) => {
   //gdy klikniesz na grupę:
-  document.getElementById(`section-${index}`).addEventListener("click", function () {
-    let section = sectionsArr[index];
-    let files = filesArr[index];
+  document
+    .getElementById(`section-${index}`)
+    .addEventListener("click", function () {
+      let section = sectionsArr[index];
+      let files = filesArr[index];
 
-    if (section !== "pozostale_wkrotce") {
-      displaySpecies(elementDisplayFilesName, false, section, files);
+      if (section !== "pozostale_wkrotce") {
+        displaySpecies(elementDisplayFilesName, false, section, files);
 
-      functioningSpecies(section, files);
-    }
-  });
+        functioningSpecies(section, files);
+      }
+    });
 });
 
 //mechanika przycisku resetuj
@@ -62,7 +66,8 @@ function displayFilters(file) {
   const elementType1 = document.querySelector("#type1");
   if (arrays[file.replace(".json", "") + "_type1"]) {
     elementType1Container.classList.remove("hidden");
-    document.querySelector("#type1-name").innerHTML = arrays[file.replace(".json", "") + "_type1_name"];
+    document.querySelector("#type1-name").innerHTML =
+      arrays[file.replace(".json", "") + "_type1_name"];
 
     let types1 = '<option value="-">wszystkie</option>';
     for (const type of arrays[file.replace(".json", "") + "_type1"]) {
@@ -74,7 +79,7 @@ function displayFilters(file) {
       let selectedType1 = elementType1.value;
       table
         .columns(8)
-        .search(selectedType1 === "-" ? "" : selectedType1)
+        .search(selectedType1 === "-" ? "" : `^${selectedType1}$`, true)
         .draw();
     };
   }
@@ -83,7 +88,8 @@ function displayFilters(file) {
   const elementType2 = document.querySelector("#type2");
   if (arrays[file.replace(".json", "") + "_type2"]) {
     elementType2Container.classList.remove("hidden");
-    document.querySelector("#type2-name").innerHTML = arrays[file.replace(".json", "") + "_type2_name"];
+    document.querySelector("#type2-name").innerHTML =
+      arrays[file.replace(".json", "") + "_type2_name"];
 
     let types2 = '<option value="-">wszystkie</option>';
     for (const type of arrays[file.replace(".json", "") + "_type2"]) {
@@ -95,7 +101,7 @@ function displayFilters(file) {
       let selectedType2 = elementType2.value;
       table
         .columns(9)
-        .search(selectedType2 === "-" ? "" : selectedType2)
+        .search(selectedType2 === "-" ? "" : `^${selectedType2}$`, true)
         .draw();
     };
   }
@@ -104,7 +110,8 @@ function displayFilters(file) {
   const elementType3 = document.querySelector("#type3");
   if (arrays[file.replace(".json", "") + "_type3"]) {
     elementType3Container.classList.remove("hidden");
-    document.querySelector("#type3-name").innerHTML = arrays[file.replace(".json", "") + "_type3_name"];
+    document.querySelector("#type3-name").innerHTML =
+      arrays[file.replace(".json", "") + "_type3_name"];
 
     let types3 = '<option value="-">wszystkie</option>';
     for (const type of arrays[file.replace(".json", "") + "_type3"]) {
@@ -116,7 +123,7 @@ function displayFilters(file) {
       let selectedType3 = elementType3.value;
       table
         .columns(10)
-        .search(selectedType3 === "-" ? "" : selectedType3)
+        .search(selectedType3 === "-" ? "" : `^${selectedType3}$`, true)
         .draw();
     };
   }
@@ -144,23 +151,39 @@ function displayFilters(file) {
     const elementSorting = document.querySelector("#sorting");
     let sortOptions = "";
 
-    for (const element of arrays[file.replace(".json", "") + "_col_names"].slice(0, -17)) {
+    for (const element of arrays[
+      file.replace(".json", "") + "_col_names"
+    ].slice(0, -17)) {
       if (element !== "Rok wyników:") {
-        sortOptions += `<option value="${element.replace(":", "")}">${element.replace(":", "")}</option>`;
+        sortOptions += `<option value="${element.replace(
+          ":",
+          ""
+        )}">${element.replace(":", "")}</option>`;
       }
     }
     elementSorting.innerHTML = sortOptions;
 
     elementSorting.onchange = function (event) {
-      let sortingIndex = arrays[file.replace(".json", "") + "_col_names"].slice(0, -17).indexOf(event.target.value + ":");
+      let sortingIndex = arrays[file.replace(".json", "") + "_col_names"]
+        .slice(0, -17)
+        .indexOf(event.target.value + ":");
 
       if (sortingIndex !== -1) {
-        displayFilesValues(file, -1, "Brak wyników dla podanych ustawień", sortingIndex, false);
+        displayFilesValues(
+          file,
+          -1,
+          "Brak wyników dla podanych ustawień",
+          sortingIndex,
+          false
+        );
         table.order([sortingIndex, sortingIndex === 0 ? "asc" : "desc"]).draw();
         table.columns(1).search(elementYearFilter.value).draw();
-        if(elementType1.value !== "-") table.columns(8).search(elementType1.value).draw();
-        if(elementType2.value !== "-") table.columns(9).search(elementType2.value).draw();
-        if(elementType3.value !== "-") table.columns(10).search(elementType3.value).draw();
+        if (elementType1.value !== "-")
+          table.columns(8).search(elementType1.value).draw();
+        if (elementType2.value !== "-")
+          table.columns(9).search(elementType2.value).draw();
+        if (elementType3.value !== "-")
+          table.columns(10).search(elementType3.value).draw();
       }
 
       document.querySelector("#settings").scrollIntoView({
