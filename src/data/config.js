@@ -3,6 +3,8 @@
 //jeśli w kolumnie 10, jest zero mogą się pojawić problemy z renderowaniem danych script.js około 66
 //konwerter: https://tableconvert.com/excel-to-json
 
+
+//TODO: 22 min
 let zboza_jare_files = ["pszenica_jara.json", "jeczmien_jary.json", "pszenzyto_jare.json", "owies_jary.json"];
 let zboza_jare = ["Pszenica jara", "Jęczmień jary", "Pszenżyto jare", "Owies jary"];
 
@@ -87,7 +89,7 @@ let rzepak_ozimy_col_names = [
     "mazowieckie:", "opolskie:", "podkarpackie:", "podlaskie:", "pomorskie:", "śląskie:", 
     "świętokrzyskie:", "warmińsko-mazurskie:", "wielkopolskie:", "zachodniopomorskie:", "Porównaj"
 ];
-
+// TODO: (data) skala -> DD-MM
 let rzepak_ozimy_cols = [
     { data: "Odmiana" }, { data: "Rok badan" }, { data: "Plon nasion" }, { data: "Zawartosc tluszczu" },
     { data: "Stan po zimie" }, { data: "Rok rejestracji" }, { data: "Wysokosc roslin" },
@@ -105,6 +107,8 @@ let rzepak_ozimy_cols = [
     { data: "Swietokrzyskie" }, { data: "Warminsko-Mazurskie" }, { data: "Wielkopolskie" },
     { data: "Zachodniopomorskie" }, { data: null }
 ];
+//TODO: rozówj przed zimną
+//TODO: zgnilizna twardzikowa: od największych do najmniejszych, verticilioza: od najmniejszych do największych
 
 let rzepak_ozimy_units = [
     "", " r.", " dt/ha", " %", " st. (1-9)", " r.", " cm", " st. (1-9)", "", "", "", " %", " st. (1-9)", " st. (1-9)", 
@@ -118,7 +122,7 @@ let rzepak_ozimy_units = [
 let rzepak_ozimy_year = ["2025", "2024", "2023", "2022", "2021"];
 let rzepak_ozimy_type1_name = "Typ odmiany";
 let rzepak_ozimy_type1 = ["mieszańcowa", "populacyjna"];
-// fixit:
+// TODO:
 let rzepak_ozimy_type2_name = "Typ badań";
 let rzepak_ozimy_type2 = ["porejestrowe", "rejestrowe"];
 
