@@ -47,9 +47,9 @@ function displayFilesValues(
           let buttonId =
             file.replace(".json", "").replace(/_/g, "-") + "-" + meta.row;
           return `<button id="${buttonId}-button" type="button" class="h-7 compare flex justify-center w-full hover:text-top-agrar-green">
-                    <div class="pr-1 compare" id="${buttonId}-border">
-                      <i class="icon-balance-scale compare" id="${buttonId}-span"></i>
-                    </div>
+          <div class="pr-1 compare" id="${buttonId}-border">
+          <i class="icon-balance-scale compare" id="${buttonId}-span"></i>
+          </div>
                   </button>`;
         },
         sorting: false,
@@ -62,6 +62,7 @@ function displayFilesValues(
           return indexOf === -1 ? false : true;
         },
       },
+      { type: "any-number", targets: arrays[name + "_types"] },
       {
         targets: "_all",
         render: function (data, type, row, meta) {

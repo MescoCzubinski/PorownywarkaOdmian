@@ -176,7 +176,19 @@ function displayFilters(file) {
           sortingIndex,
           false
         );
-        table.order([sortingIndex, sortingIndex === 0 ? "asc" : "desc"]).draw();
+        console.log(sortingIndex);
+        if (
+          arrays[file.replace(".json", "") + "_col_names"][sortingIndex] ===
+          "Werticilioza:"
+        ) {
+          table
+            .order([sortingIndex, sortingIndex === 0 ? "desc" : "asc"])
+            .draw();
+        } else {
+          table
+            .order([sortingIndex, sortingIndex === 0 ? "asc" : "desc"])
+            .draw();
+        }
         table.columns(1).search(elementYearFilter.value).draw();
         if (elementType1.value !== "-")
           table.columns(8).search(elementType1.value).draw();
