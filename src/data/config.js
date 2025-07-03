@@ -2315,7 +2315,7 @@ let arrays = {
   owies_jary_col_names,
   owies_jary_cols,
   owies_jary_units,
-  owies_types,
+  owies_jary_types,
   owies_jary_year,
   owies_jary_type1,
   owies_jary_type1_name,
