@@ -177,9 +177,13 @@ function displayFilters(file) {
           false
         );
         console.log(sortingIndex);
+        let sortingIndexName =
+          arrays[file.replace(".json", "") + "_col_names"][sortingIndex];
         if (
-          arrays[file.replace(".json", "") + "_col_names"][sortingIndex] ===
-          "Werticilioza:"
+          sortingIndexName === "Werticilioza:" ||
+          sortingIndexName === "Zgn. twardzikowa:" ||
+          sortingIndexName === "Sucha zgnilizna:" ||
+          sortingIndexName === "Choroby pods. łodygi:"
         ) {
           table
             .order([sortingIndex, sortingIndex === 0 ? "desc" : "asc"])
