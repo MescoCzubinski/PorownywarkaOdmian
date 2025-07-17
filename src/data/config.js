@@ -1634,8 +1634,8 @@ let pszenica_ozima_col_names = [
   "Septorioza plew (LOO):",
   "Fuzarioza kłosów:",
   "Fuzarioza kłosów (LOO):",
-  "Plon w rejonie I a₁:",
   "Reakcja na Al³⁺ (LOO):",
+  "Plon w rejonie I a₁:",
   "Plon w rejonie II a₁:",
   "Plon w rejonie III a₁:",
   "Plon w rejonie IV a₁:",
@@ -1723,8 +1723,8 @@ let pszenica_ozima_cols = [
   { data: "Septorioza plew (LOO)" },
   { data: "Fuzarioza kłosów" },
   { data: "Fuzarioza kłosów (LOO)" },
+  { data: "Reakcja na Al+++ (LOO)" },
   { data: "Plon w rejonie I a1" },
-  { data: "Reakcja na Al³⁺ (LOO)" },
   { data: "Plon w rejonie II a1" },
   { data: "Plon w rejonie III a1" },
   { data: "Plon w rejonie IV a1" },
@@ -1811,8 +1811,9 @@ let pszenica_ozima_units = [
   " st. (1-9)",
   " st. (1-9)",
   " st. (1-9)",
-  " dt/ha",
   " st. (1-9)",
+  " st. (1-9)",
+  " dt/ha",
   " dt/ha",
   " dt/ha",
   " dt/ha",
@@ -1846,7 +1847,7 @@ let pszenica_ozima_units = [
 let pszenica_ozima_types = [];
 let pszenica_ozima_year = ["2025", "2024", "2023", "2022", "2021", "2020"];
 let pszenica_ozima_type1_name = "Grupa technologiczna";
-let pszenica_ozima_type1 = ["A", "B", "C", "E", "K"];
+let pszenica_ozima_type1 = ["E", "A", "B", "C", "K"];
 
 let pszenzyto_jare_col_names = [
   "Odmiana:",
@@ -2524,12 +2525,13 @@ let zyto_ozime_col_names = [
   "Wysokość roślin:",
   "Wyleganie:",
   "Typ odmiany:",
-  "Masa 1000 zaiaren (LOO):",
-  "Rok rejestracji (LOO):",
+  "Masa 1000 ziaren (LOO):",
   "Wysokość roślin (LOO):",
   "Wyleganie (LOO):",
   "Porastanie:",
   "Porastanie (LOO):",
+  "Kłoszenie (LOO):",
+  "Dojrzałość pełna (LOO):",
   "Gęstość:",
   "Gęstość (LOO):",
   "Liczba opadania:",
@@ -2539,8 +2541,6 @@ let zyto_ozime_col_names = [
   "Wydajność mąki (LOO):",
   "Lepkość maks. kleiku skrob. (LOO):",
   "Zawar. cukrów ogółem (LOO):",
-  "Kłoszenie (LOO):",
-  "Dojrzałość pełna (LOO):",
   "Począt. temp. kleikow. (LOO):",
   "Końc. temp. kleikow. (LOO):",
   "Choroby podst. źdźbła:",
@@ -2597,12 +2597,13 @@ let zyto_ozime_cols = [
   { data: "Wysokość roślin" },
   { data: "Wyleganie" },
   { data: "Typ odmiany" },
-  { data: "Masa 1000 zaiaren (LOO)" },
-  { data: "Rok rejestracji (LOO)" },
+  { data: "Masa 1000 ziaren (LOO)" },
   { data: "Wysokość roślin (LOO)" },
   { data: "Wyleganie (LOO)" },
   { data: "Porastanie" },
   { data: "Porastanie (LOO)" },
+  { data: "Kłoszenie (LOO)" },
+  { data: "Dojrzałość pełna (LOO)" },
   { data: "Gęstość" },
   { data: "Gęstość (LOO)" },
   { data: "Liczba opadania" },
@@ -2612,8 +2613,6 @@ let zyto_ozime_cols = [
   { data: "Wydajność mąki (LOO)" },
   { data: "Lepkość maks kleiku skrob (LOO)" },
   { data: "Zawar cukrów ogółem (LOO)" },
-  { data: "Kłoszenie (LOO)" },
-  { data: "Dojrzałość pełna (LOO)" },
   { data: "Począt temp kleikow (LOO)" },
   { data: "Końc temp kleikow (LOO)" },
   { data: "Choroby podst źdźbła" },
@@ -2671,11 +2670,12 @@ let zyto_ozime_units = [
   " st. (1-9)",
   "",
   " g",
-  " r.",
   " cm",
   " st. (1-9)",
   " st. (1-9)",
   " st. (1-9)",
+  " dni",
+  " dni",
   " st. (1-9)",
   " st. (1-9)",
   " s.",
@@ -2684,9 +2684,7 @@ let zyto_ozime_units = [
   " st. (1-9)",
   "%",
   " j.Br.",
-  " % sw.m.",
-  " dni",
-  " dni",
+  " % św.m.",
   "°C",
   "°C",
   " st. (1-9)",
@@ -2736,7 +2734,11 @@ let zyto_ozime_units = [
 let zyto_ozime_types = [];
 let zyto_ozime_year = ["2025", "2024", "2023", "2022", "2021", "2020"];
 let zyto_ozime_type1_name = "Typ odmiany:";
-let zyto_ozime_type1 = ["populacyjny", "krótkosłome", "mieszańcowy"];
+let zyto_ozime_type1 = [
+  "populacyjny",
+  "mieszańcowy",
+  "mieszańcowe krótkosłome",
+];
 
 let arrays = {
   bobik_col_names,
