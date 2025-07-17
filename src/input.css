@@ -111,7 +111,7 @@ svg path:hover {
   flex-shrink: 0;
 }
 .compare-name {
-  @apply w-56 min-w-56 flex pl-3 pr-3 pt-2 pb-2 h-11 align-middle font-bold;
+  @apply w-[290px] flex pl-3 pr-3 pt-2 pb-2 h-11 align-middle font-bold;
 }
 @media only screen and (max-width: 768px) {
   .compare-scrolling {

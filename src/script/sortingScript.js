@@ -176,7 +176,6 @@ function displayFilters(file) {
           sortingIndex,
           false
         );
-        console.log(sortingIndex);
         let sortingIndexName =
           arrays[file.replace(".json", "") + "_col_names"][sortingIndex];
         if (

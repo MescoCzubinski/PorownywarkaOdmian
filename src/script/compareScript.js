@@ -45,6 +45,8 @@ class Compare {
     this.num += file === "soja.json" ? -10 : 0;
     this.num += file === "jeczmien_ozimy.json" ? 1 : 0;
     this.num += file === "rzepak_ozimy.json" ? -6 : 0;
+    this.num += file === "pszenica_ozima.json" ? -10 : 0;
+    this.num += file === "zyto_ozime.json" ? -10 : 0;
     const index = this.colNames.indexOf("Rok wyników:");
     if (index !== -1) this.colNames.splice(index, 1);
 
