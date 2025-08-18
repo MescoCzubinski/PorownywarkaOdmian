@@ -1614,8 +1614,8 @@ let pszenica_ozima_col_names = [
   "Szklistość ziarna (LOO):",
   "Zawartość popiołu (LOO):",
   "Dojrzałość pełna (LOO):",
-  "Wydaj mąki ogółem (LOO):",
-  "Sprężystość rozciągliwość (LOO):",
+  "Wydaj. mąki ogółem (LOO):",
+  "Sprężystość/rozciągliwość (LOO):",
   "Wodochłonność mąki (LOO):",
   "Rozmiękczenie ciasta (LOO):",
   "Objętość chleba (LOO):",
@@ -2959,8 +2959,8 @@ let zyto_ozime_types = [];
 let zyto_ozime_year = ["2025", "2024", "2023", "2022", "2021", "2020"];
 let zyto_ozime_type1_name = "Typ odmiany:";
 let zyto_ozime_type1 = [
-  "populacyjny",
-  "mieszańcowy",
+  "populacyjne",
+  "mieszańcowe",
   "mieszańcowe krótkosłome",
 ];
 
