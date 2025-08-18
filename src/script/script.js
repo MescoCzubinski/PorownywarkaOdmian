@@ -1,6 +1,3 @@
-console.log(
-  "Cześć! Jestem Mieszko, żyję sobie w konsoli. Fajnie, że do mnie zajrzałeś. Smacznej kawusi życzę"
-);
 function displayFilesValues(
   file,
   indexOf,
