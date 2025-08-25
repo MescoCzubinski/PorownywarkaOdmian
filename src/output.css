@@ -675,6 +675,19 @@ video {
   gap: 2rem;
 }
 
+.gap-x-3 {
+  -moz-column-gap: 0.75rem;
+       column-gap: 0.75rem;
+}
+
+.gap-y-1 {
+  row-gap: 0.25rem;
+}
+
+.gap-y-2 {
+  row-gap: 0.5rem;
+}
+
 .text-wrap {
   text-wrap: wrap;
 }
@@ -723,10 +736,6 @@ video {
 
 .pl-1 {
   padding-left: 0.25rem;
-}
-
-.pl-3 {
-  padding-left: 0.75rem;
 }
 
 .pr-1 {
@@ -814,7 +823,13 @@ body {
 #settings {
   height: -moz-fit-content;
   height: fit-content;
-  width: 58.333333%;
+  width: 83.333333%;
+}
+
+@media (min-width: 768px) {
+  #settings {
+    width: 58.333333%;
+  }
 }
 
 #searching {

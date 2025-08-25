@@ -16,7 +16,7 @@ body {
   @apply w-11/12 h-fit border-2 border-l-0 border-r-0 rounded-none pb-4 m-0 p-2;
 }
 #settings {
-  @apply w-7/12 h-fit;
+  @apply w-10/12 md:w-7/12 h-fit;
 }
 #searching {
   @apply mr-0.5 ml-2;
