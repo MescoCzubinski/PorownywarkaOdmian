@@ -22,15 +22,15 @@ document.querySelector("body").scrollIntoView({
 //grupy odmian
 displaySpeciesGroup(elementDisplaySectionsName);
 
-sectionsArr.forEach((section, index) => {
+names_section.forEach((groupKey, index) => {
   //gdy klikniesz na grupę:
   document
     .getElementById(`section-${index}`)
     .addEventListener("click", function () {
-      let section = sectionsArr[index];
-      let files = filesArr[index];
+      let section = groups[groupKey].map((s) => s.name);
+      let files = groups[groupKey].map((s) => s.file_name);
 
-      if (section !== "pozostale_wkrotce") {
+      if (groupKey !== "pozostale_wkrotce") {
         displaySpecies(elementDisplayFilesName, false, section, files);
 
         functioningSpecies(section, files);
@@ -64,13 +64,13 @@ function displayFilters(file) {
 
   //filtr typ1
   const elementType1 = document.querySelector("#type1");
-  if (arrays[file.replace(".json", "") + "_type1"]) {
+  const meta = species_meta[file.replace(".json", "")];
+  if (meta?.type1) {
     elementType1Container.classList.remove("hidden");
-    document.querySelector("#type1-name").innerHTML =
-      arrays[file.replace(".json", "") + "_type1_name"];
+    document.querySelector("#type1-name").innerHTML = meta.type1_name;
 
     let types1 = '<option value="-">wszystkie</option>';
-    for (const type of arrays[file.replace(".json", "") + "_type1"]) {
+    for (const type of meta.type1) {
       types1 += `<option value="${type}">${type}</option>`;
     }
     elementType1.innerHTML = types1;
@@ -86,13 +86,12 @@ function displayFilters(file) {
 
   //filtr typ2
   const elementType2 = document.querySelector("#type2");
-  if (arrays[file.replace(".json", "") + "_type2"]) {
+  if (meta?.type2) {
     elementType2Container.classList.remove("hidden");
-    document.querySelector("#type2-name").innerHTML =
-      arrays[file.replace(".json", "") + "_type2_name"];
+    document.querySelector("#type2-name").innerHTML = meta.type2_name;
 
     let types2 = '<option value="-">wszystkie</option>';
-    for (const type of arrays[file.replace(".json", "") + "_type2"]) {
+    for (const type of meta.type2) {
       types2 += `<option value="${type}">${type}</option>`;
     }
     elementType2.innerHTML = types2;
@@ -108,13 +107,12 @@ function displayFilters(file) {
 
   //filtr typ3
   const elementType3 = document.querySelector("#type3");
-  if (arrays[file.replace(".json", "") + "_type3"]) {
+  if (meta?.type3) {
     elementType3Container.classList.remove("hidden");
-    document.querySelector("#type3-name").innerHTML =
-      arrays[file.replace(".json", "") + "_type3_name"];
+    document.querySelector("#type3-name").innerHTML = meta.type3_name;
 
     let types3 = '<option value="-">wszystkie</option>';
-    for (const type of arrays[file.replace(".json", "") + "_type3"]) {
+    for (const type of meta.type3) {
       types3 += `<option value="${type}">${type}</option>`;
     }
     elementType3.innerHTML = types3;
@@ -130,9 +128,9 @@ function displayFilters(file) {
 
   //filtr rok
   const elementYearFilter = document.querySelector("#yearFilter");
-  if (arrays[file.replace(".json", "") + "_year"]) {
+  if (meta?.years) {
     let years = "";
-    for (const year of arrays[file.replace(".json", "") + "_year"]) {
+    for (const year of meta.years) {
       years += `<option value="${year}">${year}</option>`;
     }
     elementYearFilter.innerHTML = years;
@@ -147,13 +145,14 @@ function displayFilters(file) {
   }
 
   //sortowanie
-  if (arrays[file.replace(".json", "") + "_col_names"]) {
+  const colNames = species_columns[file.replace(".json", "")]?.map(
+    (c) => c.col_name
+  );
+  if (colNames) {
     const elementSorting = document.querySelector("#sorting");
     let sortOptions = "";
 
-    for (const element of arrays[
-      file.replace(".json", "") + "_col_names"
-    ].slice(0, -17)) {
+    for (const element of colNames.slice(0, -17)) {
       if (element !== "Rok wyników:") {
         sortOptions += `<option value="${element.replace(
           ":",
@@ -164,7 +163,7 @@ function displayFilters(file) {
     elementSorting.innerHTML = sortOptions;
 
     elementSorting.onchange = function (event) {
-      let sortingIndex = arrays[file.replace(".json", "") + "_col_names"]
+      let sortingIndex = colNames
         .slice(0, -17)
         .indexOf(event.target.value + ":");
 
@@ -176,8 +175,7 @@ function displayFilters(file) {
           sortingIndex,
           false
         );
-        let sortingIndexName =
-          arrays[file.replace(".json", "") + "_col_names"][sortingIndex];
+        let sortingIndexName = colNames[sortingIndex];
         if (
           sortingIndexName === "Werticilioza:" ||
           sortingIndexName === "Zgn. twardzikowa:" ||

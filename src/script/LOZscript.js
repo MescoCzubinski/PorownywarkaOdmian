@@ -34,15 +34,15 @@ regions.forEach((element) => {
     //wyświetlanie grup gatunków
     displaySpeciesGroup(elementDisplayLOZSections);
 
-    sectionsArr.forEach((section, index) => {
+    names_section.forEach((groupKey, index) => {
       //gdy klikniesz na grupę:
       document
         .getElementById(`section-${index}`)
         .addEventListener("click", function () {
-          let section = sectionsArr[index];
-          let files = filesArr[index];
+          let section = groups[groupKey].map((s) => s.name);
+          let files = groups[groupKey].map((s) => s.file_name);
 
-          if (section !== "pozostale_wkrotce") {
+          if (groupKey !== "pozostale_wkrotce") {
             //tekst w sekcji LOZ
             displayLOZText(element.id);
 

@@ -12,9 +12,9 @@ function displayFilesValues(
   let name = file.replace(".json", "");
   table = new DataTable("#table", {
     ajax: "data/" + file,
-    columns: arrays[name + "_col_names"].map((colName, index) => ({
-      data: arrays[name + "_cols"][index]?.data || null,
-      title: colName,
+    columns: species_columns[name].map((c) => ({
+      data: c.col?.data || null,
+      title: c.col_name,
     })),
     lengthMenu: isLOZ
       ? [
@@ -59,7 +59,12 @@ function displayFilesValues(
           return indexOf === -1 ? false : true;
         },
       },
-      { type: "any-number", targets: arrays[name + "_types"] },
+      {
+        type: "any-number",
+        targets: species_columns[name]
+          .map((c, i) => (c.type === "Number" ? i : -1))
+          .filter((i) => i >= 0),
+      },
       {
         targets: "_all",
         render: function (data, type, row, meta) {
@@ -68,7 +73,7 @@ function displayFilesValues(
             return "#";
           }
           if (data !== "#" && data !== "-" && data !== "CCA") {
-            const unit = arrays[name + "_units"]?.[columnIndex] || "";
+            const unit = species_columns[name]?.[columnIndex]?.unit || "";
             return data + unit;
           } else {
             return data;
@@ -151,8 +156,8 @@ function functioningSpecies(groupOfSpecies, files, region = -1) {
         let indexOf = -1;
         let textWhenNoData = "Brak wyników dla podanych ustawień";
         if (region !== -1) {
-          indexOf = arrays[file.replace(".json", "") + "_cols"].findIndex(
-            (item) => item.data === region
+          indexOf = species_columns[file.replace(".json", "")].findIndex(
+            (item) => item.col?.data === region
           );
           textWhenNoData = "brak odmiany na LOZ dla tego województwa";
         }
@@ -179,7 +184,7 @@ function functioningSpecies(groupOfSpecies, files, region = -1) {
         //tworzenie porównania
         window.compareObj = new Compare(
           "compare",
-          arrays[file.replace(".json", "") + "_col_names"],
+          species_columns[file.replace(".json", "")].map((c) => c.col_name),
           file,
           groupOfSpecies,
           files,
