@@ -530,7 +530,8 @@ let jeczmien_jary = [
     unit: " st. (1-9)",
     type: "Number",
   },
-  { col_name: "Typ:", col: { data: "Typ" }, unit: "", type: "Number" },
+  { col_name: "Typ:", col: { data: "Typ" }, unit: "", type: "string" },
+  { col_name: "Typ:", col: { data: "Typ badan" }, unit: "", type: "string" },
   {
     col_name: "Wartość browarna:",
     col: { data: "Wartosc browarna" },
@@ -5120,6 +5121,8 @@ let zboza_jare = [
     years: ["2026", "2025", "2024", "2023", "2022", "2021", "2020"],
     type1_name: "Typ użytkowy:",
     type1: ["pastewny", "browarny"],
+    type2_name: "Typ badan:",
+    type2: ["porejestrowe", "rejestrowe"],
   },
   {
     name: "Pszenżyto jare",
