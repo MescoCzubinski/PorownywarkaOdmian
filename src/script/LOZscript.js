@@ -22,8 +22,6 @@ const regions = [
   document.querySelector("#Pomorskie"),
 ];
 
-let globalCompareScalar = 0;
-
 regions.forEach((element) => {
   //gdy klikniesz na woj.:
   element.addEventListener("click", function () {

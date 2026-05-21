@@ -184,15 +184,12 @@ function functioningSpecies(groupOfSpecies, files, region = -1) {
         //tworzenie porównania
         window.compareObj = new Compare(
           "compare",
-          species_columns[file.replace(".json", "")].map((c) => c.col_name),
+          species_columns[file.replace(".json", "")],
           file,
           groupOfSpecies,
-          files,
-          isLOZ
+          files
         );
         compareObj.displayCompare();
-
-        globalCompareScalar = 1;
       });
   });
 }
