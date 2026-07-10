@@ -41,7 +41,7 @@
       "grupa_technologiczna": {
         "name": "Grupa technologiczna",
         "unit": "",
-        "type": "string"
+        "type": "label"
       },
       "liczba_opadania": {
         "name": "Liczba opadania",
@@ -51,7 +51,7 @@
       "klos": {
         "name": "Kłos",
         "unit": "",
-        "type": "string"
+        "type": "label"
       },
       "rok_rejestracji": {
         "name": "Rok rejestracji",
