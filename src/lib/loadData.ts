@@ -2,6 +2,7 @@ export interface TraitDefinition {
   name: string;
   unit: string;
   type: "string" | "number" | "label";
+  icon?: string;
 }
 
 export type TraitGroup = Record<string, TraitDefinition>;
@@ -13,10 +14,14 @@ export interface CropSchema {
   recommended_regions: TraitGroup;
 }
 
+export interface YearEntry {
+  primary_traits: Record<string, string>;
+  secondary_traits: Record<string, string>;
+  regional_yields: Record<string, string>;
+}
+
 export interface VarietyEntry {
-  primary_traits: Record<string, string>[];
-  secondary_traits: Record<string, string>[];
-  regional_yields: Record<string, string>[];
+  years: Record<string, YearEntry>;
   recommended_regions: Record<string, string>;
 }
 
@@ -67,30 +72,57 @@ function resolveTraits(
   }));
 }
 
-export async function loadPrimaryTraits(crop: Crop) {
+export async function loadPrimaryTraits(crop: Crop, year: string) {
   const { schema, odmiany } = await loadCropData(crop);
   return Object.fromEntries(
     Object.entries(odmiany).map(([variety, entry]) => [
       variety,
-      entry.primary_traits.map((row) =>
-        resolveTraits(schema.primary_traits, row),
+      resolveTraits(
+        schema.primary_traits,
+        entry.years[year]?.primary_traits ?? {},
       ),
     ]),
   );
 }
 
-export async function loadAllTraits(crop: Crop) {
+export async function loadAllTraits(crop: Crop, year: string) {
   const { schema, odmiany } = await loadCropData(crop);
   return Object.fromEntries(
     Object.entries(odmiany).map(([variety, entry]) => [
       variety,
-      entry.primary_traits.map((row, i) => [
-        ...resolveTraits(schema.primary_traits, row),
+      [
+        ...resolveTraits(
+          schema.primary_traits,
+          entry.years[year]?.primary_traits ?? {},
+        ),
         ...resolveTraits(
           schema.secondary_traits,
-          entry.secondary_traits[i] ?? {},
+          entry.years[year]?.secondary_traits ?? {},
         ),
-      ]),
+      ],
+    ]),
+  );
+}
+
+export async function loadRegionalYields(crop: Crop, year: string) {
+  const { schema, odmiany } = await loadCropData(crop);
+  return Object.fromEntries(
+    Object.entries(odmiany).map(([variety, entry]) => [
+      variety,
+      resolveTraits(
+        schema.regional_yields,
+        entry.years[year]?.regional_yields ?? {},
+      ),
+    ]),
+  );
+}
+
+export async function loadRecommendedRegions(crop: Crop) {
+  const { schema, odmiany } = await loadCropData(crop);
+  return Object.fromEntries(
+    Object.entries(odmiany).map(([variety, entry]) => [
+      variety,
+      resolveTraits(schema.recommended_regions, entry.recommended_regions),
     ]),
   );
 }
@@ -107,32 +139,12 @@ export async function loadTrait(crop: Crop, trait: string) {
   return Object.fromEntries(
     Object.entries(odmiany).map(([variety, entry]) => [
       variety,
-      entry[group].map((row, i) => ({
-        year: entry.primary_traits[i]?.rok_wynikow,
-        value: row[trait],
-      })),
-    ]),
-  );
-}
-
-export async function loadRegionalYields(crop: Crop) {
-  const { schema, odmiany } = await loadCropData(crop);
-  return Object.fromEntries(
-    Object.entries(odmiany).map(([variety, entry]) => [
-      variety,
-      entry.regional_yields.map((row) =>
-        resolveTraits(schema.regional_yields, row),
+      Object.fromEntries(
+        Object.entries(entry.years).map(([year, yearEntry]) => [
+          year,
+          yearEntry[group][trait],
+        ]),
       ),
-    ]),
-  );
-}
-
-export async function loadRecommendedRegions(crop: Crop) {
-  const { schema, odmiany } = await loadCropData(crop);
-  return Object.fromEntries(
-    Object.entries(odmiany).map(([variety, entry]) => [
-      variety,
-      resolveTraits(schema.recommended_regions, entry.recommended_regions),
     ]),
   );
 }
