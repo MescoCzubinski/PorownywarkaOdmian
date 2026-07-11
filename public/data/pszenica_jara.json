@@ -23,7 +23,7 @@
         "name": "Zawartość białka",
         "unit": "st. (1-9)",
         "type": "number",
-        "icon": "line-chart"
+        "icon": "flask-conical"
       },
       "wyleganie": {
         "name": "Wyleganie",
@@ -73,7 +73,7 @@
         "name": "Dojrzałość pełna",
         "unit": "dni",
         "type": "number",
-        "icon": "wheat-days"
+        "icon": "sun"
       },
       "choroby_zdzbla": {
         "name": "Choroby podst. źdźbła",

@@ -3,6 +3,9 @@ export interface TraitDefinition {
   unit: string;
   type: "string" | "number" | "label";
   icon?: string;
+  sortGroup?: "basic" | "extra";
+  detailGroup?: string;
+  order?: number;
 }
 
 export type TraitGroup = Record<string, TraitDefinition>;
@@ -30,16 +33,73 @@ export interface CropDataset {
   odmiany: Record<string, VarietyEntry>;
 }
 
-export const CROPS = {
-  pszenica_jara: "Pszenica jara",
-} as const;
+export interface SpeciesCategory {
+  id: string;
+  name: string;
+}
+
+export interface SpeciesDefinition {
+  id: string;
+  name: string;
+  category: string;
+  icon: string;
+  dataFile: string | null;
+}
+
+export interface SpeciesManifest {
+  categories: SpeciesCategory[];
+  species: SpeciesDefinition[];
+}
 
 export interface ResolvedTrait extends TraitDefinition {
   key: string;
   value: string;
 }
 
-export type Crop = keyof typeof CROPS;
+export type Crop = string;
+
+let manifestPromise: Promise<SpeciesManifest> | undefined;
+
+export function loadSpeciesManifest(): Promise<SpeciesManifest> {
+  if (!manifestPromise) {
+    manifestPromise = fetch(`${import.meta.env.BASE_URL}data/species.json`).then(
+      (res) => {
+        if (!res.ok) {
+          throw new Error(`Failed to load species manifest (${res.status})`);
+        }
+        return res.json() as Promise<SpeciesManifest>;
+      },
+    );
+  }
+
+  return manifestPromise;
+}
+
+const NO_DATA = "#";
+
+function normalizeYearEntry(entry: YearEntry): YearEntry {
+  const trim = (row: Record<string, string>) =>
+    Object.fromEntries(
+      Object.entries(row).map(([key, value]) => [key, value.trim()]),
+    );
+
+  return {
+    primary_traits: trim(entry.primary_traits),
+    secondary_traits: trim(entry.secondary_traits),
+    regional_yields: entry.regional_yields,
+  };
+}
+
+function normalizeDataset(dataset: CropDataset): CropDataset {
+  for (const entry of Object.values(dataset.odmiany)) {
+    delete entry.years[NO_DATA];
+    for (const [year, yearEntry] of Object.entries(entry.years)) {
+      entry.years[year] = normalizeYearEntry(yearEntry);
+    }
+  }
+
+  return dataset;
+}
 
 const cache = new Map<Crop, Promise<CropDataset>>();
 
@@ -54,11 +114,34 @@ export function loadCropData(crop: Crop): Promise<CropDataset> {
         }
         return res.json() as Promise<CropDataset>;
       },
-    );
+    ).then(normalizeDataset);
     cache.set(crop, dataset);
   }
 
   return dataset;
+}
+
+export function getLatestYear(entry: VarietyEntry): string | undefined {
+  const years = Object.keys(entry.years);
+  if (years.length === 0) return undefined;
+  return years.reduce((latest, year) => (year > latest ? year : latest));
+}
+
+export interface RecommendedRegion {
+  registered: boolean;
+  year: number | null;
+  preliminary: boolean;
+}
+
+export function parseRecommendedRegion(raw: string): RecommendedRegion {
+  if (raw === "-") {
+    return { registered: false, year: null, preliminary: false };
+  }
+
+  const preliminary = raw.endsWith("R");
+  const year = Number(preliminary ? raw.slice(0, -1) : raw);
+
+  return { registered: true, year, preliminary };
 }
 
 function resolveTraits(
@@ -125,6 +208,33 @@ export async function loadRecommendedRegions(crop: Crop) {
       resolveTraits(schema.recommended_regions, entry.recommended_regions),
     ]),
   );
+}
+
+export interface TraitHistoryPoint {
+  year: number;
+  value: string;
+}
+
+export async function loadTraitHistory(
+  crop: Crop,
+  varietyName: string,
+  trait: string,
+): Promise<TraitHistoryPoint[]> {
+  const { schema, odmiany } = await loadCropData(crop);
+  const entry = odmiany[varietyName];
+  if (!entry) return [];
+
+  const group =
+    trait in schema.primary_traits ? "primary_traits" : "secondary_traits";
+
+  const points = Object.entries(entry.years)
+    .map(([year, yearEntry]) => ({
+      year: Number(year),
+      value: yearEntry[group][trait],
+    }))
+    .sort((a, b) => a.year - b.year);
+
+  return points.slice(-6);
 }
 
 export async function loadTrait(crop: Crop, trait: string) {

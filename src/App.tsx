@@ -1,16 +1,29 @@
-function App() {
+import { Suspense } from "react";
+
+import { useComparer } from "@/hooks/useComparer";
+import { SpeciesPicker } from "@/views/SpeciesPicker";
+import { Comparer } from "@/views/Comparer";
+
+export default function App() {
+  const [state, dispatch] = useComparer();
+
   return (
-    <main className="min-h-svh bg-background text-foreground">
-      <div className="mx-auto flex min-h-svh max-w-5xl flex-col items-center justify-center px-4">
-        <h1 className="text-2xl font-semibold tracking-tight">
-          Porównywarka Odmian
-        </h1>
-        <p className="mt-2 text-muted-foreground">
-          Narzędzie do porównywania odmian.
-        </p>
+    <main className="bg-background text-foreground">
+      <div className="mx-auto max-w-6xl p-6">
+        <Suspense
+          fallback={
+            <div className="py-20 text-center text-muted-foreground">
+              Ładowanie…
+            </div>
+          }
+        >
+          {state.species ? (
+            <Comparer state={state} dispatch={dispatch} />
+          ) : (
+            <SpeciesPicker dispatch={dispatch} />
+          )}
+        </Suspense>
       </div>
     </main>
-  )
+  );
 }
-
-export default App
