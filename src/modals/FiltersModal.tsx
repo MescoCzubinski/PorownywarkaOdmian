@@ -3,7 +3,7 @@ import { Calendar, Filter, MapPin, Tag } from "lucide-react";
 
 import type { CropSchema } from "@/utils/loadData";
 import type { AppAction, AppState } from "@/hooks/useAction";
-import type { VarietyRow } from "@/views/Comparer";
+import type { VarietyRow } from "@/App";
 import { getLabelTraits } from "@/utils/traits";
 import { getIcon } from "@/utils/icons";
 import { Modal, ModalHeader } from "@/components/Modal";
@@ -69,7 +69,9 @@ export function FiltersModal({
             }
           >
             <SelectTrigger className="w-full">
-              <SelectValue />
+              <SelectValue>
+                {(value: string) => (value === ALL ? "wszystkie lata" : value)}
+              </SelectValue>
             </SelectTrigger>
             <SelectContent>
               <SelectItem value={ALL}>wszystkie lata</SelectItem>
@@ -105,7 +107,9 @@ export function FiltersModal({
                 }
               >
                 <SelectTrigger className="w-full">
-                  <SelectValue />
+                  <SelectValue>
+                    {(value: string) => (value === ALL ? "wszystkie" : value)}
+                  </SelectValue>
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value={ALL}>wszystkie</SelectItem>
@@ -137,7 +141,13 @@ export function FiltersModal({
             }
           >
             <SelectTrigger className="w-full">
-              <SelectValue />
+              <SelectValue>
+                {(value: string) =>
+                  value === ALL
+                    ? "wszystkie województwa"
+                    : (schema.recommended_regions[value]?.name ?? value)
+                }
+              </SelectValue>
             </SelectTrigger>
             <SelectContent>
               <SelectItem value={ALL}>wszystkie województwa</SelectItem>

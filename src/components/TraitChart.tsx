@@ -44,8 +44,7 @@ function TraitChartSvg({ points }: { points: TraitHistoryPoint[] }) {
           y1={Y_BOTTOM}
           x2={X1}
           y2={Y_BOTTOM}
-          style={{ stroke: "var(--muted-foreground)" }}
-          strokeWidth={1.5}
+          style={{ stroke: "var(--border)" }}
         />
         {yTicks.map((value) => {
           const y = tickY(value, min, max);

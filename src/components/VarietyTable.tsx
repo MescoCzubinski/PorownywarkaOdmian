@@ -2,7 +2,7 @@ import { ChevronDown, ChevronRight, ChevronUp } from "lucide-react";
 
 import type { CropSchema } from "@/utils/loadData";
 import type { AppAction, AppState } from "@/hooks/useAction";
-import type { VarietyRow } from "@/views/Comparer";
+import type { VarietyRow } from "@/App";
 import { getLabelTraits, getPrimaryTraits } from "@/utils/traits";
 import { getIcon } from "@/utils/icons";
 import { formatNumber, formatUnit } from "@/utils/format";

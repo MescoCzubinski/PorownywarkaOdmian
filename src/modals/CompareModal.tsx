@@ -3,7 +3,7 @@ import { Dialog as DialogPrimitive } from "@base-ui/react/dialog";
 import { Scale } from "lucide-react";
 
 import type { CropSchema } from "@/utils/loadData";
-import type { VarietyRow } from "@/views/Comparer";
+import type { VarietyRow } from "@/App";
 import { getOrderedTraits } from "@/utils/traits";
 import { getIcon } from "@/utils/icons";
 import { formatNumber, formatUnit } from "@/utils/format";

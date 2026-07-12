@@ -17,7 +17,7 @@ export function LegendModal({ open, onClose }: LegendModalProps) {
           Legenda
         </DialogPrimitive.Title>
       </ModalHeader>
-      <div className="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto p-4 text-sm">
+      <div className="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto p-4 text-md">
         <div className="flex items-center gap-2.5">
           <span className="w-5 text-center font-mono font-semibold text-muted-foreground">
             #
@@ -25,7 +25,19 @@ export function LegendModal({ open, onClose }: LegendModalProps) {
           brak danych dla danej odmiany
         </div>
         <div className="flex items-center gap-2.5">
-          <span className="w-5 text-center italic text-muted-foreground">
+          <span className="w-5 text-center font-mono font-semibold text-muted-foreground">
+            a₁
+          </span>
+          niski poziom agrotechniki
+        </div>
+        <div className="flex items-center gap-2.5">
+          <span className="w-5 text-center font-mono font-semibold text-muted-foreground">
+            a₂
+          </span>
+          wysoki poziom agrotechniki
+        </div>
+        <div className="flex items-center gap-4">
+          <span className="w-5 text-center font-mono font-semibold text-muted-foreground">
             LOZ
           </span>
           Lista Odmian Zalecanych
