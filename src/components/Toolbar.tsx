@@ -1,15 +1,15 @@
 import { ArrowUpDown, Filter, Info, Search } from "lucide-react";
 
-import type { ComparerAction, ComparerState } from "@/hooks/useComparer";
+import type { AppAction, AppState } from "@/hooks/useAction";
 import { Button } from "@/ui/button";
 import { Input } from "@/ui/input";
 
 interface ToolbarProps {
   state: Pick<
-    ComparerState,
+    AppState,
     "search" | "labelFilters" | "regionFilter" | "yearFilter"
   >;
-  dispatch: React.Dispatch<ComparerAction>;
+  dispatch: React.Dispatch<AppAction>;
 }
 
 export function Toolbar({ state, dispatch }: ToolbarProps) {

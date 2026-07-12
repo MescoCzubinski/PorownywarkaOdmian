@@ -1,12 +1,12 @@
 import { use } from "react";
 
 import { loadSpeciesManifest } from "@/utils/loadData";
-import type { ComparerAction } from "@/hooks/useComparer";
+import type { AppAction } from "@/hooks/useAction";
 import { Button } from "@/ui/button";
 import { cn } from "@/utils/utils";
 
 interface SpeciesPickerProps {
-  dispatch: React.Dispatch<ComparerAction>;
+  dispatch: React.Dispatch<AppAction>;
 }
 
 export function SpeciesPicker({ dispatch }: SpeciesPickerProps) {

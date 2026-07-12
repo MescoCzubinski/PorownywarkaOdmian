@@ -1,5 +1,5 @@
 import { use, useMemo } from "react";
-import { ChevronLeft, ChevronRight, Scale, Undo } from "lucide-react";
+import { Scale, Undo } from "lucide-react";
 
 import {
   getLatestYear,
@@ -7,13 +7,18 @@ import {
   loadSpeciesManifest,
   parseRecommendedRegion,
 } from "@/utils/loadData";
-import type {
-  ComparerAction,
-  ComparerState,
-  SortDir,
-} from "@/hooks/useComparer";
+import type { AppAction, AppState, SortDir } from "@/hooks/useAction";
 import { getLabelTraits } from "@/utils/traits";
 import { Button } from "@/ui/button";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/ui/pagination";
 import { Toolbar } from "@/components/Toolbar";
 import { VarietyTable } from "@/views/VarietyTable";
 import { LegendModal } from "@/modals/LegendModal";
@@ -49,9 +54,27 @@ function compareRows(a: VarietyRow, b: VarietyRow, key: string, dir: SortDir) {
   return dir === "asc" ? result : -result;
 }
 
+function getPageNumbers(
+  current: number,
+  total: number,
+): (number | "ellipsis")[] {
+  const items: (number | "ellipsis")[] = [0];
+  if (current - 1 > 1) items.push("ellipsis");
+  for (
+    let i = Math.max(1, current - 1);
+    i <= Math.min(total - 2, current + 1);
+    i++
+  ) {
+    items.push(i);
+  }
+  if (current + 1 < total - 2) items.push("ellipsis");
+  if (total > 1) items.push(total - 1);
+  return items;
+}
+
 interface ComparerProps {
-  state: ComparerState;
-  dispatch: React.Dispatch<ComparerAction>;
+  state: AppState;
+  dispatch: React.Dispatch<AppAction>;
 }
 
 export function Comparer({ state, dispatch }: ComparerProps) {
@@ -135,7 +158,7 @@ export function Comparer({ state, dispatch }: ComparerProps) {
 
   return (
     <div>
-      <div className="mb-5 flex flex-wrap items-end justify-between gap-4">
+      <div className="mb-5 flex items-end justify-between gap-4">
         <div className="min-w-0">
           <h1 className="text-2xl font-bold tracking-tight whitespace-nowrap">
             Porównywarka odmian
@@ -157,12 +180,12 @@ export function Comparer({ state, dispatch }: ComparerProps) {
           <Button
             variant="brand"
             size="lg"
-            className="hidden px-4 shadow-sm sm:inline-flex"
+            className="px-4 shadow-sm"
             onClick={() => dispatch({ type: "OPEN_MODAL", modal: "compare" })}
           >
             <Scale className="size-4" />
-            Porównaj
-            <span className="rounded-md bg-white/20 px-1.5 py-0.5 text-xs font-semibold">
+            <span className="hidden sm:inline">Porównaj</span>
+            <span className="hidden rounded-md bg-white/20 px-1.5 py-0.5 text-xs font-semibold sm:inline">
               {selCount}
             </span>
           </Button>
@@ -182,52 +205,59 @@ export function Comparer({ state, dispatch }: ComparerProps) {
           <span>
             Zaznaczono <b>{selCount}</b> z {total}
           </span>
-          <div className="flex items-center gap-1.5">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() =>
-                dispatch({ type: "SET_PAGE", page: Math.max(0, page - 1) })
-              }
-            >
-              <ChevronLeft className="size-3.5" />
-              Poprzednia
-            </Button>
-            <span className="px-1 tabular-nums">
-              {page + 1} / {pages}
-            </span>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() =>
-                dispatch({
-                  type: "SET_PAGE",
-                  page: Math.min(pages - 1, page + 1),
-                })
-              }
-            >
-              Następna
-              <ChevronRight className="size-3.5" />
-            </Button>
-          </div>
+          <Pagination className="mx-0 w-auto">
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious
+                  href="#"
+                  aria-disabled={page === 0}
+                  className={page === 0 ? "pointer-events-none opacity-50" : ""}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    dispatch({ type: "SET_PAGE", page: Math.max(0, page - 1) });
+                  }}
+                />
+              </PaginationItem>
+              {getPageNumbers(page, pages).map((item, i) =>
+                item === "ellipsis" ? (
+                  <PaginationItem key={`ellipsis-${i}`}>
+                    <PaginationEllipsis />
+                  </PaginationItem>
+                ) : (
+                  <PaginationItem key={item}>
+                    <PaginationLink
+                      href="#"
+                      isActive={item === page}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        dispatch({ type: "SET_PAGE", page: item });
+                      }}
+                    >
+                      {item + 1}
+                    </PaginationLink>
+                  </PaginationItem>
+                ),
+              )}
+              <PaginationItem>
+                <PaginationNext
+                  href="#"
+                  aria-disabled={page === pages - 1}
+                  className={
+                    page === pages - 1 ? "pointer-events-none opacity-50" : ""
+                  }
+                  onClick={(e) => {
+                    e.preventDefault();
+                    dispatch({
+                      type: "SET_PAGE",
+                      page: Math.min(pages - 1, page + 1),
+                    });
+                  }}
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
         </div>
       </div>
-
-      {selCount > 0 && (
-        <div className="fixed inset-x-0 bottom-0 z-40 flex items-center justify-between gap-3 border-t border-brand bg-brand px-4 py-3 text-brand-foreground sm:hidden">
-          <span className="flex items-center gap-1.5 text-sm">
-            <Scale className="size-4" />
-            Zaznaczono {selCount} odmian
-          </span>
-          <Button
-            variant="brand"
-            className="rounded-full bg-background px-4 text-brand hover:bg-background/90"
-            onClick={() => dispatch({ type: "OPEN_MODAL", modal: "compare" })}
-          >
-            Porównaj
-          </Button>
-        </div>
-      )}
 
       <LegendModal
         open={state.activeModal === "legend"}

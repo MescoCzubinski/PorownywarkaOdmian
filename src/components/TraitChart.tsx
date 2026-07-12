@@ -1,9 +1,7 @@
-import { Suspense, use } from "react";
-import { Dialog as DialogPrimitive } from "@base-ui/react/dialog";
+import { Suspense, use, useMemo } from "react";
 
 import { loadTraitHistory, type TraitHistoryPoint } from "@/utils/loadData";
 import { formatNumber } from "@/utils/format";
-import { Modal, ModalHeader } from "@/components/Modal";
 
 const X0 = 40;
 const X1 = 322;
@@ -16,7 +14,7 @@ function tickY(value: number, min: number, max: number) {
   return Y_BOTTOM - t * PLOT_HEIGHT;
 }
 
-function TraitChart({ points }: { points: TraitHistoryPoint[] }) {
+function TraitChartSvg({ points }: { points: TraitHistoryPoint[] }) {
   const values = points.map((p) => Number(p.value));
   const min = Math.min(...values);
   const max = Math.max(...values);
@@ -33,6 +31,7 @@ function TraitChart({ points }: { points: TraitHistoryPoint[] }) {
   return (
     <div className="p-4">
       <svg viewBox="0 0 340 150" className="block h-auto w-full">
+        []
         <line
           x1={X0}
           y1={Y_TOP}
@@ -108,62 +107,36 @@ function TraitChart({ points }: { points: TraitHistoryPoint[] }) {
   );
 }
 
-interface TraitChartLoaderProps {
+interface TraitChartProps {
   crop: string;
   varietyName: string;
   traitKey: string;
 }
 
-function TraitChartLoader({
-  crop,
-  varietyName,
-  traitKey,
-}: TraitChartLoaderProps) {
-  const points = use(loadTraitHistory(crop, varietyName, traitKey));
-  return <TraitChart points={points} />;
+function TraitChartLoader({ crop, varietyName, traitKey }: TraitChartProps) {
+  const points = use(
+    useMemo(
+      () => loadTraitHistory(crop, varietyName, traitKey),
+      [crop, varietyName, traitKey],
+    ),
+  );
+  return <TraitChartSvg points={points} />;
 }
 
-interface TraitChartModalProps {
-  open: boolean;
-  onClose: () => void;
-  crop: string;
-  varietyName: string | null;
-  traitKey: string | null;
-  label: string;
-}
-
-export function TraitChartModal({
-  open,
-  onClose,
-  crop,
-  varietyName,
-  traitKey,
-  label,
-}: TraitChartModalProps) {
+export function TraitChart({ crop, varietyName, traitKey }: TraitChartProps) {
   return (
-    <Modal open={open} onClose={onClose}>
-      <ModalHeader onClose={onClose}>
-        <DialogPrimitive.Title className="text-base font-bold">
-          {label}
-        </DialogPrimitive.Title>
-      </ModalHeader>
-      <div className="min-h-0 flex-1 overflow-y-auto">
-        {varietyName && traitKey && (
-          <Suspense
-            fallback={
-              <div className="flex h-full items-center justify-center text-sm text-muted-foreground">
-                Ładowanie…
-              </div>
-            }
-          >
-            <TraitChartLoader
-              crop={crop}
-              varietyName={varietyName}
-              traitKey={traitKey}
-            />
-          </Suspense>
-        )}
-      </div>
-    </Modal>
+    <Suspense
+      fallback={
+        <div className="flex h-[150px] items-center justify-center text-sm text-muted-foreground">
+          Ładowanie…
+        </div>
+      }
+    >
+      <TraitChartLoader
+        crop={crop}
+        varietyName={varietyName}
+        traitKey={traitKey}
+      />
+    </Suspense>
   );
 }

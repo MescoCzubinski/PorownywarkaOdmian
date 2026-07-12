@@ -1,7 +1,7 @@
 import { ChevronDown, ChevronRight, ChevronUp } from "lucide-react";
 
 import type { CropSchema } from "@/utils/loadData";
-import type { ComparerAction, ComparerState } from "@/hooks/useComparer";
+import type { AppAction, AppState } from "@/hooks/useAction";
 import type { VarietyRow } from "@/views/Comparer";
 import { getLabelTraits, getPrimaryTraits } from "@/utils/traits";
 import { getIcon } from "@/utils/icons";
@@ -10,14 +10,14 @@ import { Checkbox } from "@/ui/checkbox";
 import { cn } from "@/utils/utils";
 
 const DESKTOP_COLS =
-  "grid-cols-[40px_minmax(130px,1.6fr)_repeat(var(--trait-cols),1fr)_.95fr_40px]";
+  "grid-cols-[40px_minmax(130px,1.6fr)_repeat(var(--trait-cols),1fr)_40px]";
 const MOBILE_COLS = "max-sm:grid-cols-[34px_minmax(0,1.6fr)_1fr_32px]";
 
 interface VarietyTableProps {
   schema: CropSchema;
   rows: VarietyRow[];
-  state: Pick<ComparerState, "selected" | "extraCol" | "sortKey" | "sortDir">;
-  dispatch: React.Dispatch<ComparerAction>;
+  state: Pick<AppState, "selected" | "extraCol" | "sortKey" | "sortDir">;
+  dispatch: React.Dispatch<AppAction>;
 }
 
 function traitValue(row: VarietyRow, key: string): string | undefined {
@@ -32,7 +32,13 @@ interface SortHeaderProps {
   onSort: () => void;
 }
 
-function SortHeader({ label, active, dir, align = "end", onSort }: SortHeaderProps) {
+function SortHeader({
+  label,
+  active,
+  dir,
+  align = "end",
+  onSort,
+}: SortHeaderProps) {
   return (
     <button
       type="button"
@@ -64,17 +70,10 @@ export function VarietyTable({
 }: VarietyTableProps) {
   const fixedTraits = getPrimaryTraits(schema);
   const labelTraits = getLabelTraits(schema);
-  const badgeTrait = labelTraits[0];
   const subtitleTrait = labelTraits[1];
-  const extraTrait = state.extraCol
-    ? (schema.primary_traits[state.extraCol] ??
-      schema.secondary_traits[state.extraCol])
-    : undefined;
-  const lastColLabel = extraTrait
-    ? extraTrait.name.split(" ")[0]
-    : (badgeTrait?.name.split(" ")[0] ?? "");
-  const lastColKey = state.extraCol ?? badgeTrait?.key;
-  const gridStyle = { "--trait-cols": fixedTraits.length } as React.CSSProperties;
+  const gridStyle = {
+    "--trait-cols": fixedTraits.length,
+  } as React.CSSProperties;
 
   const names = rows.map((r) => r.name);
   const allSelected =
@@ -107,7 +106,9 @@ export function VarietyTable({
             align="start"
             active={state.sortKey === "name"}
             dir={state.sortDir}
-            onSort={() => dispatch({ type: "SET_SORT", key: "name", isExtra: false })}
+            onSort={() =>
+              dispatch({ type: "SET_SORT", key: "name", isExtra: false })
+            }
           />
         </div>
         {fixedTraits.map((trait, i) => {
@@ -115,7 +116,10 @@ export function VarietyTable({
           return (
             <div
               key={trait.key}
-              className={cn("flex items-center pr-3.5", i > 0 && "max-sm:hidden")}
+              className={cn(
+                "flex items-center pr-3.5",
+                i > 0 && "max-sm:hidden",
+              )}
             >
               <SortHeader
                 label={
@@ -133,34 +137,13 @@ export function VarietyTable({
             </div>
           );
         })}
-        <div className="flex items-center max-sm:hidden">
-          {lastColKey && (
-            <SortHeader
-              label={lastColLabel}
-              align="center"
-              active={state.sortKey === lastColKey}
-              dir={state.sortDir}
-              onSort={() =>
-                dispatch({
-                  type: "SET_SORT",
-                  key: lastColKey,
-                  isExtra: !!extraTrait,
-                })
-              }
-            />
-          )}
-        </div>
         <div />
       </div>
 
       {rows.map((row) => {
         const selected = state.selected.has(row.name);
-        const badgeVal = badgeTrait ? traitValue(row, badgeTrait.key) : undefined;
         const subtitleVal = subtitleTrait
           ? traitValue(row, subtitleTrait.key)
-          : undefined;
-        const extraVal = state.extraCol
-          ? traitValue(row, state.extraCol)
           : undefined;
 
         return (
@@ -186,9 +169,7 @@ export function VarietyTable({
               </div>
             </div>
             <div className="min-w-0 pl-1">
-              <span className="block truncate font-semibold">
-                {row.name}
-              </span>
+              <span className="block truncate font-semibold">{row.name}</span>
               {subtitleVal && (
                 <span className="text-xs text-muted-foreground sm:hidden">
                   {subtitleVal}
@@ -213,17 +194,6 @@ export function VarietyTable({
                 </div>
               );
             })}
-            <div className="flex items-center justify-center max-sm:hidden">
-              {extraTrait ? (
-                <span className="text-sm font-semibold tabular-nums">
-                  {extraVal !== undefined ? formatNumber(extraVal) : ""}
-                </span>
-              ) : (
-                <span className="rounded-full bg-brand/10 px-2.5 py-0.5 text-xs font-semibold text-brand">
-                  {badgeVal}
-                </span>
-              )}
-            </div>
             <div className="flex justify-center text-muted-foreground">
               <ChevronRight className="size-4" />
             </div>

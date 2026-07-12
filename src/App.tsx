@@ -1,11 +1,11 @@
 import { Suspense } from "react";
 
-import { useComparer } from "@/hooks/useComparer";
+import { useAction } from "@/hooks/useAction";
 import { SpeciesPicker } from "@/views/SpeciesPicker";
 import { Comparer } from "@/views/Comparer";
 
 export default function App() {
-  const [state, dispatch] = useComparer();
+  const [state, dispatch] = useAction();
 
   return (
     <main className="bg-background text-foreground">

@@ -2,7 +2,7 @@ import { Dialog as DialogPrimitive } from "@base-ui/react/dialog";
 import { Calendar, Filter, MapPin, Tag } from "lucide-react";
 
 import type { CropSchema } from "@/utils/loadData";
-import type { ComparerAction, ComparerState } from "@/hooks/useComparer";
+import type { AppAction, AppState } from "@/hooks/useAction";
 import type { VarietyRow } from "@/views/Comparer";
 import { getLabelTraits } from "@/utils/traits";
 import { getIcon } from "@/utils/icons";
@@ -29,8 +29,8 @@ interface FiltersModalProps {
   schema: CropSchema;
   rows: VarietyRow[];
   years: string[];
-  state: Pick<ComparerState, "labelFilters" | "regionFilter" | "yearFilter">;
-  dispatch: React.Dispatch<ComparerAction>;
+  state: Pick<AppState, "labelFilters" | "regionFilter" | "yearFilter">;
+  dispatch: React.Dispatch<AppAction>;
 }
 
 export function FiltersModal({

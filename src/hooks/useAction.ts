@@ -10,7 +10,7 @@ export type ActiveModal =
   | null;
 export type SortDir = "asc" | "desc";
 
-export interface ComparerState {
+export interface AppState {
   species: string | null;
   selected: Set<string>;
   sortKey: string;
@@ -27,7 +27,7 @@ export interface ComparerState {
   chartTraitKey: string | null;
 }
 
-export type ComparerAction =
+export type AppAction =
   | { type: "SELECT_SPECIES"; species: string }
   | { type: "TOGGLE_VARIETY"; variety: string }
   | { type: "TOGGLE_ALL_ON_PAGE"; varieties: string[] }
@@ -45,7 +45,7 @@ export type ComparerAction =
   | { type: "CLOSE_CHART" }
   | { type: "BACK_TO_SPECIES" };
 
-export const initialComparerState: ComparerState = {
+export const initialAppState: AppState = {
   species: null,
   selected: new Set(),
   sortKey: "name",
@@ -62,13 +62,13 @@ export const initialComparerState: ComparerState = {
   chartTraitKey: null,
 };
 
-function comparerReducer(
-  state: ComparerState,
-  action: ComparerAction,
-): ComparerState {
+function appReducer(
+  state: AppState,
+  action: AppAction,
+): AppState {
   switch (action.type) {
     case "SELECT_SPECIES":
-      return { ...initialComparerState, species: action.species };
+      return { ...initialAppState, species: action.species };
 
     case "TOGGLE_VARIETY": {
       const selected = new Set(state.selected);
@@ -154,13 +154,13 @@ function comparerReducer(
       return { ...state, chartTraitKey: null };
 
     case "BACK_TO_SPECIES":
-      return { ...initialComparerState };
+      return { ...initialAppState };
 
     default:
       return state;
   }
 }
 
-export function useComparer() {
-  return useReducer(comparerReducer, initialComparerState);
+export function useAction() {
+  return useReducer(appReducer, initialAppState);
 }

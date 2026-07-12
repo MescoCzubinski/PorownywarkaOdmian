@@ -2,7 +2,7 @@ import { Dialog as DialogPrimitive } from "@base-ui/react/dialog";
 import { ArrowUpDown, ChevronDown, ChevronUp, Tag } from "lucide-react";
 
 import type { CropSchema } from "@/utils/loadData";
-import type { ComparerAction, ComparerState } from "@/hooks/useComparer";
+import type { AppAction, AppState } from "@/hooks/useAction";
 import { getOrderedTraits, getPrimaryTraits } from "@/utils/traits";
 import { getIcon } from "@/utils/icons";
 import { Modal, ModalHeader } from "@/components/Modal";
@@ -12,8 +12,8 @@ interface SortModalProps {
   open: boolean;
   onClose: () => void;
   schema: CropSchema;
-  state: Pick<ComparerState, "sortKey" | "sortDir">;
-  dispatch: React.Dispatch<ComparerAction>;
+  state: Pick<AppState, "sortKey" | "sortDir">;
+  dispatch: React.Dispatch<AppAction>;
 }
 
 export function SortModal({
@@ -44,7 +44,7 @@ export function SortModal({
           Sortuj według
         </DialogPrimitive.Title>
       </ModalHeader>
-      <div className="min-h-0 flex-1 overflow-y-auto py-1.5 pl-1.5">
+      <div className="min-h-0 flex-1 overflow-y-auto">
         {rows.map((row) => {
           const active = state.sortKey === row.key;
           const Icon = row.icon;
