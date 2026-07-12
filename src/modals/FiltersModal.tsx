@@ -83,6 +83,41 @@ export function FiltersModal({
             </SelectContent>
           </Select>
         </div>
+        <div className="flex flex-col gap-1.5">
+          <Label>
+            <MapPin className="size-3.5" />
+            Lista Odmian Zalecanych
+          </Label>
+          <Select
+            value={state.regionFilter || ALL}
+            onValueChange={(value) =>
+              dispatch({
+                type: "SET_REGION_FILTER",
+                value: !value || value === ALL ? "" : value,
+              })
+            }
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue>
+                {(value: string) =>
+                  value === ALL
+                    ? "wszystkie województwa"
+                    : (schema.recommended_regions[value]?.name ?? value)
+                }
+              </SelectValue>
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value={ALL}>wszystkie województwa</SelectItem>
+              {regions.map(([key, def]) => (
+                <SelectItem key={key} value={key}>
+                  {def.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        <Separator />
 
         {labelTraits.map((trait) => {
           const Icon = getIcon(trait.icon) ?? Tag;
@@ -123,42 +158,6 @@ export function FiltersModal({
             </div>
           );
         })}
-
-        <Separator />
-
-        <div className="flex flex-col gap-1.5">
-          <Label>
-            <MapPin className="size-3.5" />
-            Lista Odmian Zalecanych
-          </Label>
-          <Select
-            value={state.regionFilter || ALL}
-            onValueChange={(value) =>
-              dispatch({
-                type: "SET_REGION_FILTER",
-                value: !value || value === ALL ? "" : value,
-              })
-            }
-          >
-            <SelectTrigger className="w-full">
-              <SelectValue>
-                {(value: string) =>
-                  value === ALL
-                    ? "wszystkie województwa"
-                    : (schema.recommended_regions[value]?.name ?? value)
-                }
-              </SelectValue>
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value={ALL}>wszystkie województwa</SelectItem>
-              {regions.map(([key, def]) => (
-                <SelectItem key={key} value={key}>
-                  {def.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
       </div>
     </Modal>
   );

@@ -137,7 +137,7 @@ export function CompareModal({
               gridTemplateColumns: `minmax(140px,1.3fr) repeat(${rows.length}, minmax(85px,1fr))`,
             }}
           >
-            <div className="sticky left-0 border-b-2 border-border bg-muted px-3.5 py-3 text-xs text-muted-foreground">
+            <div className="sticky left-0 border-r-2 border-b-2 border-border bg-muted px-3.5 py-3 text-xs text-muted-foreground">
               Cecha
             </div>
             {rows.map((row) => (
@@ -160,7 +160,7 @@ export function CompareModal({
                   : null;
               return (
                 <Fragment key={trait.key}>
-                  <div className="sticky left-0 flex items-center gap-2 border-b border-border bg-background px-3.5 py-2.5 text-sm">
+                  <div className="sticky left-0 flex items-center gap-2 border-r border-b border-border bg-background px-3.5 py-2.5 text-sm">
                     {Icon && (
                       <Icon className="size-3.5 text-muted-foreground" />
                     )}

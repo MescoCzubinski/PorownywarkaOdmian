@@ -236,8 +236,8 @@ function Comparer({ state, dispatch }: ComparerProps) {
           state={state}
           dispatch={dispatch}
         />
-        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border bg-muted px-4 py-3 text-sm text-muted-foreground">
-          <span>
+        <div className="flex flex-wrap items-center justify-center gap-3 border-t border-border bg-muted px-4 py-3 text-sm text-muted-foreground sm:justify-between">
+          <span className="hidden sm:inline">
             Zaznaczono <b>{selCount}</b> z {total}
           </span>
           <Pagination className="mx-0 w-auto">

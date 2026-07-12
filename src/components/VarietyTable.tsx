@@ -70,7 +70,6 @@ export function VarietyTable({
 }: VarietyTableProps) {
   const fixedTraits = getPrimaryTraits(schema);
   const labelTraits = getLabelTraits(schema);
-  const subtitleTrait = labelTraits[1];
   const gridStyle = {
     "--trait-cols": fixedTraits.length,
   } as React.CSSProperties;
@@ -142,9 +141,9 @@ export function VarietyTable({
 
       {rows.map((row) => {
         const selected = state.selected.has(row.name);
-        const subtitleVal = subtitleTrait
-          ? traitValue(row, subtitleTrait.key)
-          : undefined;
+        const subtitleTraits = labelTraits.filter((trait) =>
+          traitValue(row, trait.key),
+        );
 
         return (
           <div
@@ -170,9 +169,11 @@ export function VarietyTable({
             </div>
             <div className="min-w-0 pl-1">
               <span className="block truncate font-semibold">{row.name}</span>
-              {subtitleVal && (
-                <span className="text-xs text-muted-foreground sm:hidden">
-                  {subtitleVal}
+              {subtitleTraits.length > 0 && (
+                <span className="block truncate text-xs text-muted-foreground sm:hidden">
+                  {subtitleTraits
+                    .map((trait) => traitValue(row, trait.key))
+                    .join(" · ")}
                 </span>
               )}
             </div>
@@ -183,7 +184,7 @@ export function VarietyTable({
                   key={trait.key}
                   className={cn(
                     "text-right font-medium tabular-nums",
-                    "pr-3.5",
+                    "pr-7.5",
                     i > 0 && "max-sm:hidden",
                   )}
                 >
