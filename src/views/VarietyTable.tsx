@@ -9,9 +9,8 @@ import { formatNumber, formatUnit } from "@/utils/format";
 import { Checkbox } from "@/ui/checkbox";
 import { cn } from "@/utils/utils";
 
-const DESKTOP_COLS =
-  "grid-cols-[40px_minmax(130px,1.6fr)_repeat(var(--trait-cols),1fr)_40px]";
-const MOBILE_COLS = "max-sm:grid-cols-[34px_minmax(0,1.6fr)_1fr_32px]";
+const DESKTOP_COLS = "grid-cols-variety-desktop";
+const MOBILE_COLS = "max-sm:grid-cols-variety-mobile";
 
 interface VarietyTableProps {
   schema: CropSchema;
@@ -39,6 +38,8 @@ function SortHeader({
   align = "end",
   onSort,
 }: SortHeaderProps) {
+  const Icon = dir === "asc" ? ChevronUp : ChevronDown;
+
   return (
     <button
       type="button"
@@ -48,16 +49,15 @@ function SortHeader({
         align === "start" && "justify-start",
         align === "end" && "justify-end",
         align === "center" && "justify-center",
-        active && "text-foreground",
+        active && "font-bold text-brand hover:text-brand",
       )}
     >
       {label}
-      {active &&
-        (dir === "asc" ? (
-          <ChevronUp className="size-3" />
-        ) : (
-          <ChevronDown className="size-3" />
-        ))}
+      {active ? (
+        <Icon className="size-3 shrink-0 text-brand" />
+      ) : (
+        <span className="size-3 shrink-0" />
+      )}
     </button>
   );
 }
@@ -84,7 +84,7 @@ export function VarietyTable({
       <div
         style={gridStyle}
         className={cn(
-          "grid h-[42px] items-center border-b border-border bg-muted text-xs font-medium text-muted-foreground",
+          "grid h-10 items-center border-b border-border bg-muted text-xs font-medium text-muted-foreground",
           DESKTOP_COLS,
           MOBILE_COLS,
         )}
@@ -152,7 +152,7 @@ export function VarietyTable({
             style={gridStyle}
             onClick={() => dispatch({ type: "OPEN_DETAIL", variety: row.name })}
             className={cn(
-              "grid h-[52px] cursor-pointer items-center border-b border-border text-sm hover:bg-muted/50",
+              "grid h-12 cursor-pointer items-center border-b border-border text-sm hover:bg-muted/50",
               DESKTOP_COLS,
               MOBILE_COLS,
             )}

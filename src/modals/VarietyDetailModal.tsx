@@ -179,7 +179,10 @@ export function VarietyDetailModal({
         </TabsContent>
 
         <TabsContent value="rejony" className="overflow-y-auto p-4">
-          <RegionalYieldsHeatmap regionalYields={regionalYields} />
+          <RegionalYieldsHeatmap
+            regionSchema={schema.regional_yields}
+            regionalYields={regionalYields}
+          />
         </TabsContent>
 
         <TabsContent value="mapa" className="overflow-y-auto p-4">

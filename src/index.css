@@ -33,6 +33,13 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+
+  --grid-template-columns-variety-desktop: 40px minmax(130px, 1.6fr) repeat(
+      var(--trait-cols),
+      1fr
+    ) 40px;
+  --grid-template-columns-variety-mobile: 34px minmax(0, 1.6fr) 1fr 32px;
+  --grid-template-columns-yields: 40px 1fr 1fr;
 }
 
 :root {
