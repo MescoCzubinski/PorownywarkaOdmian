@@ -1,10 +1,9 @@
 import { Dialog as DialogPrimitive } from "@base-ui/react/dialog";
 import { Calendar, Filter, MapPin, Tag } from "lucide-react";
 
-import type { CropSchema } from "@/utils/loadData";
+import { getLabelTraits, type CropSchema } from "@/utils/loadData";
 import type { AppAction, AppState } from "@/hooks/useAction";
 import type { VarietyRow } from "@/App";
-import { getLabelTraits } from "@/utils/traits";
 import { getIcon } from "@/utils/icons";
 import { Modal, ModalHeader } from "@/components/Modal";
 import { Label } from "@/ui/label";

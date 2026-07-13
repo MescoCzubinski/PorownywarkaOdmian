@@ -1,9 +1,12 @@
 import { ChevronDown, ChevronRight, ChevronUp } from "lucide-react";
 
-import type { CropSchema } from "@/utils/loadData";
+import {
+  getLabelTraits,
+  getPrimaryTraits,
+  type CropSchema,
+} from "@/utils/loadData";
 import type { AppAction, AppState } from "@/hooks/useAction";
 import type { VarietyRow } from "@/App";
-import { getLabelTraits, getPrimaryTraits } from "@/utils/traits";
 import { getIcon } from "@/utils/icons";
 import { formatNumber, formatUnit } from "@/utils/format";
 import { Checkbox } from "@/ui/checkbox";
@@ -15,7 +18,7 @@ const MOBILE_COLS = "max-sm:grid-cols-variety-mobile";
 interface VarietyTableProps {
   schema: CropSchema;
   rows: VarietyRow[];
-  state: Pick<AppState, "selected" | "extraCol" | "sortKey" | "sortDir">;
+  state: Pick<AppState, "selected" | "sortKey" | "sortDir">;
   dispatch: React.Dispatch<AppAction>;
 }
 
@@ -106,7 +109,7 @@ export function VarietyTable({
             active={state.sortKey === "name"}
             dir={state.sortDir}
             onSort={() =>
-              dispatch({ type: "SET_SORT", key: "name", isExtra: false })
+              dispatch({ type: "SET_SORT", key: "name", numeric: false })
             }
           />
         </div>
@@ -130,7 +133,11 @@ export function VarietyTable({
                 active={state.sortKey === trait.key}
                 dir={state.sortDir}
                 onSort={() =>
-                  dispatch({ type: "SET_SORT", key: trait.key, isExtra: false })
+                  dispatch({
+                    type: "SET_SORT",
+                    key: trait.key,
+                    numeric: trait.type === "number",
+                  })
                 }
               />
             </div>

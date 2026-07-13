@@ -2,9 +2,8 @@ import { Fragment, useRef, useState } from "react";
 import { Dialog as DialogPrimitive } from "@base-ui/react/dialog";
 import { Scale } from "lucide-react";
 
-import type { CropSchema } from "@/utils/loadData";
+import { getOrderedTraits, type CropSchema } from "@/utils/loadData";
 import type { VarietyRow } from "@/App";
-import { getOrderedTraits } from "@/utils/traits";
 import { getIcon } from "@/utils/icons";
 import { formatNumber, formatUnit } from "@/utils/format";
 import { Modal, ModalHeader } from "@/components/Modal";
@@ -137,7 +136,7 @@ export function CompareModal({
               gridTemplateColumns: `minmax(140px,1.3fr) repeat(${rows.length}, minmax(85px,1fr))`,
             }}
           >
-            <div className="sticky left-0 border-r-2 border-b-2 border-border bg-muted px-3.5 py-3 text-xs text-muted-foreground">
+            <div className="sticky left-0 border-r-2 border-b-2 border-border bg-muted px-3.5 py-3 text-muted-foreground">
               Cecha
             </div>
             {rows.map((row) => (

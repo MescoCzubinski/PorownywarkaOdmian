@@ -15,7 +15,6 @@ export interface AppState {
   selected: Set<string>;
   sortKey: string;
   sortDir: SortDir;
-  extraCol: string | null;
   search: string;
   labelFilters: Record<string, string>;
   regionFilter: string;
@@ -31,7 +30,7 @@ export type AppAction =
   | { type: "SELECT_SPECIES"; species: string }
   | { type: "TOGGLE_VARIETY"; variety: string }
   | { type: "TOGGLE_ALL_ON_PAGE"; varieties: string[] }
-  | { type: "SET_SORT"; key: string; isExtra: boolean }
+  | { type: "SET_SORT"; key: string; numeric: boolean }
   | { type: "SET_SEARCH"; value: string }
   | { type: "SET_LABEL_FILTER"; key: string; value: string }
   | { type: "SET_REGION_FILTER"; value: string }
@@ -50,7 +49,6 @@ export const initialAppState: AppState = {
   selected: new Set(),
   sortKey: "name",
   sortDir: "asc",
-  extraCol: null,
   search: "",
   labelFilters: {},
   regionFilter: "",
@@ -99,14 +97,13 @@ function appReducer(
           ? state.sortDir === "asc"
             ? "desc"
             : "asc"
-          : action.isExtra
+          : action.numeric
             ? "desc"
             : "asc";
       return {
         ...state,
         sortKey: action.key,
         sortDir,
-        extraCol: action.isExtra ? action.key : null,
       };
     }
 

@@ -1,9 +1,8 @@
 import { Dialog as DialogPrimitive } from "@base-ui/react/dialog";
 import { ArrowUpDown, ChevronDown, ChevronUp, Tag } from "lucide-react";
 
-import type { CropSchema } from "@/utils/loadData";
+import { getOrderedTraits, type CropSchema } from "@/utils/loadData";
 import type { AppAction, AppState } from "@/hooks/useAction";
-import { getOrderedTraits, getPrimaryTraits } from "@/utils/traits";
 import { getIcon } from "@/utils/icons";
 import { Modal, ModalHeader } from "@/components/Modal";
 import { cn } from "@/utils/utils";
@@ -24,15 +23,14 @@ export function SortModal({
   dispatch,
 }: SortModalProps) {
   const traits = getOrderedTraits(schema);
-  const fixedKeys = new Set(getPrimaryTraits(schema).map((t) => t.key));
 
   const rows = [
-    { key: "name", label: "Odmiana (A–Z)", icon: Tag, isExtra: false },
+    { key: "name", label: "Odmiana (A–Z)", icon: Tag, numeric: false },
     ...traits.map((trait) => ({
       key: trait.key,
       label: trait.name,
       icon: getIcon(trait.icon) ?? Tag,
-      isExtra: !fixedKeys.has(trait.key),
+      numeric: trait.type === "number",
     })),
   ];
 
@@ -55,7 +53,7 @@ export function SortModal({
                 dispatch({
                   type: "SET_SORT",
                   key: row.key,
-                  isExtra: row.isExtra,
+                  numeric: row.numeric,
                 })
               }
               className={cn(

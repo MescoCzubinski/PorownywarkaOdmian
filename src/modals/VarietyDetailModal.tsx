@@ -5,20 +5,19 @@ import {
   List,
   Map as MapIcon,
   Scale,
-  X,
 } from "lucide-react";
 
 import {
   getLatestYear,
+  getOrderedTraits,
   type CropSchema,
   type VarietyEntry,
 } from "@/utils/loadData";
 import type { AppAction, AppState } from "@/hooks/useAction";
-import { getOrderedTraits } from "@/utils/traits";
 import { getIcon } from "@/utils/icons";
 import { formatNumber, formatUnit } from "@/utils/format";
 import { Button } from "@/ui/button";
-import { Modal } from "@/components/Modal";
+import { Modal, ModalHeader } from "@/components/Modal";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/ui/tabs";
 import { TraitChart } from "@/components/TraitChart";
 import { RegionalYieldsHeatmap } from "@/components/RegionalYieldsHeatmap";
@@ -65,7 +64,28 @@ export function VarietyDetailModal({
 
   return (
     <Modal open={open} onClose={onClose}>
-      <div className="flex items-center gap-2 border-b border-border p-4">
+      <ModalHeader
+        onClose={onClose}
+        actions={
+          <Button
+            variant={isSelected ? "brand" : "outline"}
+            size="icon"
+            onClick={() =>
+              varietyName &&
+              dispatch({ type: "TOGGLE_VARIETY", variety: varietyName })
+            }
+          >
+            <Scale
+              className={
+                "size-5 " +
+                (isSelected
+                  ? "text-brand-foreground"
+                  : "text-muted-foreground")
+              }
+            />
+          </Button>
+        }
+      >
         <div className="min-w-0 flex-1">
           <DialogPrimitive.Title className="text-lg font-bold">
             {varietyName}
@@ -76,25 +96,7 @@ export function VarietyDetailModal({
             </p>
           )}
         </div>
-        <Button
-          variant={isSelected ? "brand" : "outline"}
-          size="icon"
-          onClick={() =>
-            varietyName &&
-            dispatch({ type: "TOGGLE_VARIETY", variety: varietyName })
-          }
-        >
-          <Scale
-            className={
-              "size-5 " +
-              (isSelected ? "text-brand-foreground" : "text-muted-foreground")
-            }
-          />
-        </Button>
-        <Button variant="outline" size="icon" onClick={onClose}>
-          <X className="size-5 text-muted-foreground" />
-        </Button>
-      </div>
+      </ModalHeader>
 
       <Tabs
         className="min-h-0 flex-1"

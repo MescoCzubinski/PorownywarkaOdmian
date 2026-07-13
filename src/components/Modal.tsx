@@ -43,22 +43,22 @@ export function Modal({
 
 export function ModalHeader({
   children,
+  actions,
   onClose,
 }: {
   children: React.ReactNode;
+  actions?: React.ReactNode;
   onClose: () => void;
 }) {
   return (
     <div className="flex items-center gap-2 border-b border-border p-4">
       {children}
-      <Button
-        variant="outline"
-        size="icon"
-        className="ml-auto"
-        onClick={onClose}
-      >
-        <X className="size-4 text-muted-foreground" />
-      </Button>
+      <div className="ml-auto flex items-center gap-2">
+        {actions}
+        <Button variant="outline" size="icon" onClick={onClose}>
+          <X className="size-4 text-muted-foreground" />
+        </Button>
+      </div>
     </div>
   );
 }

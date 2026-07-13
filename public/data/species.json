@@ -12,28 +12,24 @@
       "id": "jeczmien_ozimy",
       "name": "Jęczmień ozimy",
       "category": "zboza_ozime",
-      "icon": "wheat",
       "dataFile": null
     },
     {
       "id": "zyto_ozime",
       "name": "Żyto ozime",
       "category": "zboza_ozime",
-      "icon": "wheat",
       "dataFile": null
     },
     {
       "id": "pszenica_ozima",
       "name": "Pszenica ozima",
       "category": "zboza_ozime",
-      "icon": "wheat",
       "dataFile": null
     },
     {
       "id": "pszenzyto_ozime",
       "name": "Pszenżyto ozime",
       "category": "zboza_ozime",
-      "icon": "wheat",
       "dataFile": null
     },
 
@@ -41,50 +37,43 @@
       "id": "pszenica_jara",
       "name": "Pszenica jara",
       "category": "zboza_jare",
-      "icon": "wheat",
       "dataFile": "pszenica_jara.json"
     },
     {
       "id": "jeczmien_jary",
       "name": "Jęczmień jary",
       "category": "zboza_jare",
-      "icon": "wheat",
       "dataFile": null
     },
     {
       "id": "pszenzyto_jare",
       "name": "Pszenżyto jare",
       "category": "zboza_jare",
-      "icon": "wheat",
       "dataFile": null
     },
     {
       "id": "zyto_jare",
       "name": "Żyto jare",
       "category": "zboza_jare",
-      "icon": "wheat",
       "dataFile": null
     },
     {
       "id": "owies_jary",
       "name": "Owies jary",
       "category": "zboza_jare",
-      "icon": "wheat",
       "dataFile": null
     },
 
     {
       "id": "kukurydza_na_ziarno",
-      "name": "Kukurydza na ziarno",
+      "name": "na ziarno",
       "category": "kukurydza",
-      "icon": "wheat",
       "dataFile": null
     },
     {
       "id": "kukurydza_na_kiszonke",
-      "name": "Kukurydza na kiszonkę",
+      "name": "na kiszonkę",
       "category": "kukurydza",
-      "icon": "wheat",
       "dataFile": null
     },
 
@@ -92,7 +81,6 @@
       "id": "rzepak_ozimy",
       "name": "Rzepak ozimy",
       "category": "oleiste",
-      "icon": "droplet",
       "dataFile": null
     },
 
@@ -100,7 +88,6 @@
       "id": "ziemniak",
       "name": "Ziemniak",
       "category": "okopowe",
-      "icon": "sprout",
       "dataFile": null
     },
 
@@ -108,42 +95,36 @@
       "id": "groch",
       "name": "Groch",
       "category": "rosliny_bobowate",
-      "icon": "bean",
       "dataFile": null
     },
     {
       "id": "bobik",
       "name": "Bobik",
       "category": "rosliny_bobowate",
-      "icon": "bean",
       "dataFile": null
     },
     {
       "id": "lubin_bialy",
       "name": "Łubin biały",
       "category": "rosliny_bobowate",
-      "icon": "bean",
       "dataFile": null
     },
     {
       "id": "lubin_waskolistny",
       "name": "Łubin wąskolistny",
       "category": "rosliny_bobowate",
-      "icon": "bean",
       "dataFile": null
     },
     {
       "id": "lubin_zolty",
       "name": "Łubin żółty",
       "category": "rosliny_bobowate",
-      "icon": "bean",
       "dataFile": null
     },
     {
       "id": "soja",
       "name": "Soja",
       "category": "rosliny_bobowate",
-      "icon": "bean",
       "dataFile": null
     }
   ]

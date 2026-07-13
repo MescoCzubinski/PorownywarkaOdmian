@@ -3,9 +3,6 @@ export interface TraitDefinition {
   unit: string;
   type: "string" | "number" | "label";
   icon?: string;
-  sortGroup?: "basic" | "extra";
-  detailGroup?: string;
-  order?: number;
 }
 
 export type TraitGroup = Record<string, TraitDefinition>;
@@ -15,6 +12,28 @@ export interface CropSchema {
   secondary_traits: TraitGroup;
   regional_yields: TraitGroup;
   recommended_regions: TraitGroup;
+}
+
+export interface Trait extends TraitDefinition {
+  key: string;
+}
+
+export function getOrderedTraits(schema: CropSchema): Trait[] {
+  return [
+    ...Object.entries(schema.primary_traits),
+    ...Object.entries(schema.secondary_traits),
+  ].map(([key, def]) => ({ key, ...def }));
+}
+
+export function getPrimaryTraits(schema: CropSchema): Trait[] {
+  return Object.entries(schema.primary_traits).map(([key, def]) => ({
+    key,
+    ...def,
+  }));
+}
+
+export function getLabelTraits(schema: CropSchema): Trait[] {
+  return getOrderedTraits(schema).filter((trait) => trait.type === "label");
 }
 
 export interface YearEntry {
@@ -42,18 +61,12 @@ export interface SpeciesDefinition {
   id: string;
   name: string;
   category: string;
-  icon: string;
   dataFile: string | null;
 }
 
 export interface SpeciesManifest {
   categories: SpeciesCategory[];
   species: SpeciesDefinition[];
-}
-
-export interface ResolvedTrait extends TraitDefinition {
-  key: string;
-  value: string;
 }
 
 export type Crop = string;
@@ -144,72 +157,6 @@ export function parseRecommendedRegion(raw: string): RecommendedRegion {
   return { registered: true, year, preliminary };
 }
 
-function resolveTraits(
-  group: TraitGroup,
-  row: Record<string, string>,
-): ResolvedTrait[] {
-  return Object.entries(row).map(([key, value]) => ({
-    key,
-    value,
-    ...group[key],
-  }));
-}
-
-export async function loadPrimaryTraits(crop: Crop, year: string) {
-  const { schema, odmiany } = await loadCropData(crop);
-  return Object.fromEntries(
-    Object.entries(odmiany).map(([variety, entry]) => [
-      variety,
-      resolveTraits(
-        schema.primary_traits,
-        entry.years[year]?.primary_traits ?? {},
-      ),
-    ]),
-  );
-}
-
-export async function loadAllTraits(crop: Crop, year: string) {
-  const { schema, odmiany } = await loadCropData(crop);
-  return Object.fromEntries(
-    Object.entries(odmiany).map(([variety, entry]) => [
-      variety,
-      [
-        ...resolveTraits(
-          schema.primary_traits,
-          entry.years[year]?.primary_traits ?? {},
-        ),
-        ...resolveTraits(
-          schema.secondary_traits,
-          entry.years[year]?.secondary_traits ?? {},
-        ),
-      ],
-    ]),
-  );
-}
-
-export async function loadRegionalYields(crop: Crop, year: string) {
-  const { schema, odmiany } = await loadCropData(crop);
-  return Object.fromEntries(
-    Object.entries(odmiany).map(([variety, entry]) => [
-      variety,
-      resolveTraits(
-        schema.regional_yields,
-        entry.years[year]?.regional_yields ?? {},
-      ),
-    ]),
-  );
-}
-
-export async function loadRecommendedRegions(crop: Crop) {
-  const { schema, odmiany } = await loadCropData(crop);
-  return Object.fromEntries(
-    Object.entries(odmiany).map(([variety, entry]) => [
-      variety,
-      resolveTraits(schema.recommended_regions, entry.recommended_regions),
-    ]),
-  );
-}
-
 export interface TraitHistoryPoint {
   year: number;
   value: string;
@@ -227,34 +174,10 @@ export async function loadTraitHistory(
   const group =
     trait in schema.primary_traits ? "primary_traits" : "secondary_traits";
 
-  const points = Object.entries(entry.years)
+  return Object.entries(entry.years)
     .map(([year, yearEntry]) => ({
       year: Number(year),
       value: yearEntry[group][trait],
     }))
     .sort((a, b) => a.year - b.year);
-
-  return points.slice(-6);
-}
-
-export async function loadTrait(crop: Crop, trait: string) {
-  const { schema, odmiany } = await loadCropData(crop);
-  const group =
-    trait in schema.primary_traits
-      ? "primary_traits"
-      : trait in schema.secondary_traits
-        ? "secondary_traits"
-        : "regional_yields";
-
-  return Object.fromEntries(
-    Object.entries(odmiany).map(([variety, entry]) => [
-      variety,
-      Object.fromEntries(
-        Object.entries(entry.years).map(([year, yearEntry]) => [
-          year,
-          yearEntry[group][trait],
-        ]),
-      ),
-    ]),
-  );
 }

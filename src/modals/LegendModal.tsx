@@ -18,7 +18,7 @@ export function LegendModal({ open, onClose }: LegendModalProps) {
           Legenda
         </DialogPrimitive.Title>
       </ModalHeader>
-      <List className="min-h-0 flex-1 overflow-y-auto p-4 text-md">
+      <List className="min-h-0 flex-1 overflow-y-auto p-4 text-base">
         <ListItem>
           <span className="w-5 text-center font-mono font-semibold text-muted-foreground">
             #

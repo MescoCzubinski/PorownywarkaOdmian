@@ -31,7 +31,6 @@ function TraitChartSvg({ points }: { points: TraitHistoryPoint[] }) {
   return (
     <div className="p-4">
       <svg viewBox="0 0 340 150" className="block h-auto w-full">
-        []
         <line
           x1={X0}
           y1={Y_TOP}

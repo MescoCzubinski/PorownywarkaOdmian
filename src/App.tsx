@@ -2,6 +2,7 @@ import { Suspense, use, useMemo } from "react";
 import { Scale, Undo } from "lucide-react";
 
 import {
+  getLabelTraits,
   getLatestYear,
   loadCropData,
   loadSpeciesManifest,
@@ -9,7 +10,6 @@ import {
 } from "@/utils/loadData";
 import { useAction } from "@/hooks/useAction";
 import type { AppAction, AppState, SortDir } from "@/hooks/useAction";
-import { getLabelTraits } from "@/utils/traits";
 import { Button } from "@/ui/button";
 import {
   Pagination,
@@ -112,7 +112,7 @@ interface ComparerProps {
   dispatch: React.Dispatch<AppAction>;
 }
 
-function Comparer({ state, dispatch }: ComparerProps) {
+function SpeciesView({ state, dispatch }: ComparerProps) {
   const dataset = use(loadCropData(state.species!));
   const manifest = use(loadSpeciesManifest());
   const speciesName =
@@ -350,7 +350,7 @@ export default function App() {
           }
         >
           {state.species ? (
-            <Comparer state={state} dispatch={dispatch} />
+            <SpeciesView state={state} dispatch={dispatch} />
           ) : (
             <SpeciesPicker dispatch={dispatch} />
           )}

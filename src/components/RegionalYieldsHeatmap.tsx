@@ -39,7 +39,7 @@ export function RegionalYieldsHeatmap({
 
   if (!hasRegionalYields) {
     return (
-      <div className="flex h-full items-center justify-center text-center text-md text-muted-foreground">
+      <div className="flex h-full items-center justify-center text-center text-base text-muted-foreground">
         Brak danych dla tej odmiany
       </div>
     );
@@ -75,7 +75,7 @@ export function RegionalYieldsHeatmap({
               key={region}
               className="mt-1 grid grid-cols-yields items-center gap-1"
             >
-              <div className="text-mg font-semibold text-muted-foreground">
+              <div className="text-base font-semibold text-muted-foreground">
                 {region}
               </div>
               <div
