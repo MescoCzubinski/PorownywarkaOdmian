@@ -1,15 +1,17 @@
 import { Fragment, useRef, useState } from "react";
 import { Dialog as DialogPrimitive } from "@base-ui/react/dialog";
-import { Scale } from "lucide-react";
+import { ChevronLeft, ChevronRight, Scale } from "lucide-react";
 
 import { getOrderedTraits, type CropSchema } from "@/utils/loadData";
 import type { VarietyRow } from "@/App";
 import { getIcon } from "@/utils/icons";
 import { formatNumber, formatUnit } from "@/utils/format";
 import { Modal, ModalHeader } from "@/components/Modal";
+import { Button } from "@/ui/button";
 import { cn } from "@/utils/utils";
 
 const SWIPE_THRESHOLD_PX = 50;
+const DESKTOP_WINDOW_SIZE = 5;
 
 interface SwipeWindowProps {
   rows: VarietyRow[];
@@ -87,6 +89,15 @@ export function CompareModal({
   const dragStartX = useRef(0);
   const clampedPairStart = Math.min(pairStart, maxPairStart);
 
+  const maxDesktopStart = Math.max(0, rows.length - DESKTOP_WINDOW_SIZE);
+  const [desktopStart, setDesktopStart] = useState(0);
+  const clampedDesktopStart = Math.min(desktopStart, maxDesktopStart);
+  const visibleCount = Math.min(DESKTOP_WINDOW_SIZE, rows.length);
+  const visibleIndices = Array.from(
+    { length: visibleCount },
+    (_, i) => clampedDesktopStart + i,
+  );
+
   function handlePointerDown(e: React.PointerEvent<HTMLDivElement>) {
     e.currentTarget.setPointerCapture(e.pointerId);
     dragStartX.current = e.clientX;
@@ -129,135 +140,171 @@ export function CompareModal({
           </div>
         </div>
       ) : (
-        <div className="min-h-0 flex-1 overflow-auto">
-          <div
-            className="hidden min-w-full sm:grid"
-            style={{
-              gridTemplateColumns: `minmax(140px,1.3fr) repeat(${rows.length}, minmax(85px,1fr))`,
-            }}
-          >
-            <div className="sticky left-0 border-r-2 border-b-2 border-border bg-muted px-3.5 py-3 text-muted-foreground">
-              Cecha
-            </div>
-            {rows.map((row) => (
-              <div
-                key={row.name}
-                className="border-b-2 border-border px-3.5 py-3 text-center text-sm font-bold whitespace-nowrap"
-              >
-                {row.name}
+        <>
+          <div className="min-h-0 flex-1 overflow-auto">
+            <div
+              className="hidden min-w-full sm:grid"
+              style={{
+                gridTemplateColumns: `minmax(160px,1.4fr) repeat(${visibleCount}, minmax(85px,1fr))`,
+              }}
+            >
+              <div className="border-r-2 border-b-2 border-border bg-muted px-3.5 py-3 text-sm text-muted-foreground">
+                Cecha
               </div>
-            ))}
-            {traits.map((trait) => {
-              const Icon = getIcon(trait.icon);
-              const values = rows.map(
-                (row) => row.primary[trait.key] ?? row.secondary[trait.key],
-              );
-              const numeric = values.map((v) => Number(v));
-              const best =
-                trait.type === "number"
-                  ? Math.max(...numeric.filter((n) => !Number.isNaN(n)))
-                  : null;
-              return (
-                <Fragment key={trait.key}>
-                  <div className="sticky left-0 flex items-center gap-2 border-r border-b border-border bg-background px-3.5 py-2.5 text-sm">
-                    {Icon && (
-                      <Icon className="size-3.5 text-muted-foreground" />
-                    )}
-                    {trait.name}
+              {visibleIndices.map((i) => (
+                <div
+                  key={rows[i].name}
+                  className="truncate border-b-2 border-border px-3.5 py-3 text-center text-sm font-bold"
+                >
+                  {rows[i].name}
+                </div>
+              ))}
+              {traits.map((trait) => {
+                const Icon = getIcon(trait.icon);
+                const values = rows.map(
+                  (row) => row.primary[trait.key] ?? row.secondary[trait.key],
+                );
+                const numeric = values.map((v) => Number(v));
+                const best =
+                  trait.type === "number"
+                    ? Math.max(...numeric.filter((n) => !Number.isNaN(n)))
+                    : null;
+                return (
+                  <Fragment key={trait.key}>
+                    <div className="flex items-center gap-2 border-r-2 border-b border-border bg-background px-3.5 py-2.5 text-sm">
+                      {Icon && (
+                        <Icon className="size-3.5 text-muted-foreground" />
+                      )}
+                      {trait.name}
+                    </div>
+                    {visibleIndices.map((i) => {
+                      const value = values[i];
+                      const isBest = best !== null && numeric[i] === best;
+                      return (
+                        <div
+                          key={rows[i].name}
+                          className={cn(
+                            "flex items-center justify-center border-b border-border px-3.5 py-2.5 text-sm tabular-nums",
+                            isBest
+                              ? "bg-brand/10 font-bold text-brand"
+                              : "font-medium",
+                          )}
+                        >
+                          {value !== undefined ? formatNumber(value) : ""}
+                          <span className="text-xs font-normal text-muted-foreground">
+                            {formatUnit(trait.unit)}
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </Fragment>
+                );
+              })}
+            </div>
+
+            <div className="sm:hidden">
+              <div className="border-b border-border bg-muted py-2 text-center text-sm font-bold">
+                Odmiana:
+              </div>
+              <div className="border-b border-border">
+                <SwipeWindow
+                  rows={rows}
+                  pairStart={clampedPairStart}
+                  dragOffsetPx={dragOffsetPx}
+                  isDragging={isDragging}
+                  onPointerDown={handlePointerDown}
+                  onPointerMove={handlePointerMove}
+                  onPointerUp={handlePointerUp}
+                  renderItem={(row) => (
+                    <div className="px-1.5 py-2 text-center text-sm font-semibold shadow-[inset_-1px_0_0_0_var(--border)]">
+                      {row.name}
+                    </div>
+                  )}
+                />
+              </div>
+              {traits.map((trait) => {
+                const values = rows.map(
+                  (row) => row.primary[trait.key] ?? row.secondary[trait.key],
+                );
+                const numeric = values.map((v) => Number(v));
+                const best =
+                  trait.type === "number"
+                    ? Math.max(...numeric.filter((n) => !Number.isNaN(n)))
+                    : null;
+                return (
+                  <div key={trait.key}>
+                    <div className="bg-muted px-2 py-2 text-center text-xs font-bold">
+                      {trait.name}
+                    </div>
+                    <div className="border-b border-border">
+                      <SwipeWindow
+                        rows={rows}
+                        pairStart={clampedPairStart}
+                        dragOffsetPx={dragOffsetPx}
+                        isDragging={isDragging}
+                        onPointerDown={handlePointerDown}
+                        onPointerMove={handlePointerMove}
+                        onPointerUp={handlePointerUp}
+                        renderItem={(_row, i) => {
+                          const value = values[i];
+                          const isBest = best !== null && numeric[i] === best;
+                          return (
+                            <div
+                              className={cn(
+                                "flex items-center justify-center px-1.5 py-2 text-sm tabular-nums shadow-[inset_-1px_0_0_0_var(--border)]",
+                                isBest
+                                  ? "bg-brand/10 font-bold text-brand"
+                                  : "font-medium",
+                              )}
+                            >
+                              <span className="truncate">
+                                {value !== undefined ? formatNumber(value) : ""}
+                                <span className="text-xs font-normal text-muted-foreground">
+                                  {formatUnit(trait.unit)}
+                                </span>
+                              </span>
+                            </div>
+                          );
+                        }}
+                      />
+                    </div>
                   </div>
-                  {values.map((value, i) => {
-                    const isBest = best !== null && numeric[i] === best;
-                    return (
-                      <div
-                        key={rows[i].name}
-                        className={cn(
-                          "border-b border-border px-3.5 py-2.5 text-center text-sm tabular-nums",
-                          isBest
-                            ? "bg-brand/10 font-bold text-brand"
-                            : "font-medium",
-                        )}
-                      >
-                        {value !== undefined ? formatNumber(value) : ""}
-                        <span className="text-xs font-normal text-muted-foreground">
-                          {formatUnit(trait.unit)}
-                        </span>
-                      </div>
-                    );
-                  })}
-                </Fragment>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
 
-          <div className="sm:hidden">
-            <div className="border-b border-border bg-muted py-2 text-center text-sm font-bold">
-              Odmiana:
+          {rows.length > DESKTOP_WINDOW_SIZE && (
+            <div className="hidden items-center justify-end gap-1 border-t border-border px-3.5 py-1.5 sm:flex">
+              <span className="mr-auto text-xs text-muted-foreground">
+                {clampedDesktopStart + 1}–{clampedDesktopStart + visibleCount} z{" "}
+                {rows.length} odmian
+              </span>
+              <Button
+                variant="ghost"
+                size="icon-sm"
+                onClick={() =>
+                  setDesktopStart(Math.max(0, clampedDesktopStart - 1))
+                }
+                disabled={clampedDesktopStart === 0}
+              >
+                <ChevronLeft className="size-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon-sm"
+                onClick={() =>
+                  setDesktopStart(
+                    Math.min(maxDesktopStart, clampedDesktopStart + 1),
+                  )
+                }
+                disabled={clampedDesktopStart === maxDesktopStart}
+              >
+                <ChevronRight className="size-4" />
+              </Button>
             </div>
-            <div className="border-b border-border">
-              <SwipeWindow
-                rows={rows}
-                pairStart={clampedPairStart}
-                dragOffsetPx={dragOffsetPx}
-                isDragging={isDragging}
-                onPointerDown={handlePointerDown}
-                onPointerMove={handlePointerMove}
-                onPointerUp={handlePointerUp}
-                renderItem={(row) => (
-                  <div className="border-r border-border px-1.5 py-2 text-center text-sm font-semibold">
-                    {row.name}
-                  </div>
-                )}
-              />
-            </div>
-            {traits.map((trait) => {
-              const values = rows.map(
-                (row) => row.primary[trait.key] ?? row.secondary[trait.key],
-              );
-              const numeric = values.map((v) => Number(v));
-              const best =
-                trait.type === "number"
-                  ? Math.max(...numeric.filter((n) => !Number.isNaN(n)))
-                  : null;
-              return (
-                <div key={trait.key}>
-                  <div className="bg-muted px-2 py-2 text-center text-xs font-bold">
-                    {trait.name}
-                  </div>
-                  <div className="border-b border-border">
-                    <SwipeWindow
-                      rows={rows}
-                      pairStart={clampedPairStart}
-                      dragOffsetPx={dragOffsetPx}
-                      isDragging={isDragging}
-                      onPointerDown={handlePointerDown}
-                      onPointerMove={handlePointerMove}
-                      onPointerUp={handlePointerUp}
-                      renderItem={(_row, i) => {
-                        const value = values[i];
-                        const isBest = best !== null && numeric[i] === best;
-                        return (
-                          <div
-                            className={cn(
-                              "border-r border-border px-1.5 py-2 text-center text-sm tabular-nums",
-                              isBest
-                                ? "bg-brand/10 font-bold text-brand"
-                                : "font-medium",
-                            )}
-                          >
-                            {value !== undefined ? formatNumber(value) : ""}
-                            <span className="text-xs font-normal text-muted-foreground">
-                              {formatUnit(trait.unit)}
-                            </span>
-                          </div>
-                        );
-                      }}
-                    />
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
+          )}
+        </>
       )}
     </Modal>
   );
