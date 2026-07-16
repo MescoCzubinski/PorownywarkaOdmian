@@ -55,9 +55,7 @@ export function LegendModal({ open, onClose }: LegendModalProps) {
           </span>
           odmiana z katalogu UE
         </ListItem>
-        <ListItem>
-          wartości bez jednostki są wyrażone w skali 1-9
-        </ListItem>
+        <ListItem>wartości bez jednostki są wyrażone w skali 1-9</ListItem>
       </List>
       <div className="mx-4 mb-4 border-t border-border pt-3 text-sm text-muted-foreground">
         Źródło danych: Porejestrowe Doświadczalnictwo Odmianowe — Centralny

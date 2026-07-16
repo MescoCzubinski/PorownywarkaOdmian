@@ -75,14 +75,14 @@ let manifestPromise: Promise<SpeciesManifest> | undefined;
 
 export function loadSpeciesManifest(): Promise<SpeciesManifest> {
   if (!manifestPromise) {
-    manifestPromise = fetch(`${import.meta.env.BASE_URL}data/species.json`).then(
-      (res) => {
-        if (!res.ok) {
-          throw new Error(`Failed to load species manifest (${res.status})`);
-        }
-        return res.json() as Promise<SpeciesManifest>;
-      },
-    );
+    manifestPromise = fetch(
+      `${import.meta.env.BASE_URL}data/species.json`,
+    ).then((res) => {
+      if (!res.ok) {
+        throw new Error(`Failed to load species manifest (${res.status})`);
+      }
+      return res.json() as Promise<SpeciesManifest>;
+    });
   }
 
   return manifestPromise;
@@ -120,14 +120,14 @@ export function loadCropData(crop: Crop): Promise<CropDataset> {
   let dataset = cache.get(crop);
 
   if (!dataset) {
-    dataset = fetch(`${import.meta.env.BASE_URL}data/${crop}.json`).then(
-      (res) => {
+    dataset = fetch(`${import.meta.env.BASE_URL}data/${crop}.json`)
+      .then((res) => {
         if (!res.ok) {
           throw new Error(`Failed to load "${crop}" dataset (${res.status})`);
         }
         return res.json() as Promise<CropDataset>;
-      },
-    ).then(normalizeDataset);
+      })
+      .then(normalizeDataset);
     cache.set(crop, dataset);
   }
 

@@ -1,4 +1,4 @@
-import { cn } from "@/utils/utils"
+import { cn } from "@/utils/utils";
 
 function List({ className, ...props }: React.ComponentProps<"ul">) {
   return (
@@ -7,7 +7,7 @@ function List({ className, ...props }: React.ComponentProps<"ul">) {
       className={cn("flex list-none flex-col gap-3", className)}
       {...props}
     />
-  )
+  );
 }
 
 function ListItem({
@@ -27,7 +27,7 @@ function ListItem({
       />
       {children}
     </li>
-  )
+  );
 }
 
-export { List, ListItem }
+export { List, ListItem };

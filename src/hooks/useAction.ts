@@ -37,6 +37,7 @@ export type AppAction =
   | { type: "SET_LABEL_FILTER"; key: string; value: string }
   | { type: "SET_REGION_FILTER"; value: string }
   | { type: "SET_YEAR_FILTER"; value: string }
+  | { type: "CLEAR_FILTERS" }
   | { type: "SET_PAGE"; page: number }
   | { type: "OPEN_MODAL"; modal: Exclude<ActiveModal, null | "detail"> }
   | { type: "CLOSE_MODAL" }
@@ -62,10 +63,7 @@ export const initialAppState: AppState = {
   chartTraitKey: null,
 };
 
-function appReducer(
-  state: AppState,
-  action: AppAction,
-): AppState {
+function appReducer(state: AppState, action: AppAction): AppState {
   switch (action.type) {
     case "SELECT_SPECIES":
       if (action.species === state.species) {
@@ -109,8 +107,7 @@ function appReducer(
         ...state,
         sortKey: action.key,
         sortDir,
-        swappedTrait:
-          action.key === "name" ? state.swappedTrait : action.key,
+        swappedTrait: action.key === "name" ? state.swappedTrait : action.key,
       };
     }
 
@@ -129,6 +126,15 @@ function appReducer(
 
     case "SET_YEAR_FILTER":
       return { ...state, yearFilter: action.value, page: 0 };
+
+    case "CLEAR_FILTERS":
+      return {
+        ...state,
+        labelFilters: {},
+        regionFilter: "",
+        yearFilter: "",
+        page: 0,
+      };
 
     case "SET_PAGE":
       return { ...state, page: action.page };

@@ -78,9 +78,7 @@ export function VarietyDetailModal({
             <Scale
               className={
                 "size-5 " +
-                (isSelected
-                  ? "text-brand-foreground"
-                  : "text-muted-foreground")
+                (isSelected ? "text-brand-foreground" : "text-muted-foreground")
               }
             />
           </Button>

@@ -60,8 +60,12 @@ export function RegionalYieldsHeatmap({
         {REGIONS.map((region) => {
           const v1 = regionalYields[`plon_rejon_${region}_a1`];
           const v2 = regionalYields[`plon_rejon_${region}_a2`];
-          const unit1 = formatUnit(regionSchema[`plon_rejon_${region}_a1`]?.unit);
-          const unit2 = formatUnit(regionSchema[`plon_rejon_${region}_a2`]?.unit);
+          const unit1 = formatUnit(
+            regionSchema[`plon_rejon_${region}_a1`]?.unit,
+          );
+          const unit2 = formatUnit(
+            regionSchema[`plon_rejon_${region}_a2`]?.unit,
+          );
           const c1 =
             v1 !== undefined && v1 !== "#"
               ? regionColor(Number(v1), rMin, rMax)

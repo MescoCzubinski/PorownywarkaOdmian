@@ -1,11 +1,12 @@
 import { Dialog as DialogPrimitive } from "@base-ui/react/dialog";
-import { Calendar, Filter, MapPin, Tag } from "lucide-react";
+import { Calendar, Eraser, Filter, MapPin, Tag } from "lucide-react";
 
 import { getLabelTraits, type CropSchema } from "@/utils/loadData";
 import type { AppAction, AppState } from "@/hooks/useAction";
 import type { VarietyRow } from "@/App";
 import { getIcon } from "@/utils/icons";
 import { Modal, ModalHeader } from "@/components/Modal";
+import { Button } from "@/ui/button";
 import { Label } from "@/ui/label";
 import { Separator } from "@/ui/separator";
 import {
@@ -46,7 +47,19 @@ export function FiltersModal({
 
   return (
     <Modal open={open} onClose={onClose}>
-      <ModalHeader onClose={onClose}>
+      <ModalHeader
+        onClose={onClose}
+        actions={
+          <Button
+            variant="outline"
+            className="max-sm:size-8"
+            onClick={() => dispatch({ type: "CLEAR_FILTERS" })}
+          >
+            <Eraser className="size-4 text-muted-foreground" />
+            <span className="hidden sm:inline">Wyczyść</span>
+          </Button>
+        }
+      >
         <Filter className="size-4 text-brand" />
         <DialogPrimitive.Title className="text-base font-bold">
           Filtry
