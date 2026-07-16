@@ -2,6 +2,7 @@ import { ChevronDown, ChevronRight, ChevronUp } from "lucide-react";
 
 import {
   getLabelTraits,
+  getOrderedTraits,
   getPrimaryTraits,
   type CropSchema,
 } from "@/utils/loadData";
@@ -18,7 +19,7 @@ const MOBILE_COLS = "max-sm:grid-cols-variety-mobile";
 interface VarietyTableProps {
   schema: CropSchema;
   rows: VarietyRow[];
-  state: Pick<AppState, "selected" | "sortKey" | "sortDir">;
+  state: Pick<AppState, "selected" | "sortKey" | "sortDir" | "swappedTrait">;
   dispatch: React.Dispatch<AppAction>;
 }
 
@@ -73,8 +74,20 @@ export function VarietyTable({
 }: VarietyTableProps) {
   const fixedTraits = getPrimaryTraits(schema);
   const labelTraits = getLabelTraits(schema);
+
+  const swapped = state.swappedTrait
+    ? getOrderedTraits(schema).find((t) => t.key === state.swappedTrait)
+    : undefined;
+  const swappedIsPrimary =
+    swapped !== undefined && fixedTraits.some((t) => t.key === swapped.key);
+  const columnTraits =
+    swapped && !swappedIsPrimary
+      ? [...fixedTraits.slice(0, -1), swapped]
+      : fixedTraits;
+  const mobileKey = (swapped ?? fixedTraits[0]).key;
+
   const gridStyle = {
-    "--trait-cols": fixedTraits.length,
+    "--trait-cols": columnTraits.length,
   } as React.CSSProperties;
 
   const names = rows.map((r) => r.name);
@@ -113,14 +126,14 @@ export function VarietyTable({
             }
           />
         </div>
-        {fixedTraits.map((trait, i) => {
+        {columnTraits.map((trait) => {
           const Icon = getIcon(trait.icon);
           return (
             <div
               key={trait.key}
               className={cn(
                 "flex items-center pr-3.5",
-                i > 0 && "max-sm:hidden",
+                trait.key !== mobileKey && "max-sm:hidden",
               )}
             >
               <SortHeader
@@ -184,7 +197,7 @@ export function VarietyTable({
                 </span>
               )}
             </div>
-            {fixedTraits.map((trait, i) => {
+            {columnTraits.map((trait) => {
               const raw = traitValue(row, trait.key);
               return (
                 <div
@@ -192,13 +205,23 @@ export function VarietyTable({
                   className={cn(
                     "text-right font-medium tabular-nums",
                     "pr-7.5",
-                    i > 0 && "max-sm:hidden",
+                    trait.key !== mobileKey && "max-sm:hidden",
                   )}
                 >
-                  {raw !== undefined ? formatNumber(raw) : ""}
-                  <span className="text-xs font-normal text-muted-foreground">
-                    {formatUnit(trait.unit)}
-                  </span>
+                  {trait.type === "label" ? (
+                    raw && (
+                      <span className="inline-block max-w-full truncate rounded-full bg-brand/10 px-2.5 py-0.5 align-middle text-xs font-semibold text-brand">
+                        {raw}
+                      </span>
+                    )
+                  ) : (
+                    <>
+                      {raw !== undefined ? formatNumber(raw) : ""}
+                      <span className="text-xs font-normal text-muted-foreground">
+                        {formatUnit(trait.unit)}
+                      </span>
+                    </>
+                  )}
                 </div>
               );
             })}

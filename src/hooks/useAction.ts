@@ -7,6 +7,7 @@ export type ActiveModal =
   | "filters"
   | "detail"
   | "compare"
+  | "species"
   | null;
 export type SortDir = "asc" | "desc";
 
@@ -15,6 +16,7 @@ export interface AppState {
   selected: Set<string>;
   sortKey: string;
   sortDir: SortDir;
+  swappedTrait: string | null;
   search: string;
   labelFilters: Record<string, string>;
   regionFilter: string;
@@ -41,20 +43,20 @@ export type AppAction =
   | { type: "OPEN_DETAIL"; variety: string }
   | { type: "SET_DETAIL_TAB"; tab: DetailTab }
   | { type: "OPEN_CHART"; traitKey: string }
-  | { type: "CLOSE_CHART" }
-  | { type: "BACK_TO_SPECIES" };
+  | { type: "CLOSE_CHART" };
 
 export const initialAppState: AppState = {
   species: null,
   selected: new Set(),
   sortKey: "name",
   sortDir: "asc",
+  swappedTrait: null,
   search: "",
   labelFilters: {},
   regionFilter: "",
   yearFilter: "",
   page: 0,
-  activeModal: null,
+  activeModal: "species",
   detailVariety: null,
   detailTab: "cechy",
   chartTraitKey: null,
@@ -66,7 +68,10 @@ function appReducer(
 ): AppState {
   switch (action.type) {
     case "SELECT_SPECIES":
-      return { ...initialAppState, species: action.species };
+      if (action.species === state.species) {
+        return { ...state, activeModal: null };
+      }
+      return { ...initialAppState, species: action.species, activeModal: null };
 
     case "TOGGLE_VARIETY": {
       const selected = new Set(state.selected);
@@ -104,6 +109,8 @@ function appReducer(
         ...state,
         sortKey: action.key,
         sortDir,
+        swappedTrait:
+          action.key === "name" ? state.swappedTrait : action.key,
       };
     }
 
@@ -149,9 +156,6 @@ function appReducer(
 
     case "CLOSE_CHART":
       return { ...state, chartTraitKey: null };
-
-    case "BACK_TO_SPECIES":
-      return { ...initialAppState };
 
     default:
       return state;

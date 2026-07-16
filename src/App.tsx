@@ -1,5 +1,5 @@
 import { Suspense, use, useMemo } from "react";
-import { Scale, Undo } from "lucide-react";
+import { List, Scale } from "lucide-react";
 
 import {
   getLabelTraits,
@@ -22,7 +22,7 @@ import {
 } from "@/ui/pagination";
 import { Toolbar } from "@/components/Toolbar";
 import { VarietyTable } from "@/components/VarietyTable";
-import { SpeciesPicker } from "@/components/SpeciesPicker";
+import { SpeciesModal } from "@/modals/SpeciesModal";
 import { LegendModal } from "@/modals/LegendModal";
 import { SortModal } from "@/modals/SortModal";
 import { FiltersModal } from "@/modals/FiltersModal";
@@ -195,7 +195,7 @@ function SpeciesView({ state, dispatch }: ComparerProps) {
     <div>
       <div className="mb-5 flex items-end justify-between gap-4">
         <div className="min-w-0">
-          <h1 className="text-2xl font-bold tracking-tight whitespace-nowrap">
+          <h1 className="text-xl font-bold tracking-tight whitespace-nowrap">
             Porównywarka odmian
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
@@ -207,10 +207,10 @@ function SpeciesView({ state, dispatch }: ComparerProps) {
             variant="outline"
             size="lg"
             className="px-4 shadow-sm"
-            onClick={() => dispatch({ type: "BACK_TO_SPECIES" })}
+            onClick={() => dispatch({ type: "OPEN_MODAL", modal: "species" })}
           >
-            <Undo className="size-4" />
-            <span className="hidden sm:inline">Cofnij</span>
+            <List className="size-4" />
+            <span className="hidden sm:inline">Gatunki</span>
           </Button>
           <Button
             variant="brand"
@@ -336,6 +336,28 @@ function SpeciesView({ state, dispatch }: ComparerProps) {
   );
 }
 
+function TableSkeleton() {
+  return (
+    <div>
+      <div className="mb-5">
+        <h1 className="text-2xl font-bold tracking-tight whitespace-nowrap">
+          Porównywarka odmian
+        </h1>
+      </div>
+      <div className="overflow-hidden rounded-xl border border-border bg-background shadow-sm">
+        {Array.from({ length: 10 }, (_, i) => (
+          <div
+            key={i}
+            className="border-b border-border px-4 py-4 last:border-b-0"
+          >
+            <div className="h-4 animate-pulse rounded bg-muted" />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function App() {
   const [state, dispatch] = useAction();
 
@@ -352,8 +374,14 @@ export default function App() {
           {state.species ? (
             <SpeciesView state={state} dispatch={dispatch} />
           ) : (
-            <SpeciesPicker dispatch={dispatch} />
+            <TableSkeleton />
           )}
+          <SpeciesModal
+            open={state.activeModal === "species"}
+            canClose={state.species !== null}
+            onClose={() => dispatch({ type: "CLOSE_MODAL" })}
+            dispatch={dispatch}
+          />
         </Suspense>
       </div>
     </main>
