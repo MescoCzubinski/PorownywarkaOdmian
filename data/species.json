@@ -1,0 +1,131 @@
+{
+  "categories": [
+    { "id": "zboza_ozime", "name": "Zboża ozime" },
+    { "id": "zboza_jare", "name": "Zboża jare" },
+    { "id": "kukurydza", "name": "Kukurydza" },
+    { "id": "oleiste", "name": "Oleiste" },
+    { "id": "okopowe", "name": "Okopowe" },
+    { "id": "rosliny_bobowate", "name": "Rośliny bobowate" }
+  ],
+  "species": [
+    {
+      "id": "jeczmien_ozimy",
+      "name": "Jęczmień ozimy",
+      "category": "zboza_ozime",
+      "dataFile": null
+    },
+    {
+      "id": "zyto_ozime",
+      "name": "Żyto ozime",
+      "category": "zboza_ozime",
+      "dataFile": null
+    },
+    {
+      "id": "pszenica_ozima",
+      "name": "Pszenica ozima",
+      "category": "zboza_ozime",
+      "dataFile": null
+    },
+    {
+      "id": "pszenzyto_ozime",
+      "name": "Pszenżyto ozime",
+      "category": "zboza_ozime",
+      "dataFile": null
+    },
+
+    {
+      "id": "pszenica_jara",
+      "name": "Pszenica jara",
+      "category": "zboza_jare",
+      "dataFile": "pszenica_jara.json"
+    },
+    {
+      "id": "jeczmien_jary",
+      "name": "Jęczmień jary",
+      "category": "zboza_jare",
+      "dataFile": null
+    },
+    {
+      "id": "pszenzyto_jare",
+      "name": "Pszenżyto jare",
+      "category": "zboza_jare",
+      "dataFile": null
+    },
+    {
+      "id": "zyto_jare",
+      "name": "Żyto jare",
+      "category": "zboza_jare",
+      "dataFile": null
+    },
+    {
+      "id": "owies_jary",
+      "name": "Owies jary",
+      "category": "zboza_jare",
+      "dataFile": null
+    },
+
+    {
+      "id": "kukurydza_na_ziarno",
+      "name": "na ziarno",
+      "category": "kukurydza",
+      "dataFile": null
+    },
+    {
+      "id": "kukurydza_na_kiszonke",
+      "name": "na kiszonkę",
+      "category": "kukurydza",
+      "dataFile": null
+    },
+
+    {
+      "id": "rzepak_ozimy",
+      "name": "Rzepak ozimy",
+      "category": "oleiste",
+      "dataFile": null
+    },
+
+    {
+      "id": "ziemniak",
+      "name": "Ziemniak",
+      "category": "okopowe",
+      "dataFile": null
+    },
+
+    {
+      "id": "groch",
+      "name": "Groch",
+      "category": "rosliny_bobowate",
+      "dataFile": null
+    },
+    {
+      "id": "bobik",
+      "name": "Bobik",
+      "category": "rosliny_bobowate",
+      "dataFile": null
+    },
+    {
+      "id": "lubin_bialy",
+      "name": "Łubin biały",
+      "category": "rosliny_bobowate",
+      "dataFile": null
+    },
+    {
+      "id": "lubin_waskolistny",
+      "name": "Łubin wąskolistny",
+      "category": "rosliny_bobowate",
+      "dataFile": null
+    },
+    {
+      "id": "lubin_zolty",
+      "name": "Łubin żółty",
+      "category": "rosliny_bobowate",
+      "dataFile": null
+    },
+    {
+      "id": "soja",
+      "name": "Soja",
+      "category": "rosliny_bobowate",
+      "dataFile": null
+    }
+  ]
+}
