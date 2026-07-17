@@ -1,5 +1,5 @@
 import { Suspense, use, useMemo } from "react";
-import { List, Scale } from "lucide-react";
+import { List, MapPin, Scale } from "lucide-react";
 
 import {
   getLabelTraits,
@@ -26,6 +26,7 @@ import { SpeciesModal } from "@/modals/SpeciesModal";
 import { LegendModal } from "@/modals/LegendModal";
 import { SortModal } from "@/modals/SortModal";
 import { FiltersModal } from "@/modals/FiltersModal";
+import { ChooseRegionModal } from "@/modals/ChooseRegionModal";
 import { VarietyDetailModal } from "@/modals/VarietyDetailModal";
 import { CompareModal } from "@/modals/CompareModal";
 
@@ -117,6 +118,10 @@ function SpeciesView({ state, dispatch }: ComparerProps) {
   const manifest = use(loadSpeciesManifest());
   const speciesName =
     manifest.species.find((s) => s.id === state.species)?.name ?? state.species;
+  const regionName = state.regionFilter
+    ? (dataset.schema.recommended_regions[state.regionFilter]?.name ??
+      state.regionFilter)
+    : null;
 
   const availableYears = useMemo(() => {
     const years = new Set<string>();
@@ -199,7 +204,8 @@ function SpeciesView({ state, dispatch }: ComparerProps) {
             Porównywarka odmian
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            {speciesName} · {total} odmian
+            {speciesName}
+            {regionName ? ` · ${regionName}` : ""} · {total} odmian
           </p>
         </div>
         <div className="flex gap-2">
@@ -211,6 +217,15 @@ function SpeciesView({ state, dispatch }: ComparerProps) {
           >
             <List className="size-4" />
             <span className="hidden sm:inline">Gatunki</span>
+          </Button>
+          <Button
+            variant="outline"
+            size="lg"
+            className="px-4 shadow-sm"
+            onClick={() => dispatch({ type: "OPEN_MODAL", modal: "region" })}
+          >
+            <MapPin className="size-4" />
+            <span className="hidden sm:inline">LOZ</span>
           </Button>
           <Button
             variant="brand"
@@ -314,6 +329,12 @@ function SpeciesView({ state, dispatch }: ComparerProps) {
         state={state}
         dispatch={dispatch}
       />
+      <ChooseRegionModal
+        open={state.activeModal === "region"}
+        onClose={() => dispatch({ type: "CLOSE_MODAL" })}
+        schema={dataset.schema}
+        dispatch={dispatch}
+      />
       <VarietyDetailModal
         open={state.activeModal === "detail"}
         onClose={() => dispatch({ type: "CLOSE_MODAL" })}
@@ -339,18 +360,64 @@ function SpeciesView({ state, dispatch }: ComparerProps) {
 function TableSkeleton() {
   return (
     <div>
-      <div className="mb-5">
-        <h1 className="text-2xl font-bold tracking-tight whitespace-nowrap">
-          Porównywarka odmian
-        </h1>
+      <div className="mb-5 flex items-end justify-between gap-4">
+        <div className="min-w-0">
+          <h1 className="hidden text-xl font-bold tracking-tight whitespace-nowrap sm:block">
+            Porównywarka odmian
+          </h1>
+          <div className="mt-1 h-4 w-32 animate-pulse rounded bg-muted" />
+        </div>
+        <div className="flex gap-2">
+          <Button
+            variant="outline"
+            size="lg"
+            className="px-4 shadow-sm"
+            disabled
+          >
+            <List className="size-4" />
+            <span className="hidden sm:inline">Gatunki</span>
+          </Button>
+          <Button
+            variant="outline"
+            size="lg"
+            className="px-4 shadow-sm"
+            disabled
+          >
+            <MapPin className="size-4" />
+            <span className="hidden sm:inline">LOZ</span>
+          </Button>
+          <Button variant="brand" size="lg" className="px-4 shadow-sm" disabled>
+            <Scale className="size-4" />
+            <span className="hidden sm:inline">Porównaj</span>
+          </Button>
+        </div>
       </div>
       <div className="overflow-hidden rounded-xl border border-border bg-background shadow-sm">
+        <div className="flex h-10 items-center gap-3 border-b border-border bg-muted px-4">
+          <div className="size-4 shrink-0 rounded bg-foreground/10" />
+          <div className="h-3 w-24 rounded bg-foreground/10" />
+          <div className="ml-auto hidden gap-8 sm:flex">
+            {Array.from({ length: 3 }, (_, i) => (
+              <div key={i} className="h-3 w-16 rounded bg-foreground/10" />
+            ))}
+          </div>
+        </div>
         {Array.from({ length: 10 }, (_, i) => (
           <div
             key={i}
-            className="border-b border-border px-4 py-4 last:border-b-0"
+            className="flex h-12 items-center gap-3 border-b border-border px-4 last:border-b-0"
           >
-            <div className="h-4 animate-pulse rounded bg-muted" />
+            <div className="size-4 shrink-0 animate-pulse rounded bg-muted" />
+            <div className="h-4 w-40 max-w-[45%] animate-pulse rounded bg-muted" />
+            <div className="ml-auto hidden gap-8 sm:flex">
+              {Array.from({ length: 3 }, (_, j) => (
+                <div
+                  key={j}
+                  className="h-4 w-12 animate-pulse rounded bg-muted"
+                />
+              ))}
+            </div>
+            <div className="size-4 shrink-0 animate-pulse rounded bg-muted sm:ml-4" />
           </div>
         ))}
       </div>

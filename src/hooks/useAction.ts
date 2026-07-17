@@ -8,6 +8,7 @@ export type ActiveModal =
   | "detail"
   | "compare"
   | "species"
+  | "region"
   | null;
 export type SortDir = "asc" | "desc";
 
@@ -65,11 +66,17 @@ export const initialAppState: AppState = {
 
 function appReducer(state: AppState, action: AppAction): AppState {
   switch (action.type) {
-    case "SELECT_SPECIES":
+    case "SELECT_SPECIES": {
       if (action.species === state.species) {
         return { ...state, activeModal: null };
       }
-      return { ...initialAppState, species: action.species, activeModal: null };
+      const firstSelection = state.species === null;
+      return {
+        ...initialAppState,
+        species: action.species,
+        activeModal: firstSelection ? "region" : null,
+      };
+    }
 
     case "TOGGLE_VARIETY": {
       const selected = new Set(state.selected);
@@ -131,7 +138,6 @@ function appReducer(state: AppState, action: AppAction): AppState {
       return {
         ...state,
         labelFilters: {},
-        regionFilter: "",
         yearFilter: "",
         page: 0,
       };

@@ -5,17 +5,13 @@ import { Button } from "@/ui/button";
 import { Input } from "@/ui/input";
 
 interface ToolbarProps {
-  state: Pick<
-    AppState,
-    "search" | "labelFilters" | "regionFilter" | "yearFilter"
-  >;
+  state: Pick<AppState, "search" | "labelFilters" | "yearFilter">;
   dispatch: React.Dispatch<AppAction>;
 }
 
 export function Toolbar({ state, dispatch }: ToolbarProps) {
   const activeFilterCount =
     Object.values(state.labelFilters).filter(Boolean).length +
-    (state.regionFilter ? 1 : 0) +
     (state.yearFilter ? 1 : 0);
 
   return (

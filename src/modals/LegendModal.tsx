@@ -20,37 +20,37 @@ export function LegendModal({ open, onClose }: LegendModalProps) {
       </ModalHeader>
       <List className="min-h-0 flex-1 overflow-y-auto p-4 text-base">
         <ListItem>
-          <span className="w-5 text-center font-mono font-semibold text-muted-foreground">
+          <span className="w-4 text-center font-mono font-semibold text-muted-foreground">
             #
           </span>
           brak danych dla danej odmiany
         </ListItem>
         <ListItem>
-          <span className="w-5 text-center font-mono font-semibold text-muted-foreground">
+          <span className="w-4 text-center font-mono font-semibold text-muted-foreground">
             a₁
           </span>
           niski poziom agrotechniki
         </ListItem>
         <ListItem>
-          <span className="w-5 text-center font-mono font-semibold text-muted-foreground">
+          <span className="w-4 text-center font-mono font-semibold text-muted-foreground">
             a₂
           </span>
           wysoki poziom agrotechniki
         </ListItem>
         <ListItem className="gap-4">
-          <span className="w-5 text-center font-mono font-semibold text-muted-foreground">
+          <span className="w-6 text-center font-mono font-semibold text-muted-foreground">
             LOZ
           </span>
           Lista Odmian Zalecanych
         </ListItem>
         <ListItem>
-          <span className="rounded-full bg-brand/10 px-2.5 py-0.5 text-xs font-semibold text-brand">
+          <span className="w-4 text-center font-mono font-semibold text-muted-foreground">
             R
           </span>
           wstępna rekomendacja (LOZ)
         </ListItem>
         <ListItem>
-          <span className="rounded-full bg-brand/10 px-2.5 py-0.5 text-xs font-semibold text-brand">
+          <span className="w-7 text-center font-mono font-semibold text-muted-foreground">
             CCA
           </span>
           odmiana z katalogu UE

@@ -130,7 +130,7 @@ export function CompareModal({
       </ModalHeader>
 
       {!canCompare ? (
-        <div className="flex flex-col items-center gap-3 px-5 py-12 text-center text-muted-foreground">
+        <div className="flex flex-col items-center gap-3 px-8 py-12 text-center text-muted-foreground">
           <Scale className="size-8" />
           <div className="text-base text-foreground">
             Zaznacz co najmniej 2 odmiany

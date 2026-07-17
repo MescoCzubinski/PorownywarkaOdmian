@@ -90,17 +90,19 @@ function TraitChartSvg({ points }: { points: TraitHistoryPoint[] }) {
             strokeWidth={2}
           />
         ))}
-      </svg>
-      <div className="mt-1.5 flex">
-        {points.map((p) => (
-          <span
+        {points.map((p, i) => (
+          <text
             key={p.year}
-            className="flex-1 text-center text-xs tabular-nums text-muted-foreground"
+            x={dots[i].x}
+            y={Y_BOTTOM + 12}
+            textAnchor="middle"
+            fontSize={9}
+            style={{ fill: "var(--muted-foreground)" }}
           >
             {p.year}
-          </span>
+          </text>
         ))}
-      </div>
+      </svg>
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import { Dialog as DialogPrimitive } from "@base-ui/react/dialog";
-import { Calendar, Eraser, Filter, MapPin, Tag } from "lucide-react";
+import { Calendar, Eraser, Filter, Tag } from "lucide-react";
 
 import { getLabelTraits, type CropSchema } from "@/utils/loadData";
 import type { AppAction, AppState } from "@/hooks/useAction";
@@ -29,7 +29,7 @@ interface FiltersModalProps {
   schema: CropSchema;
   rows: VarietyRow[];
   years: string[];
-  state: Pick<AppState, "labelFilters" | "regionFilter" | "yearFilter">;
+  state: Pick<AppState, "labelFilters" | "yearFilter">;
   dispatch: React.Dispatch<AppAction>;
 }
 
@@ -43,7 +43,6 @@ export function FiltersModal({
   dispatch,
 }: FiltersModalProps) {
   const labelTraits = getLabelTraits(schema);
-  const regions = Object.entries(schema.recommended_regions);
 
   return (
     <Modal open={open} onClose={onClose}>
@@ -95,41 +94,8 @@ export function FiltersModal({
             </SelectContent>
           </Select>
         </div>
-        <div className="flex flex-col gap-1.5">
-          <Label>
-            <MapPin className="size-3.5" />
-            Lista Odmian Zalecanych
-          </Label>
-          <Select
-            value={state.regionFilter || ALL}
-            onValueChange={(value) =>
-              dispatch({
-                type: "SET_REGION_FILTER",
-                value: !value || value === ALL ? "" : value,
-              })
-            }
-          >
-            <SelectTrigger className="w-full">
-              <SelectValue>
-                {(value: string) =>
-                  value === ALL
-                    ? "wszystkie województwa"
-                    : (schema.recommended_regions[value]?.name ?? value)
-                }
-              </SelectValue>
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value={ALL}>wszystkie województwa</SelectItem>
-              {regions.map(([key, def]) => (
-                <SelectItem key={key} value={key}>
-                  {def.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
 
-        <Separator />
+        {labelTraits.length > 0 && <Separator />}
 
         {labelTraits.map((trait) => {
           const Icon = getIcon(trait.icon) ?? Tag;
