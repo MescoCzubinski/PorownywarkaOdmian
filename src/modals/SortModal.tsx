@@ -1,10 +1,11 @@
-import { Dialog as DialogPrimitive } from "@base-ui/react/dialog";
+import type { Dispatch } from "react";
+
 import { ArrowUpDown, ChevronDown, ChevronUp, Tag } from "lucide-react";
 
 import { getOrderedTraits, type CropSchema } from "@/utils/loadData";
 import type { AppAction, AppState } from "@/hooks/useAction";
 import { getIcon } from "@/utils/icons";
-import { Modal, ModalHeader } from "@/components/Modal";
+import { Modal, ModalHeader, ModalTitle } from "@/components/Modal";
 import { cn } from "@/utils/utils";
 
 interface SortModalProps {
@@ -12,7 +13,7 @@ interface SortModalProps {
   onClose: () => void;
   schema: CropSchema;
   state: Pick<AppState, "sortKey" | "sortDir">;
-  dispatch: React.Dispatch<AppAction>;
+  dispatch: Dispatch<AppAction>;
 }
 
 export function SortModal({
@@ -38,9 +39,7 @@ export function SortModal({
     <Modal open={open} onClose={onClose}>
       <ModalHeader onClose={onClose}>
         <ArrowUpDown className="size-4 text-brand" />
-        <DialogPrimitive.Title className="text-base font-bold">
-          Sortuj według
-        </DialogPrimitive.Title>
+        <ModalTitle className="text-base font-bold">Sortuj według</ModalTitle>
       </ModalHeader>
       <div className="min-h-0 flex-1 overflow-y-auto">
         {rows.map((row) => {
@@ -49,6 +48,9 @@ export function SortModal({
           return (
             <div
               key={row.key}
+              role="button"
+              tabIndex={0}
+              aria-pressed={active}
               onClick={() =>
                 dispatch({
                   type: "SET_SORT",
@@ -56,6 +58,16 @@ export function SortModal({
                   numeric: row.numeric,
                 })
               }
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  dispatch({
+                    type: "SET_SORT",
+                    key: row.key,
+                    numeric: row.numeric,
+                  });
+                }
+              }}
               className={cn(
                 "flex cursor-pointer items-center gap-2.5 px-4 py-2.5 text-sm hover:bg-muted",
                 active

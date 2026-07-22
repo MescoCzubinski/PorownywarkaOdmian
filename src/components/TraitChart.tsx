@@ -1,6 +1,11 @@
-import { Suspense, use, useMemo } from "react";
+import { Component, Suspense, use, useMemo } from "react";
+import type { ReactNode } from "react";
 
-import { loadTraitHistory, type TraitHistoryPoint } from "@/utils/loadData";
+import {
+  loadTraitHistory,
+  type Crop,
+  type TraitHistoryPoint,
+} from "@/utils/loadData";
 import { formatNumber } from "@/utils/format";
 
 const X0 = 40;
@@ -14,7 +19,15 @@ function tickY(value: number, min: number, max: number) {
   return Y_BOTTOM - t * PLOT_HEIGHT;
 }
 
-function TraitChartSvg({ points }: { points: TraitHistoryPoint[] }) {
+function TraitChartSvg({
+  points,
+  traitName,
+  varietyName,
+}: {
+  points: TraitHistoryPoint[];
+  traitName: string;
+  varietyName: string;
+}) {
   const values = points.map((p) => Number(p.value));
   const min = Math.min(...values);
   const max = Math.max(...values);
@@ -30,7 +43,12 @@ function TraitChartSvg({ points }: { points: TraitHistoryPoint[] }) {
 
   return (
     <div className="p-4">
-      <svg viewBox="0 0 340 150" className="block h-auto w-full">
+      <svg
+        viewBox="0 0 340 150"
+        className="block h-auto w-full"
+        role="img"
+        aria-label={`Zmiana ${traitName} odmiany ${varietyName} w czasie`}
+      >
         <line
           x1={X0}
           y1={Y_TOP}
@@ -103,40 +121,83 @@ function TraitChartSvg({ points }: { points: TraitHistoryPoint[] }) {
           </text>
         ))}
       </svg>
+      <p className="mt-1 text-center text-xs text-muted-foreground">
+        Lata na osi to rok publikacji wyników (zbiory rok wcześniej)
+      </p>
     </div>
   );
 }
 
 interface TraitChartProps {
-  crop: string;
+  crop: Crop;
   varietyName: string;
   traitKey: string;
+  traitName: string;
 }
 
-function TraitChartLoader({ crop, varietyName, traitKey }: TraitChartProps) {
+function TraitChartLoader({
+  crop,
+  varietyName,
+  traitKey,
+  traitName,
+}: TraitChartProps) {
   const points = use(
     useMemo(
       () => loadTraitHistory(crop, varietyName, traitKey),
       [crop, varietyName, traitKey],
     ),
   );
-  return <TraitChartSvg points={points} />;
+  return (
+    <TraitChartSvg
+      points={points}
+      traitName={traitName}
+      varietyName={varietyName}
+    />
+  );
 }
 
-export function TraitChart({ crop, varietyName, traitKey }: TraitChartProps) {
-  return (
-    <Suspense
-      fallback={
-        <div className="flex h-[150px] items-center justify-center text-sm text-muted-foreground">
-          Ładowanie…
+class ChartErrorBoundary extends Component<
+  { children: ReactNode },
+  { failed: boolean }
+> {
+  state = { failed: false };
+  static getDerivedStateFromError() {
+    return { failed: true };
+  }
+  render() {
+    if (this.state.failed) {
+      return (
+        <div className="flex h-40 items-center justify-center text-sm text-muted-foreground">
+          Nie udało się załadować wykresu.
         </div>
-      }
-    >
-      <TraitChartLoader
-        crop={crop}
-        varietyName={varietyName}
-        traitKey={traitKey}
-      />
-    </Suspense>
+      );
+    }
+    return this.props.children;
+  }
+}
+
+export function TraitChart({
+  crop,
+  varietyName,
+  traitKey,
+  traitName,
+}: TraitChartProps) {
+  return (
+    <ChartErrorBoundary>
+      <Suspense
+        fallback={
+          <div className="flex h-40 items-center justify-center text-sm text-muted-foreground">
+            Ładowanie…
+          </div>
+        }
+      >
+        <TraitChartLoader
+          crop={crop}
+          varietyName={varietyName}
+          traitKey={traitKey}
+          traitName={traitName}
+        />
+      </Suspense>
+    </ChartErrorBoundary>
   );
 }

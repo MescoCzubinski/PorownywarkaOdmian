@@ -1,11 +1,12 @@
-import { Dialog as DialogPrimitive } from "@base-ui/react/dialog";
+import type { Dispatch } from "react";
+
 import { Calendar, Eraser, Filter, Tag } from "lucide-react";
 
 import { getLabelTraits, type CropSchema } from "@/utils/loadData";
 import type { AppAction, AppState } from "@/hooks/useAction";
 import type { VarietyRow } from "@/App";
 import { getIcon } from "@/utils/icons";
-import { Modal, ModalHeader } from "@/components/Modal";
+import { Modal, ModalHeader, ModalTitle } from "@/components/Modal";
 import { Button } from "@/ui/button";
 import { Label } from "@/ui/label";
 import { Separator } from "@/ui/separator";
@@ -30,7 +31,7 @@ interface FiltersModalProps {
   rows: VarietyRow[];
   years: string[];
   state: Pick<AppState, "labelFilters" | "yearFilter">;
-  dispatch: React.Dispatch<AppAction>;
+  dispatch: Dispatch<AppAction>;
 }
 
 export function FiltersModal({
@@ -60,13 +61,11 @@ export function FiltersModal({
         }
       >
         <Filter className="size-4 text-brand" />
-        <DialogPrimitive.Title className="text-base font-bold">
-          Filtry
-        </DialogPrimitive.Title>
+        <ModalTitle className="text-base font-bold">Filtry</ModalTitle>
       </ModalHeader>
       <div className="flex flex-col gap-4 overflow-y-auto p-4">
         <div className="flex flex-col gap-1.5">
-          <Label>
+          <Label htmlFor="filter-year">
             <Calendar className="size-3.5" />
             Rok
           </Label>
@@ -79,7 +78,7 @@ export function FiltersModal({
               })
             }
           >
-            <SelectTrigger className="w-full">
+            <SelectTrigger id="filter-year" className="w-full">
               <SelectValue>
                 {(value: string) => (value === ALL ? "wszystkie lata" : value)}
               </SelectValue>
@@ -105,7 +104,7 @@ export function FiltersModal({
 
           return (
             <div key={trait.key} className="flex flex-col gap-1.5">
-              <Label>
+              <Label htmlFor={`filter-${trait.key}`}>
                 <Icon className="size-3.5" />
                 {trait.name}
               </Label>
@@ -119,7 +118,7 @@ export function FiltersModal({
                   })
                 }
               >
-                <SelectTrigger className="w-full">
+                <SelectTrigger id={`filter-${trait.key}`} className="w-full">
                   <SelectValue>
                     {(value: string) => (value === ALL ? "wszystkie" : value)}
                   </SelectValue>

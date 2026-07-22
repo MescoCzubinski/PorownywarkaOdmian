@@ -120,7 +120,11 @@ export function loadCropData(crop: Crop): Promise<CropDataset> {
   let dataset = cache.get(crop);
 
   if (!dataset) {
-    dataset = fetch(`${import.meta.env.BASE_URL}data/${crop}.json`)
+    dataset = loadSpeciesManifest()
+      .then((manifest) => {
+        const species = manifest.species.find((s) => s.id === crop)!;
+        return fetch(`${import.meta.env.BASE_URL}data/${species.dataFile}`);
+      })
       .then((res) => {
         if (!res.ok) {
           throw new Error(`Failed to load "${crop}" dataset (${res.status})`);

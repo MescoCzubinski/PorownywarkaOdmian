@@ -1,7 +1,6 @@
-import { Dialog as DialogPrimitive } from "@base-ui/react/dialog";
 import { Info } from "lucide-react";
 
-import { Modal, ModalHeader } from "@/components/Modal";
+import { Modal, ModalHeader, ModalTitle } from "@/components/Modal";
 import { List, ListItem } from "@/ui/list";
 
 interface LegendModalProps {
@@ -14,13 +13,11 @@ export function LegendModal({ open, onClose }: LegendModalProps) {
     <Modal open={open} onClose={onClose}>
       <ModalHeader onClose={onClose}>
         <Info className="size-4 text-brand" />
-        <DialogPrimitive.Title className="text-base font-bold">
-          Legenda
-        </DialogPrimitive.Title>
+        <ModalTitle className="text-base font-bold">Legenda</ModalTitle>
       </ModalHeader>
       <List className="min-h-0 flex-1 overflow-y-auto p-4 text-base">
         <ListItem>
-          <span className="w-4 text-center font-mono font-semibold text-muted-foreground">
+          <span className="w-3 text-center font-mono font-semibold text-muted-foreground">
             #
           </span>
           brak danych dla danej odmiany
@@ -56,6 +53,9 @@ export function LegendModal({ open, onClose }: LegendModalProps) {
           odmiana z katalogu UE
         </ListItem>
         <ListItem>wartości bez jednostki są wyrażone w skali 1-9</ListItem>
+        <ListItem>
+          dane oznaczone danym rokiem pochodzą ze zbiorów z roku poprzedniego
+        </ListItem>
       </List>
       <div className="mx-4 mb-4 border-t border-border pt-3 text-sm text-muted-foreground">
         Źródło danych: Porejestrowe Doświadczalnictwo Odmianowe — Centralny

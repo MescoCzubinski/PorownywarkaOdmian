@@ -16,7 +16,7 @@ export function RecommendedRegionsMap({
 
   if (!hasRecommendedRegions) {
     return (
-      <div className="flex h-full items-center justify-center text-center text-base text-muted-foreground">
+      <div className="flex h-full pb-4 items-center justify-center text-center text-base text-muted-foreground">
         Brak danych dla tej odmiany
       </div>
     );
@@ -32,7 +32,7 @@ export function RecommendedRegionsMap({
   return (
     <>
       <PolandMap
-        className="mx-auto w-72"
+        className="mx-auto w-80"
         regionClassName={(id) => {
           const raw = recommendedRegions[id];
           const parsed = raw ? parseRecommendedRegion(raw) : null;

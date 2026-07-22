@@ -39,7 +39,7 @@ export function RegionalYieldsHeatmap({
 
   if (!hasRegionalYields) {
     return (
-      <div className="flex h-full items-center justify-center text-center text-base text-muted-foreground">
+      <div className="flex h-full pb-4 items-center justify-center text-center text-base text-muted-foreground">
         Brak danych dla tej odmiany
       </div>
     );
@@ -86,11 +86,11 @@ export function RegionalYieldsHeatmap({
                 className="rounded-md py-1.5 text-center text-sm font-semibold tabular-nums"
                 style={{ background: c1?.bg, color: c1?.fg }}
               >
-                {v1 === "#" ? (
+                {v1 === undefined || v1 === "#" ? (
                   <span className="font-mono text-muted-foreground">#</span>
                 ) : (
                   <>
-                    {formatNumber(v1 ?? "")}
+                    {formatNumber(v1)}
                     <span className="text-xs font-normal opacity-80">
                       {unit1}
                     </span>
@@ -101,11 +101,11 @@ export function RegionalYieldsHeatmap({
                 className="rounded-md py-1.5 text-center text-sm font-semibold tabular-nums"
                 style={{ background: c2?.bg, color: c2?.fg }}
               >
-                {v2 === "#" ? (
+                {v2 === undefined || v2 === "#" ? (
                   <span className="font-mono text-muted-foreground">#</span>
                 ) : (
                   <>
-                    {formatNumber(v2 ?? "")}
+                    {formatNumber(v2)}
                     <span className="text-xs font-normal opacity-80">
                       {unit2}
                     </span>

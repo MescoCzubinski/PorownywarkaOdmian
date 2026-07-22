@@ -1,10 +1,9 @@
 import { use } from "react";
-import { Dialog as DialogPrimitive } from "@base-ui/react/dialog";
 import { List } from "lucide-react";
 
 import { loadSpeciesManifest } from "@/utils/loadData";
 import type { AppAction } from "@/hooks/useAction";
-import { Modal, ModalHeader } from "@/components/Modal";
+import { Modal, ModalHeader, ModalTitle } from "@/components/Modal";
 import { Button } from "@/ui/button";
 import { cn } from "@/utils/utils";
 
@@ -27,9 +26,7 @@ export function SpeciesModal({
     <Modal open={open} onClose={canClose ? onClose : () => {}} width="wide">
       <ModalHeader onClose={canClose ? onClose : undefined}>
         <List className="size-4 text-brand" />
-        <DialogPrimitive.Title className="text-base font-bold">
-          Wybierz gatunek
-        </DialogPrimitive.Title>
+        <ModalTitle className="text-base font-bold">Wybierz gatunek</ModalTitle>
       </ModalHeader>
       <div className="min-h-0 flex-1 overflow-y-auto p-4">
         {manifest.categories.map((category) => {
@@ -39,9 +36,9 @@ export function SpeciesModal({
 
           return (
             <div key={category.id}>
-              <div className="mt-5 mb-2 text-xs font-bold text-brand uppercase">
+              <h3 className="mt-5 mb-2 text-xs font-bold text-brand uppercase">
                 {category.name}
-              </div>
+              </h3>
               <div className="grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-2">
                 {items.map((sp) => {
                   const enabled = !!sp.dataFile;

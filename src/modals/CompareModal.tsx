@@ -1,12 +1,11 @@
-import { Fragment, useRef, useState } from "react";
-import { Dialog as DialogPrimitive } from "@base-ui/react/dialog";
+import { useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, Scale } from "lucide-react";
 
 import { getOrderedTraits, type CropSchema } from "@/utils/loadData";
 import type { VarietyRow } from "@/App";
 import { getIcon } from "@/utils/icons";
 import { formatNumber, formatUnit } from "@/utils/format";
-import { Modal, ModalHeader } from "@/components/Modal";
+import { Modal, ModalHeader, ModalTitle } from "@/components/Modal";
 import { Button } from "@/ui/button";
 import { cn } from "@/utils/utils";
 
@@ -124,9 +123,9 @@ export function CompareModal({
     <Modal open={open} onClose={onClose} width="wide">
       <ModalHeader onClose={onClose}>
         <Scale className="size-4 text-brand" />
-        <DialogPrimitive.Title className="text-base font-bold">
+        <ModalTitle className="text-base font-bold">
           Porównanie odmian
-        </DialogPrimitive.Title>
+        </ModalTitle>
       </ModalHeader>
 
       {!canCompare ? (
@@ -143,22 +142,30 @@ export function CompareModal({
         <>
           <div className="min-h-0 flex-1 overflow-auto">
             <div
+              role="table"
+              aria-label="Porównanie odmian"
               className="hidden min-w-full sm:grid"
               style={{
                 gridTemplateColumns: `minmax(160px,1.4fr) repeat(${visibleCount}, minmax(85px,1fr))`,
               }}
             >
-              <div className="border-r-2 border-b-2 border-border bg-muted px-3.5 py-3 text-sm text-muted-foreground">
-                Cecha
-              </div>
-              {visibleIndices.map((i) => (
+              <div role="row" style={{ display: "contents" }}>
                 <div
-                  key={rows[i].name}
-                  className="truncate border-b-2 border-border px-3.5 py-3 text-center text-sm font-bold"
+                  role="columnheader"
+                  className="border-r-2 border-b-2 border-border bg-muted px-3.5 py-3 text-sm text-muted-foreground"
                 >
-                  {rows[i].name}
+                  Cecha
                 </div>
-              ))}
+                {visibleIndices.map((i) => (
+                  <div
+                    key={rows[i].name}
+                    role="columnheader"
+                    className="truncate border-b-2 border-border px-3.5 py-3 text-center text-sm font-bold"
+                  >
+                    {rows[i].name}
+                  </div>
+                ))}
+              </div>
               {traits.map((trait) => {
                 const Icon = getIcon(trait.icon);
                 const values = rows.map(
@@ -170,8 +177,11 @@ export function CompareModal({
                     ? Math.max(...numeric.filter((n) => !Number.isNaN(n)))
                     : null;
                 return (
-                  <Fragment key={trait.key}>
-                    <div className="flex items-center gap-2 border-r-2 border-b border-border bg-background px-3.5 py-2.5 text-sm">
+                  <div key={trait.key} role="row">
+                    <div
+                      role="rowheader"
+                      className="flex items-center gap-2 border-r-2 border-b border-border bg-background px-3.5 py-2.5 text-sm"
+                    >
                       {Icon && (
                         <Icon className="size-3.5 text-muted-foreground" />
                       )}
@@ -183,6 +193,7 @@ export function CompareModal({
                       return (
                         <div
                           key={rows[i].name}
+                          role="cell"
                           className={cn(
                             "flex items-center justify-center border-b border-border px-3.5 py-2.5 text-sm tabular-nums",
                             isBest
@@ -197,12 +208,26 @@ export function CompareModal({
                         </div>
                       );
                     })}
-                  </Fragment>
+                  </div>
                 );
               })}
             </div>
 
-            <div className="sm:hidden">
+            <div
+              className="sm:hidden"
+              role="region"
+              aria-label="Porównanie odmian"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === "ArrowLeft") {
+                  e.preventDefault();
+                  setPairStart(Math.max(0, clampedPairStart - 1));
+                } else if (e.key === "ArrowRight") {
+                  e.preventDefault();
+                  setPairStart(Math.min(maxPairStart, clampedPairStart + 1));
+                }
+              }}
+            >
               <div className="border-b border-border bg-muted py-2 text-center text-sm font-bold">
                 Odmiana:
               </div>
@@ -283,16 +308,18 @@ export function CompareModal({
               <Button
                 variant="ghost"
                 size="icon-sm"
+                aria-label="Poprzednie odmiany"
                 onClick={() =>
                   setDesktopStart(Math.max(0, clampedDesktopStart - 1))
                 }
                 disabled={clampedDesktopStart === 0}
               >
-                <ChevronLeft className="size-4" />
+                <ChevronLeft className="size-4" aria-hidden="true" />
               </Button>
               <Button
                 variant="ghost"
                 size="icon-sm"
+                aria-label="Następne odmiany"
                 onClick={() =>
                   setDesktopStart(
                     Math.min(maxDesktopStart, clampedDesktopStart + 1),
@@ -300,7 +327,7 @@ export function CompareModal({
                 }
                 disabled={clampedDesktopStart === maxDesktopStart}
               >
-                <ChevronRight className="size-4" />
+                <ChevronRight className="size-4" aria-hidden="true" />
               </Button>
             </div>
           )}

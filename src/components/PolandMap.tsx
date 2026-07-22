@@ -84,12 +84,29 @@ export function PolandMap({
   renderTitle,
 }: PolandMapProps) {
   return (
-    <svg viewBox="0 0 500 480" className={className}>
+    <svg
+      viewBox="0 0 500 480"
+      className={className}
+      role={onSelect ? "group" : "img"}
+      aria-label="Mapa województw"
+    >
       {REGION_PATHS.map(({ id, d }) => (
         <path
           key={id}
           d={d}
           onClick={onSelect ? () => onSelect(id) : undefined}
+          {...(onSelect
+            ? {
+                role: "button",
+                tabIndex: 0,
+                onKeyDown: (e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    onSelect(id);
+                  }
+                },
+              }
+            : {})}
           className={
             (onSelect ? "cursor-pointer transition-colors " : "") +
             "stroke-background stroke-1 " +

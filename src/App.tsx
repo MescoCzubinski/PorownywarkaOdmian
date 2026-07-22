@@ -207,6 +207,9 @@ function SpeciesView({ state, dispatch }: ComparerProps) {
             {speciesName}
             {regionName ? ` · ${regionName}` : ""} · {total} odmian
           </p>
+          <span className="sr-only" aria-live="polite" aria-atomic="true">
+            {total} odmian
+          </span>
         </div>
         <div className="flex gap-2">
           <Button
@@ -231,11 +234,17 @@ function SpeciesView({ state, dispatch }: ComparerProps) {
             variant="brand"
             size="lg"
             className="px-4 shadow-sm"
+            aria-label={`Porównaj${selCount > 0 ? ` — zaznaczono ${selCount}` : ""}`}
             onClick={() => dispatch({ type: "OPEN_MODAL", modal: "compare" })}
           >
             <Scale className="size-4" />
-            <span className="hidden sm:inline">Porównaj</span>
-            <span className="hidden rounded-md bg-white/20 px-1.5 py-0.5 text-xs font-semibold sm:inline">
+            <span className="hidden sm:inline" aria-hidden="true">
+              Porównaj
+            </span>
+            <span
+              className="hidden rounded-md bg-white/20 px-1.5 py-0.5 text-xs font-semibold sm:inline"
+              aria-hidden="true"
+            >
               {selCount}
             </span>
           </Button>
@@ -244,7 +253,10 @@ function SpeciesView({ state, dispatch }: ComparerProps) {
 
       <Toolbar state={state} dispatch={dispatch} />
 
-      <div className="overflow-hidden rounded-xl border border-border bg-background shadow-sm">
+      <div
+        id="main-table"
+        className="overflow-hidden rounded-xl border border-border bg-background shadow-sm"
+      >
         <VarietyTable
           schema={dataset.schema}
           rows={pageRows}
@@ -261,6 +273,7 @@ function SpeciesView({ state, dispatch }: ComparerProps) {
                 <PaginationPrevious
                   href="#"
                   aria-disabled={page === 0}
+                  tabIndex={page === 0 ? -1 : undefined}
                   className={page === 0 ? "pointer-events-none opacity-50" : ""}
                   onClick={(e) => {
                     e.preventDefault();
@@ -292,6 +305,7 @@ function SpeciesView({ state, dispatch }: ComparerProps) {
                 <PaginationNext
                   href="#"
                   aria-disabled={page === pages - 1}
+                  tabIndex={page === pages - 1 ? -1 : undefined}
                   className={
                     page === pages - 1 ? "pointer-events-none opacity-50" : ""
                   }
@@ -430,10 +444,19 @@ export default function App() {
 
   return (
     <main className="bg-background text-foreground">
+      <a
+        href="#main-table"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:rounded-lg focus:bg-background focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:ring-2 focus:ring-ring"
+      >
+        Przejdź do tabeli
+      </a>
       <div className="mx-auto max-w-6xl p-6">
         <Suspense
           fallback={
-            <div className="py-20 text-center text-muted-foreground">
+            <div
+              role="status"
+              className="py-20 text-center text-muted-foreground"
+            >
               Ładowanie…
             </div>
           }

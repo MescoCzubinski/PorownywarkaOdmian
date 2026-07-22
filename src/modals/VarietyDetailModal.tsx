@@ -1,4 +1,5 @@
-import { Dialog as DialogPrimitive } from "@base-ui/react/dialog";
+import type { Dispatch } from "react";
+
 import {
   ChevronRight,
   Grid3x3,
@@ -10,6 +11,7 @@ import {
 import {
   getLatestYear,
   getOrderedTraits,
+  type Crop,
   type CropSchema,
   type VarietyEntry,
 } from "@/utils/loadData";
@@ -17,7 +19,7 @@ import type { AppAction, AppState } from "@/hooks/useAction";
 import { getIcon } from "@/utils/icons";
 import { formatNumber, formatUnit } from "@/utils/format";
 import { Button } from "@/ui/button";
-import { Modal, ModalHeader } from "@/components/Modal";
+import { Modal, ModalHeader, ModalTitle } from "@/components/Modal";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/ui/tabs";
 import { TraitChart } from "@/components/TraitChart";
 import { RegionalYieldsHeatmap } from "@/components/RegionalYieldsHeatmap";
@@ -26,7 +28,7 @@ import { RecommendedRegionsMap } from "@/components/RecommendedRegionsMap";
 interface VarietyDetailModalProps {
   open: boolean;
   onClose: () => void;
-  crop: string;
+  crop: Crop;
   schema: CropSchema;
   entry: VarietyEntry | undefined;
   varietyName: string | null;
@@ -34,7 +36,7 @@ interface VarietyDetailModalProps {
     AppState,
     "detailTab" | "chartTraitKey" | "yearFilter" | "selected"
   >;
-  dispatch: React.Dispatch<AppAction>;
+  dispatch: Dispatch<AppAction>;
 }
 
 export function VarietyDetailModal({
@@ -70,6 +72,9 @@ export function VarietyDetailModal({
           <Button
             variant={isSelected ? "brand" : "outline"}
             size="icon"
+            aria-label={
+              isSelected ? "Usuń z porównania" : "Dodaj do porównania"
+            }
             onClick={() =>
               varietyName &&
               dispatch({ type: "TOGGLE_VARIETY", variety: varietyName })
@@ -85,12 +90,10 @@ export function VarietyDetailModal({
         }
       >
         <div className="min-w-0 flex-1">
-          <DialogPrimitive.Title className="text-lg font-bold">
-            {varietyName}
-          </DialogPrimitive.Title>
+          <ModalTitle className="text-lg font-bold">{varietyName}</ModalTitle>
           {year && (
             <p className="mt-1 text-xs text-muted-foreground">
-              Dane za {year} r.
+              Dane z {year} r. (zbiory {Number(year) - 1} r.)
             </p>
           )}
         </div>
@@ -140,6 +143,23 @@ export function VarietyDetailModal({
                         : { type: "OPEN_CHART", traitKey: trait.key },
                     )
                   }
+                  {...(chartable
+                    ? {
+                        role: "button",
+                        tabIndex: 0,
+                        "aria-expanded": expanded,
+                        onKeyDown: (e: React.KeyboardEvent) => {
+                          if (e.key === "Enter" || e.key === " ") {
+                            e.preventDefault();
+                            dispatch(
+                              expanded
+                                ? { type: "CLOSE_CHART" }
+                                : { type: "OPEN_CHART", traitKey: trait.key },
+                            );
+                          }
+                        },
+                      }
+                    : {})}
                   className={
                     "flex items-center gap-2.5 px-4 py-2.5 " +
                     (chartable ? "cursor-pointer hover:bg-muted" : "")
@@ -170,6 +190,7 @@ export function VarietyDetailModal({
                       crop={crop}
                       varietyName={varietyName}
                       traitKey={trait.key}
+                      traitName={trait.name}
                     />
                   </div>
                 )}
