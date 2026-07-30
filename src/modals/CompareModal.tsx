@@ -177,7 +177,7 @@ export function CompareModal({
                     ? Math.max(...numeric.filter((n) => !Number.isNaN(n)))
                     : null;
                 return (
-                  <div key={trait.key} role="row">
+                  <div key={trait.key} role="row" style={{ display: "contents" }}>
                     <div
                       role="rowheader"
                       className="flex items-center gap-2 border-r-2 border-b border-border bg-background px-3.5 py-2.5 text-sm"
