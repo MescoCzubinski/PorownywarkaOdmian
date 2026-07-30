@@ -198,7 +198,7 @@ function SpeciesView({ state, dispatch }: ComparerProps) {
 
   return (
     <div>
-      <div className="mb-5 flex items-end justify-between gap-4">
+      <div className="mb-8 flex items-end justify-between gap-4">
         <div className="min-w-0">
           <h1 className="text-xl font-bold tracking-tight whitespace-nowrap">
             Porównywarka odmian

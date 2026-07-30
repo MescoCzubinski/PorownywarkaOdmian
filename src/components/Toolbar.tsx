@@ -31,53 +31,55 @@ export function Toolbar({ state, dispatch }: ToolbarProps) {
         />
       </div>
 
-      <Button
-        variant="outline"
-        className="h-9 px-3"
-        aria-label={
-          activeFilterCount > 0
-            ? `Filtry — ${activeFilterCount} aktywnych`
-            : "Filtry"
-        }
-        onClick={() => dispatch({ type: "OPEN_MODAL", modal: "filters" })}
-      >
-        <Filter className="size-3.5" aria-hidden="true" />
-        <span className="hidden sm:inline" aria-hidden="true">
-          Filtry
-        </span>
-        {activeFilterCount > 0 && (
-          <span
-            className="rounded-md bg-brand/10 px-1.5 py-0.5 text-xs font-semibold text-brand"
-            aria-hidden="true"
-          >
-            {activeFilterCount}
+      <div className="flex gap-2 sm:ml-auto">
+        <Button
+          variant="outline"
+          className="h-9 px-3"
+          aria-label={
+            activeFilterCount > 0
+              ? `Filtry — ${activeFilterCount} aktywnych`
+              : "Filtry"
+          }
+          onClick={() => dispatch({ type: "OPEN_MODAL", modal: "filters" })}
+        >
+          <Filter className="size-3.5" aria-hidden="true" />
+          <span className="hidden sm:inline" aria-hidden="true">
+            Filtry
           </span>
-        )}
-      </Button>
+          {activeFilterCount > 0 && (
+            <span
+              className="rounded-md bg-brand/10 px-1.5 py-0.5 text-xs font-semibold text-brand"
+              aria-hidden="true"
+            >
+              {activeFilterCount}
+            </span>
+          )}
+        </Button>
 
-      <Button
-        variant="outline"
-        className="h-9 px-3"
-        aria-label="Sortuj"
-        onClick={() => dispatch({ type: "OPEN_MODAL", modal: "sort" })}
-      >
-        <ArrowUpDown className="size-3.5" aria-hidden="true" />
-        <span className="hidden sm:inline" aria-hidden="true">
-          Sortuj
-        </span>
-      </Button>
+        <Button
+          variant="outline"
+          className="h-9 px-3"
+          aria-label="Sortuj"
+          onClick={() => dispatch({ type: "OPEN_MODAL", modal: "sort" })}
+        >
+          <ArrowUpDown className="size-3.5" aria-hidden="true" />
+          <span className="hidden sm:inline" aria-hidden="true">
+            Sortuj
+          </span>
+        </Button>
 
-      <Button
-        variant="outline"
-        className="h-9 px-3"
-        aria-label="Legenda"
-        onClick={() => dispatch({ type: "OPEN_MODAL", modal: "legend" })}
-      >
-        <Info className="size-3.5" aria-hidden="true" />
-        <span className="hidden sm:inline" aria-hidden="true">
-          Legenda
-        </span>
-      </Button>
+        <Button
+          variant="outline"
+          className="h-9 px-3"
+          aria-label="Legenda"
+          onClick={() => dispatch({ type: "OPEN_MODAL", modal: "legend" })}
+        >
+          <Info className="size-3.5" aria-hidden="true" />
+          <span className="hidden sm:inline" aria-hidden="true">
+            Legenda
+          </span>
+        </Button>
+      </div>
     </div>
   );
 }
