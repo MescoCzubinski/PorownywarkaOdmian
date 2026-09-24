@@ -1,6 +1,6 @@
 # Crop Variety Comparison Tool
 
-A web app for comparing crop varieties, built for [topagrar.pl](https://www.topagrar.pl/). It uses data from [COBORU](https://coboru.gov.pl/). Browse varieties of a species, filter them by the Recommended Varieties List, for a region and year, and compare varieties side by side.
+A web app for comparing crop varieties, built for [topagrar.pl](https://www.topagrar.pl/). Browse varieties of a species, filter them by the Recommended Varieties List, for a region and year, and compare varieties side by side.
 
 ![Crop variety comparison tool](docs/main_screen.png)
 
@@ -55,7 +55,7 @@ Selected varieties are shown side by side, with the best value of each trait hig
 
 ## Data
 
-The data comes from COBORU's. It is stored as static JSON in `public/data/` and fetched at runtime:
+The data comes from [COBORU](https://coboru.gov.pl/)'s. It is stored as static JSON in `public/data/` and fetched at runtime:
 
 - `species.json` – the list of species and categories. `dataFile` points to a species' dataset, or is `null` when there is no data yet.
 - `<species>.json` – one dataset per species, made of two parts:
