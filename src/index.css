@@ -39,8 +39,8 @@
   --grid-template-columns-variety-mobile: 34px minmax(0, 1.6fr) 1fr 32px;
   --grid-template-columns-yields: 40px 1fr 1fr;
 
-  --max-height-modal: 86vh;
-  --max-width-modal: 92vw;
+  --max-height-modal: 86dvh;
+  --max-width-modal: 96vw;
   --shadow-modal: 0 24px 70px
     color-mix(in oklch, var(--foreground) 28%, transparent);
 }
