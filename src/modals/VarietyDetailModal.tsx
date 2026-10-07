@@ -65,7 +65,7 @@ export function VarietyDetailModal({
   const regionalYields = yearData?.regional_yields ?? {};
 
   return (
-    <Modal open={open} onClose={onClose}>
+    <Modal open={open} onClose={onClose} tall>
       <ModalHeader
         onClose={onClose}
         actions={
@@ -199,14 +199,20 @@ export function VarietyDetailModal({
           })}
         </TabsContent>
 
-        <TabsContent value="rejony" className="overflow-y-auto p-4">
+        <TabsContent
+          value="rejony"
+          className="flex flex-col overflow-y-auto p-4"
+        >
           <RegionalYieldsHeatmap
             regionSchema={schema.regional_yields}
             regionalYields={regionalYields}
           />
         </TabsContent>
 
-        <TabsContent value="mapa" className="overflow-y-auto p-4">
+        <TabsContent
+          value="mapa"
+          className="flex flex-col justify-around overflow-y-auto p-4"
+        >
           <RecommendedRegionsMap
             regionSchema={schema.recommended_regions}
             recommendedRegions={entry?.recommended_regions ?? {}}

@@ -12,6 +12,7 @@ function regionColor(value: number, min: number, max: number) {
   return {
     bg: `hsl(150 55% ${light}%)`,
     fg: t > 0.62 ? "var(--background)" : "var(--foreground)",
+    border: t < 0.2 ? "var(--foreground)" : "transparent",
   };
 }
 
@@ -49,9 +50,9 @@ export function RegionalYieldsHeatmap({
     <Tabs
       value={view}
       onValueChange={(v) => setView(v as "table" | "map")}
-      className="h-full justify-between"
+      className="min-h-0 flex-1"
     >
-      <TabsContent value="table">
+      <TabsContent value="table" className="flex min-h-0 flex-col">
         <div className="grid grid-cols-yields gap-1.5 text-lg text-muted-foreground">
           <div>Rejon</div>
           <div className="text-center">a₁</div>
@@ -77,14 +78,18 @@ export function RegionalYieldsHeatmap({
           return (
             <div
               key={region}
-              className="mt-1 grid grid-cols-yields items-center gap-1"
+              className="mt-1 grid min-h-0 flex-1 grid-cols-yields items-stretch gap-1"
             >
-              <div className="text-base font-semibold text-muted-foreground">
+              <div className="flex items-center text-base font-semibold text-muted-foreground">
                 {region}
               </div>
               <div
-                className="rounded-md py-1.5 text-center text-sm font-semibold tabular-nums"
-                style={{ background: c1?.bg, color: c1?.fg }}
+                className="flex items-center justify-center rounded-md border py-1.5 text-center text-sm font-semibold tabular-nums"
+                style={{
+                  background: c1?.bg,
+                  color: c1?.fg,
+                  borderColor: c1?.border,
+                }}
               >
                 {v1 === undefined || v1 === "#" ? (
                   <span className="font-mono text-muted-foreground">#</span>
@@ -98,8 +103,12 @@ export function RegionalYieldsHeatmap({
                 )}
               </div>
               <div
-                className="rounded-md py-1.5 text-center text-sm font-semibold tabular-nums"
-                style={{ background: c2?.bg, color: c2?.fg }}
+                className="flex items-center justify-center rounded-md border py-1.5 text-center text-sm font-semibold tabular-nums"
+                style={{
+                  background: c2?.bg,
+                  color: c2?.fg,
+                  borderColor: c2?.border,
+                }}
               >
                 {v2 === undefined || v2 === "#" ? (
                   <span className="font-mono text-muted-foreground">#</span>
@@ -121,13 +130,13 @@ export function RegionalYieldsHeatmap({
         <img
           src={`${import.meta.env.BASE_URL}mapka_regiony.png`}
           alt="Legenda rejonów I-VI"
-          className="w-full max-w-68"
+          className="w-full max-w-80"
         />
       </TabsContent>
 
       <TabsList>
         <TabsTrigger value="table">Tabela</TabsTrigger>
-        <TabsTrigger value="map">Mapa</TabsTrigger>
+        <TabsTrigger value="map">Mapa rejonów</TabsTrigger>
       </TabsList>
     </Tabs>
   );
